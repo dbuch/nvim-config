@@ -30,7 +30,6 @@ options.set {
   autoread = true,
 
   laststatus = 2,
-
   showmode = false,
 
   -- Secure
@@ -38,7 +37,6 @@ options.set {
 
   -- Indent
   expandtab = true,
-
   shiftwidth = 2,
   tabstop = 2,
 
@@ -76,7 +74,6 @@ options.setw {
 
 options.setg {
   mapleader=' ',
-
   syntax = 'enable',
   completion_enable_snippet = 'vim-snip',
   cursorhold_updatetime = 100,
@@ -90,13 +87,7 @@ options.setg {
   table_mode_corner_corner='+',
   table_mode_header_fillchar='=',
   tex_flavor = "latex",
-
-  floaterm_position = 'center',
-  floaterm_width = 0.8,
-  floaterm_height = 0.8,
-
   suda_smart_edit = 1,
-
   loaded_netrwPlugin = 1,
   netrw_loaded_netrwPlugin = 1,
   one_allow_italics = 1,

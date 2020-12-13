@@ -1,36 +1,14 @@
 local gl = require('galaxyline')
-local gls = gl.section
 local lsp_msg = require('lsp-status/messaging')
+local constants = require('constants')
 
-local log = require('telescope.log')
-log.use_file = false
-log.level = 'debug'
-
-local config = {
-  indicator_errors = ' ',
-  indicator_warnings = ' ',
-  indicator_info = '🛈 ',
-  indicator_hint = '❗',
-  indicator_ok = ' ',
-  spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
-}
+local colors = constants.colors
+local icons = constants.icons
+local gls = gl.section
 
 local left = gls.left;
 local right = gls.right;
 
--- Colors
-local colors = {
-  bg =         '#282a36',
-  fg =         '#f8f8f2',
-  section_bg = '#38393f',
-  yellow =     '#f1fa8c',
-  cyan =       '#8be9fd',
-  green =      '#98c379',
-  orange =     '#ffb86c',
-  magenta =    '#ff79c6',
-  blue =       '#8be9fd',
-  red =        '#ff5555'
-}
 
 local mode_color = function(mode)
   local mode_colors = {
@@ -49,10 +27,10 @@ local function get_lsp_spinner()
   local messages = lsp_msg.messages()
   for _, msg in ipairs(messages) do
     if msg.spinner then
-      return config.spinner_frames[(msg.spinner % #config.spinner_frames) + 1]
+      return icons.spinner_frames[(msg.spinner % #icons.spinner_frames) + 1]
     end
   end
-  return config.indicator_ok
+  return icons.indicator_ok
 end
 
 local function parse_lsp_messages()
@@ -62,13 +40,15 @@ local function parse_lsp_messages()
     local contents = ''
     if msg.progress then
       contents = msg.title
+
+      if msg.percentage then
+        contents = contents .. ' (' .. msg.percentage .. '%' .. ')'
+      end
+
       if msg.message then
         contents = contents .. ' ' .. msg.message
       end
 
-      if msg.percentage then
-        contents = contents .. ' (' .. msg.percentage .. ')'
-      end
     elseif msg.status then
       contents = msg.content
       if msg.uri then

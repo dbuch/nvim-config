@@ -22,6 +22,7 @@ require('nvim-treesitter').setup {
     "css",
     "html",
     "javascript",
+    "bash",
   },
   indent = {
     'enabled'

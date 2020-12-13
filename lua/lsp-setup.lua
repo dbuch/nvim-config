@@ -3,6 +3,9 @@ local nvim_lsp_status = require('lsp-status')
 local telescope = require('telescope')
 local telescope_actions = require('telescope.actions')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+local log = require('plenary.log')
+log.use_file = false
+log.level = 'debug'
 
 telescope.setup {
   defaults = {
@@ -16,6 +19,36 @@ telescope.setup {
 }
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+Indicator_errors = ' '
+Indicator_warnings = ' '
+Indicator_info = '🛈 '
+Indicator_hint = '❗'
+
+local function define_signs(opts_table)
+  for k, v in pairs(opts_table) do
+    vim.fn.sign_define(k, v)
+  end
+end
+
+define_signs {
+  LspDiagnosticsSignError = {
+    text = Indicator_errors,
+    texthl = 'LspDiagnosticsSignError'
+  },
+  LspDiagnosticsSignWarning = {
+    text = Indicator_warnings,
+    texthl = 'LspDiagnosticsSignWarning',
+  },
+  LspDiagnosticsSignInformation = {
+    text = Indicator_info,
+    texthl = 'LspDiagnosticsSignInformation',
+  },
+  LspDiagnosticsSignHint = {
+    text = Indicator_hint,
+    texthl = 'LspDiagnosticsSignHint',
+  }
+}
 
 nvim_lsp_status.capabilities = vim.tbl_extend('force', nvim_lsp_status.capabilities or {}, capabilities)
 nvim_lsp_status.register_progress()
@@ -41,6 +74,27 @@ local dbuch_on_attach = function (client)
 
   if vim.tbl_contains({"go", "rust"}, filetype) then
     vim.cmd [[autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()]]
+  end
+
+  if client.name == "sumneko_lua" then
+    nvim_lsp_status.config {
+      select_symbol = function(cursor_pos, symbol)
+        if symbol.valueRange then
+          local value_range = {
+            ["start"] = {
+              character = 0,
+              line = vim.fn.byte2line(symbol.valueRange[1])
+            },
+            ["end"] = {
+              character = 0,
+              line = vim.fn.byte2line(symbol.valueRange[2])
+            }
+          }
+
+          return require("lsp-status.util").in_range(cursor_pos, value_range)
+        end
+      end
+    }
   end
 
   require('completion').on_attach(client)
