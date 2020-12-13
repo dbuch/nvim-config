@@ -1,11 +1,5 @@
-local mapping = require('utils.mapping')
-local debugging = require('utils.debugging')
-local options = require('utils.options')
-
-local utils = {
-  mapping = mapping,
-  debugging = debugging,
-  options = options
+return {
+  mapping = require('utils.mapping'),
+  debugging = require('utils.debugging'),
+  options = require('utils.options')
 }
-
-return utils

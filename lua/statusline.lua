@@ -2,18 +2,34 @@ local gl = require('galaxyline')
 local gls = gl.section
 local lsp_msg = require('lsp-status/messaging')
 
+local log = require('telescope.log')
+log.use_file = false
+log.level = 'debug'
+
+local config = {
+  indicator_errors = ' ',
+  indicator_warnings = ' ',
+  indicator_info = '🛈 ',
+  indicator_hint = '❗',
+  indicator_ok = ' ',
+  spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+}
+
+local left = gls.left;
+local right = gls.right;
+
 -- Colors
 local colors = {
-  bg = '#282a36',
-  fg = '#f8f8f2',
+  bg =         '#282a36',
+  fg =         '#f8f8f2',
   section_bg = '#38393f',
-  yellow = '#f1fa8c',
-  cyan = '#8be9fd',
-  green = '#98c379',
-  orange = '#ffb86c',
-  magenta = '#ff79c6',
-  blue = '#8be9fd',
-  red = '#ff5555'
+  yellow =     '#f1fa8c',
+  cyan =       '#8be9fd',
+  green =      '#98c379',
+  orange =     '#ffb86c',
+  magenta =    '#ff79c6',
+  blue =       '#8be9fd',
+  red =        '#ff5555'
 }
 
 local mode_color = function(mode)
@@ -29,7 +45,17 @@ local mode_color = function(mode)
   return mode_colors[mode]
 end
 
-local function lsp_messages()
+local function get_lsp_spinner()
+  local messages = lsp_msg.messages()
+  for _, msg in ipairs(messages) do
+    if msg.spinner then
+      return config.spinner_frames[(msg.spinner % #config.spinner_frames) + 1]
+    end
+  end
+  return config.indicator_ok
+end
+
+local function parse_lsp_messages()
   local msgs = {}
   local buf_messages = lsp_msg.messages()
   for _, msg in ipairs(buf_messages) do
@@ -43,10 +69,6 @@ local function lsp_messages()
       if msg.percentage then
         contents = contents .. ' (' .. msg.percentage .. ')'
       end
-
-      --if msg.spinner then
-        --contents = config.spinner_frames[(msg.spinner % #config.spinner_frames) + 1] .. ' ' .. contents
-      --end
     elseif msg.status then
       contents = msg.content
       if msg.uri then
@@ -70,11 +92,7 @@ local function lsp_messages()
     return base_status
   end
 
-  if #vim.lsp.buf_get_clients() == 0 then
-    return ''
-  end
-
-  return ' '
+  return nil
 end
 
 local function is_buffer_empty()
@@ -95,36 +113,47 @@ local checkwidth = function()
   return has_width_gt(40) and buffer_not_empty()
 end
 
+local function trailing_whitespace()
+    local trail = vim.fn.search("\\s$", "nw")
+    if trail ~= 0 then
+        return " "
+    else
+        return nil
+    end
+end
 
 -- Left side
-gls.left[1] = {
+table.insert(left, {
   ViMode = {
     provider = function()
       local alias = {
-        n = 'NORMAL ',
-        i = 'INSERT ',
-        c = 'COMMAND',
-        V = 'V-LINE ',
+        n = 'NORMAL',
+        i = 'INSERT',
+        c = 'COMAND',
+        V = 'V-LINE',
         [''] = 'V-BLOCK',
-        v = 'VISUAL ',
-        R = 'REPLACE',
+        v = 'VISUAL',
+        R = 'REPACE',
       }
       local mode = vim.fn.mode()
       vim.api.nvim_command('hi GalaxyViMode gui=bold guifg='..mode_color(mode))
-      return '  '..alias[mode]
+      return '  '..alias[mode].. '  '
     end,
     highlight = { colors.section_bg, colors.section_bg },
-    separator_highlight = {colors.section_bg, colors.section_bg},
+    separator_highlight = {colors.section_fg, colors.section_fg},
   },
-}
-gls.left[2] ={
+})
+
+table.insert(left, {
   FileIcon = {
     provider = 'FileIcon',
     condition = buffer_not_empty,
     highlight = { require('galaxyline.provider_fileinfo').get_file_icon_color, colors.section_bg },
+    separator_highlight = {colors.section_fg, colors.section_bg},
   },
-}
-gls.left[3] = {
+})
+
+table.insert(left, {
   FileName = {
     provider = { 'FileName' },
     separator = " ",
@@ -132,15 +161,17 @@ gls.left[3] = {
     highlight = { colors.fg, colors.section_bg },
     separator_highlight = {colors.section_bg, colors.bg},
   }
-}
-gls.left[4] = {
+})
+
+table.insert(left, {
   GitIcon = {
     provider = function() return '  ' end,
     condition = buffer_not_empty,
     highlight = {colors.red,colors.bg},
   }
-}
-gls.left[5] = {
+})
+
+table.insert(left, {
   GitBranch = {
     provider = 'GitBranch',
     separator = " ",
@@ -148,88 +179,106 @@ gls.left[5] = {
     highlight = {colors.fg,colors.bg},
     separator_highlight = {colors.bg, colors.section_bg},
   }
-}
-gls.left[6] = {
+})
+
+table.insert(left, {
   DiffAdd = {
     provider = 'DiffAdd',
     condition = checkwidth,
     icon = ' ',
     highlight = { colors.green, colors.bg },
   }
-}
-gls.left[7] = {
+})
+
+table.insert(left, {
   DiffModified = {
     provider = 'DiffModified',
     condition = checkwidth,
     icon = ' ',
     highlight = { colors.orange, colors.bg },
   }
-}
-gls.left[8] = {
+})
+
+table.insert(left, {
   DiffRemove = {
     provider = 'DiffRemove',
     condition = checkwidth,
     icon = ' ',
     highlight = { colors.red,colors.bg },
   }
-}
-gls.left[9] = {
+})
+
+table.insert(left, {
+  WsIndicator = {
+    provider = trailing_whitespace,
+    highlight = {colors.red,colors.section_bg}
+  }
+})
+
+table.insert(left, {
   DiagnosticError = {
     provider = 'DiagnosticError',
     icon = '  ',
     highlight = {colors.red,colors.section_bg}
   }
-}
-gls.left[10] = {
+})
+
+table.insert(left, {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
     icon = '  ',
     highlight = {colors.orange,colors.section_bg},
   }
-}
-gls.left[11] = {
+})
+
+table.insert(left, {
   DiagnosticInfo = {
     provider = 'DiagnosticInfo',
     icon = '  ',
     highlight = {colors.fg,colors.section_bg},
   }
-}
-gls.left[12] = {
-  LspMessages = {
-    provider = function ()
-      return '  '..lsp_messages()
-    end,
-    separator = " ",
+})
+
+table.insert(left, {
+  LspSpinner = {
+    provider = get_lsp_spinner,
     highlight = {colors.red, colors.section_bg},
+  }
+})
+
+table.insert(left, {
+  LspMessages = {
+    provider = parse_lsp_messages,
+    highlight = {colors.fg, colors.section_bg},
+    separator = " ",
     separator_highlight = {colors.section_bg, colors.bg},
   }
-}
+})
 
 -- Right side
 
-gls.right[1] = {
+table.insert(right, {
   LineInfo = {
     provider = 'LineColumn',
     highlight = { colors.fg, colors.section_bg },
     separator = " ",
     separator_highlight = { colors.bg, colors.section_bg },
   },
-}
-gls.right[2] = {
+})
+
+table.insert(right, {
   PerCent = {
     provider = 'LinePercent',
     separator = ' ',
     highlight = { colors.fg, colors.section_bg },
     separator_highlight = { colors.section_bg, colors.section_bg },
   }
-}
-gls.right[3] = {
+})
+
+table.insert(right, {
   ScrollBar = {
     provider = 'ScrollBar',
     highlight = { colors.red, colors.section_bg },
     separator_highlight = { colors.bg, colors.section_bg },
   }
-}
-
--- Force manual load so that nvim boots with a status line
-gl.load_galaxyline()
+})

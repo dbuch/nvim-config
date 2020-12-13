@@ -100,6 +100,8 @@ options.setg {
   loaded_netrwPlugin = 1,
   netrw_loaded_netrwPlugin = 1,
   one_allow_italics = 1,
+  fillchars = 'eob:~',
+  showtabline = 0,
 }
 
 options.setenv {

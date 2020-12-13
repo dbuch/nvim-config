@@ -2,8 +2,6 @@ vim.g.mapleader = ' '
 
 require('plugins')
 
-require('sk_telescope')
-
 require('settings')
 
 require('colorizer').setup()
@@ -14,3 +12,19 @@ require('keymap')
 require('lsp-setup')
 
 require('statusline')
+
+require('nvim-treesitter').setup {
+  ensure_installed = {
+    "c",
+    "rust",
+    "cpp",
+    "lua",
+    "css",
+    "html",
+    "javascript",
+  },
+  indent = {
+    'enabled'
+  }
+}
+

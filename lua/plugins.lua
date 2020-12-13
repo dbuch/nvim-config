@@ -12,10 +12,9 @@ vim.cmd [[packadd packer.nvim]]
 
 local packer = require('packer')
 
-return packer.startup(function()
+packer.startup(function()
   local use = packer.use
   -- Vim Plugins
-  --  use 'itchyny/lightline.vim'
   use 'scrooloose/nerdcommenter'
   use 'rust-lang/rust.vim'
   use 'lotabout/skim.vim'
@@ -33,17 +32,14 @@ return packer.startup(function()
   use 'terryma/vim-multiple-cursors'
   use 'hrsh7th/vim-vsnip'
   use 'hrsh7th/vim-vsnip-integ'
+
+  -- Lua Plugins
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function () vim.cmd [[:TSUpdate]] end
+  }
+
   use 'kyazdani42/nvim-web-devicons'
-
---  local_use 'express_line.nvim'
-
-  --use {
-    --'tjdevries/express_line.nvim',
-    --requires = {
-      --{'nvim-lua/plenary.nvim'},
-    --}
-  --}
-
   use {
     'glepnir/galaxyline.nvim',
       branch = 'main',
@@ -55,7 +51,7 @@ return packer.startup(function()
 
   -- Theme
   use {
-    '~/.config/nvim/themes/onedark.nvim',
+    '~/dev/nvim/onedark.nvim',
     requires = 'tjdevries/colorbuddy.nvim'
   }
 
@@ -89,11 +85,6 @@ return packer.startup(function()
     }
   }
 
-  -- TreeSitter
-
-  use 'nvim-treesitter/nvim-treesitter'
-
-  -- should be lagacy at some point
-  use 'antoinemadec/FixCursorHold.nvim'
-
 end)
+
+vim.api.nvim_command('autocmd BufWritePost plugins.lua PackerCompile')
