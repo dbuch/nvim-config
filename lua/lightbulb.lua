@@ -1,7 +1,7 @@
 local M = {}
 
 --local dev = require('luadev')
---local icons = require('constants').icons['lightbulp']
+--local icons = require('constants').icons['lightbulb']
 
 vim.fn.sign_define('lsp_code_action_lightbulb', {text = '💡', texthl = '', linehl = '', numhl = ''})
 
@@ -41,9 +41,9 @@ function M.show()
   vim.fn.sign_place(0, 'ns_lightbulb', 'lsp_code_action_lightbulb', bufnum, { lnum = line, priority = 20 })
 end
 
-vim.cmd [[augroup lightbulp]]
---vim.cmd [[  autocmd CursorHold <buffer> lua require('lightbulp').test()]]
-vim.cmd [[  autocmd CursorHold lua require('lightbulp').show()]]
+vim.cmd [[augroup lightbulb]]
+--vim.cmd [[  autocmd CursorHold <buffer> lua require('lightbulb').test()]]
+vim.cmd [[  autocmd CursorHold lua require('lightbulb').show()]]
 vim.cmd [[augroup END]]
 
 return M
