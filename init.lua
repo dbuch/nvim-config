@@ -1,14 +1,12 @@
 vim.g.mapleader = ' '
 
 require('plugins')
-
+require('keymap')
 require('settings')
-
 require('colorizer').setup()
 require('nvim-web-devicons').setup()
 require('colorbuddy').colorscheme('onedark')
 
-require('keymap')
 require('lsp-setup')
 
 require('statusline')
@@ -28,4 +26,3 @@ require('nvim-treesitter').setup {
     'enabled'
   }
 }
-

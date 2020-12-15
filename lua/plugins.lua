@@ -85,6 +85,9 @@ packer.startup(function()
     }
   }
 
+  -- Lua debug
+  use 'bfredl/nvim-luadev'
+
 end)
 
 vim.api.nvim_command('autocmd BufWritePost plugins.lua PackerCompile')

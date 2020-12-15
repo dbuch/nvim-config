@@ -3,9 +3,6 @@ local nvim_lsp_status = require('lsp-status')
 local telescope = require('telescope')
 local telescope_actions = require('telescope.actions')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-local log = require('plenary.log')
-log.use_file = false
-log.level = 'debug'
 
 telescope.setup {
   defaults = {
@@ -51,6 +48,25 @@ define_signs {
 }
 
 nvim_lsp_status.capabilities = vim.tbl_extend('force', nvim_lsp_status.capabilities or {}, capabilities)
+nvim_lsp_status.config {
+
+  select_symbol = function(cursor_pos, symbol)
+    if symbol.valueRange then
+      local value_range = {
+        ["start"] = {
+          character = 0,
+          line = vim.fn.byte2line(symbol.valueRange[1])
+        },
+        ["end"] = {
+          character = 0,
+          line = vim.fn.byte2line(symbol.valueRange[2])
+        }
+      }
+
+      return require("lsp-status.util").in_range(cursor_pos, value_range)
+    end
+  end
+}
 nvim_lsp_status.register_progress()
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -74,27 +90,6 @@ local dbuch_on_attach = function (client)
 
   if vim.tbl_contains({"go", "rust"}, filetype) then
     vim.cmd [[autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()]]
-  end
-
-  if client.name == "sumneko_lua" then
-    nvim_lsp_status.config {
-      select_symbol = function(cursor_pos, symbol)
-        if symbol.valueRange then
-          local value_range = {
-            ["start"] = {
-              character = 0,
-              line = vim.fn.byte2line(symbol.valueRange[1])
-            },
-            ["end"] = {
-              character = 0,
-              line = vim.fn.byte2line(symbol.valueRange[2])
-            }
-          }
-
-          return require("lsp-status.util").in_range(cursor_pos, value_range)
-        end
-      end
-    }
   end
 
   require('completion').on_attach(client)

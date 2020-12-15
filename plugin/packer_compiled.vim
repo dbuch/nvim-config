@@ -132,7 +132,7 @@ end
 -- Pre-load configuration
 -- Post-load configuration
 -- Config for: galaxyline.nvim
-loadstring("\27LJ\2\2*\0\0\2\0\2\0\0046\0\0\0'\1\1\0B\0\2\1K\0\1\0\15statusline\frequire\0")()
+loadstring("\27LJ\2\n*\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\15statusline\frequire\0")()
 -- Conditional loads
 -- Load plugins in order defined by `after`
 END
