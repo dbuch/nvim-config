@@ -5,9 +5,9 @@ local M = {}
 
 vim.fn.sign_define('lsp_code_action_lightbulb', {text = '💡', texthl = '', linehl = '', numhl = ''})
 
-function M.test()
+function M.show()
   local bufnum = vim.api.nvim_get_current_buf()
-  vim.fn.sign_unplace('ns_lightbulb', { buffer = bufnum})
+  vim.fn.sign_unplace('ns_lightbulb', { buffer = bufnum })
   if #vim.lsp.buf_get_clients(0) == 0 then
     return
   end
@@ -20,12 +20,10 @@ function M.test()
 
   local results_lsp, err = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 10000)
   if err then
-    print("ERROR: " .. err)
     return
   end
 
   if not results_lsp or vim.tbl_isempty(results_lsp) then
-    print("No results from textDocument/codeAction")
     return
   end
 
@@ -44,7 +42,8 @@ function M.test()
 end
 
 vim.cmd [[augroup lightbulp]]
-vim.cmd [[  autocmd CursorHold <buffer> lua require('lightbulp').test()]]
+--vim.cmd [[  autocmd CursorHold <buffer> lua require('lightbulp').test()]]
+vim.cmd [[  autocmd CursorHold lua require('lightbulp').show()]]
 vim.cmd [[augroup END]]
 
 return M
