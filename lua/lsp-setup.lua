@@ -49,7 +49,6 @@ define_signs {
 
 nvim_lsp_status.capabilities = vim.tbl_extend('force', nvim_lsp_status.capabilities or {}, capabilities)
 nvim_lsp_status.config {
-
   select_symbol = function(cursor_pos, symbol)
     if symbol.valueRange then
       local value_range = {
@@ -79,6 +78,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 local dbuch_on_attach = function (client)
   local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+
+  require('lightbulb').register()
 
   vim.cmd(
     [[autocmd BufEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request { ]]
