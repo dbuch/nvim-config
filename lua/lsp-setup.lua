@@ -3,6 +3,7 @@ local nvim_lsp_status = require('lsp-status')
 local telescope = require('telescope')
 local telescope_actions = require('telescope.actions')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+local lightbulb = require('lightbulb')
 
 telescope.setup {
   defaults = {
@@ -79,21 +80,20 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 local dbuch_on_attach = function (client)
   local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
-  require('lightbulb').register()
+  lightbulb.register()
 
   vim.cmd(
-    [[autocmd BufEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request { ]]
+         [[autocmd BufEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request { ]]
       .. [[prefix = '» ', highlight = "Comment", enabled = {"ChainingHint"} ]]
-    .. [[} ]]
+      .. [[} ]]
   )
-
---  vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
 
   if vim.tbl_contains({"go", "rust"}, filetype) then
     vim.cmd [[autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()]]
   end
 
   require('completion').on_attach(client)
+
   nvim_lsp_status.on_attach(client)
 end
 
