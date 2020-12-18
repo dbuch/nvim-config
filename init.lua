@@ -22,7 +22,7 @@ require('nvim-treesitter').setup {
     "javascript",
     "bash",
   },
-  indent = {
-    'enabled'
-  }
+  --indent = {
+    --'enabled'
+  --}
 }

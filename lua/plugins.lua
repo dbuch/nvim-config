@@ -85,6 +85,14 @@ packer.startup(function()
     }
   }
 
+  -- lsp-utils
+  use {
+    'RishabhRD/nvim-lsputils',
+    requires = {
+      'RishabhRD/popfix'
+    }
+  }
+
   -- Lua debug
   use 'bfredl/nvim-luadev'
 
