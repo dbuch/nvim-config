@@ -76,6 +76,7 @@ options.setg {
   mapleader=' ',
   syntax = 'enable',
   completion_enable_snippet = 'vim-snip',
+  completion_auto_change_source = 1,
   cursorhold_updatetime = 100,
   diagnostic_enable_virtual_text = 0,
   diagnostic_trimmed_virtual_text = '20',
@@ -98,3 +99,31 @@ options.setg {
 options.setenv {
   NVIM_TUI_ENABLE_TRUE_COLOR = 1,
 }
+
+  --vim.g.completion_customize_lsp_label = {
+    --Function      = "",
+    --Method        = "",
+    --Variable      = "",
+    --Constant      = "",
+    --Struct        = "פּ",
+    --Class         = "",
+    --Interface     = "禍",
+    --Text          = "",
+    --Enum          = "",
+    --EnumMember    = "",
+    --Module        = "",
+    --Color         = "",
+    --Property      = "襁",
+    --Field         = "綠",
+    --Unit          = "",
+    --File          = "",
+    --Value         = "",
+    --Event         = "鬒",
+    --Folder        = "",
+    --Keyword       = "",
+    --Snippet       = "",
+    --Operator      = "洛",
+    --Reference     = " ",
+    --TypeParameter = "",
+    --Default       = ""
+  --}

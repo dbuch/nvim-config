@@ -1,160 +1,195 @@
-local nvim_lsp_config = require('lspconfig')
-local nvim_lsp_status = require('lsp-status')
-local telescope = require('telescope')
-local telescope_actions = require('telescope.actions')
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-local lightbulb = require('lightbulb')
+local M = {}
 
-vim.lsp.handlers['textDocument/codeAction'] =     require'lsputil.codeAction'.code_action_handler
---vim.lsp.handlers['textDocument/references'] =     require'lsputil.locations'.references_handler
---vim.lsp.handlers['textDocument/definition'] =     require'lsputil.locations'.definition_handler
---vim.lsp.handlers['textDocument/declaration'] =    require'lsputil.locations'.declaration_handler
---vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
---vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
---vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
---vim.lsp.handlers['workspace/symbol'] =            require'lsputil.symbols'.workspace_handler
-
-telescope.setup {
-  defaults = {
-    mappings = {
-      i = {
-        ["<M-j>"] = telescope_actions.move_selection_next,
-        ["<M-k>"] = telescope_actions.move_selection_previous,
-      },
-    },
-  }
+-- define an chain complete list
+local chain_complete_list = {
+  default = {
+    {complete_items = {'lsp', 'snippet'}},
+    {complete_items = {'path'}, triggered_only = {'/'}},
+    {complete_items = {'buffers'}},
+  },
+  string = {
+    {complete_items = {'path'}, triggered_only = {'/'}},
+  },
+  comment = {},
 }
 
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+local function make_on_attach(config)
+  return function(client)
+    if config.before then
+      config.before(client)
+    end
 
-Indicator_errors = ' '
-Indicator_warnings = ' '
-Indicator_info = '🛈 '
-Indicator_hint = '❗'
+    local lightbulb = require('lightbulb')
+    require('completion').on_attach({
+      sorting = 'alphabet',
+      matching_strategy_list = {'exact', 'fuzzy'},
+      chain_complete_list = chain_complete_list,
+    })
 
-local function define_signs(opts_table)
-  for k, v in pairs(opts_table) do
-    vim.fn.sign_define(k, v)
-  end
-end
+    -- omni completion source
+    vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
-define_signs {
-  LspDiagnosticsSignError = {
-    text = Indicator_errors,
-    texthl = 'LspDiagnosticsSignError'
-  },
-  LspDiagnosticsSignWarning = {
-    text = Indicator_warnings,
-    texthl = 'LspDiagnosticsSignWarning',
-  },
-  LspDiagnosticsSignInformation = {
-    text = Indicator_info,
-    texthl = 'LspDiagnosticsSignInformation',
-  },
-  LspDiagnosticsSignHint = {
-    text = Indicator_hint,
-    texthl = 'LspDiagnosticsSignHint',
-  }
-}
+    vim.cmd[[augroup nvim_lspconfig_user_autocmds]]
+    vim.cmd[[autocmd! * <buffer>]]
+    vim.cmd[[augroup end]]
 
-nvim_lsp_status.capabilities = vim.tbl_extend('force', nvim_lsp_status.capabilities or {}, capabilities)
-nvim_lsp_status.config {
-  select_symbol = function(cursor_pos, symbol)
-    if symbol.valueRange then
-      local value_range = {
-        ["start"] = {
-          character = 0,
-          line = vim.fn.byte2line(symbol.valueRange[1])
-        },
-        ["end"] = {
-          character = 0,
-          line = vim.fn.byte2line(symbol.valueRange[2])
-        }
-      }
+    lightbulb.on_attach(client)
 
-      return require("lsp-status.util").in_range(cursor_pos, value_range)
+    if client.name == "rust_analyzer" then
+      vim.cmd(
+             [[autocmd BufEnter,BufWinEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request { ]]
+          .. [[prefix = '» ', highlight = "Comment", enabled = {"ChainingHint"} ]]
+          .. [[} ]]
+      )
+    end
+
+    -- formatting
+    if config.after then
+      config.after(client)
     end
   end
-}
-nvim_lsp_status.register_progress()
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-  }
-)
-
-local dbuch_on_attach = function (client)
-  local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-
-  lightbulb.register()
-
-  vim.cmd(
-         [[autocmd BufEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request { ]]
-      .. [[prefix = '» ', highlight = "Comment", enabled = {"ChainingHint"} ]]
-      .. [[} ]]
-  )
-
-  if vim.tbl_contains({"go", "rust"}, filetype) then
-    vim.cmd [[autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()]]
-  end
-
-  require('completion').on_attach(client)
-
-  nvim_lsp_status.on_attach(client)
 end
 
-nvim_lsp_config.rust_analyzer.setup({
-  cmd = { "rust-analyzer" },
-  filetypes = { "rust" },
-  on_attach = dbuch_on_attach,
-  capabilities = nvim_lsp_status.capabilities,
-})
+function M.setup()
+  local code_action_handler = function (_, _, actions)
+    if actions == nil or vim.tbl_isempty(actions) then return end
+    --if vim.fn.pumvisible() ~=1 then return end
 
-nvim_lsp_config.texlab.setup({
-  on_attach = dbuch_on_attach,
-  capabilities=nvim_lsp_status.capabilities
-})
+    local data = {}
+    for i, action in ipairs (actions) do
+      local title = action.title:gsub('\r\n', '\\r\\n')
+      title = title:gsub('\n','\\n')
+      data[i] = title
+    end
 
-nvim_lsp_config.clangd.setup({
-  on_attach = dbuch_on_attach,
-  capabilities=nvim_lsp_status.capabilities
-})
+    require'luadev'.print(vim.inspect(data))
+  end
 
-nvim_lsp_config.sumneko_lua.setup({
-  on_attach = dbuch_on_attach,
-  capabilities=nvim_lsp_status.capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        -- Get the language server to recognize LuaJIT globals like `jit` and `bit`
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = vim.split(package.path, ';'),
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
-      },
+  vim.lsp.handlers['textDocument/codeAction'] = code_action_handler
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = false,
+      signs = true,
+      update_in_insert = false,
+    }
+  )
+
+  Indicator_errors = ' '
+  Indicator_warnings = ' '
+  Indicator_info = '🛈 '
+  Indicator_hint = '❗'
+
+  local function define_signs(opts_table)
+    for k, v in pairs(opts_table) do
+      vim.fn.sign_define(k, v)
+    end
+  end
+
+  define_signs {
+    LspDiagnosticsSignError = {
+      text = Indicator_errors,
+      texthl = 'LspDiagnosticsSignError'
     },
-  },
-})
+    LspDiagnosticsSignWarning = {
+      text = Indicator_warnings,
+      texthl = 'LspDiagnosticsSignWarning',
+    },
+    LspDiagnosticsSignInformation = {
+      text = Indicator_info,
+      texthl = 'LspDiagnosticsSignInformation',
+    },
+    LspDiagnosticsSignHint = {
+      text = Indicator_hint,
+      texthl = 'LspDiagnosticsSignHint',
+    }
+  }
+end
 
-nvim_lsp_config.vimls.setup({
-  on_attach = dbuch_on_attach,
-  capabilities=nvim_lsp_status.capabilities
-})
+function M.config()
+  local lspconfig = require('lspconfig')
+  local lsp_status = require('lsp-status')
 
-nvim_lsp_config.sqlls.setup({
-  on_attach = dbuch_on_attach,
-  capabilities=nvim_lsp_status.capabilities
-})
+  lsp_status.register_progress()
+  lsp_status.config {
+    select_symbol = function(cursor_pos, symbol)
+      if symbol.valueRange then
+        local value_range = {
+          ["start"] = {
+            character = 0,
+            line = vim.fn.byte2line(symbol.valueRange[1])
+          },
+          ["end"] = {
+            character = 0,
+            line = vim.fn.byte2line(symbol.valueRange[2])
+          }
+        }
+
+        return require("lsp-status.util").in_range(cursor_pos, value_range)
+      end
+    end
+  }
+
+  local snippet_capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true
+        }
+      }
+    }
+  }
+
+  local servers = {
+    clangd = {
+      cmd = {
+        'clangd', -- '--background-index',
+        '--clang-tidy', '--completion-style=bundled', '--header-insertion=iwyu',
+        '--suggest-missing-includes', '--cross-file-rename'
+      },
+      handlers = lsp_status.extensions.clangd.setup(),
+      init_options = {
+        clangdFileStatus = true,
+        usePlaceholders = true,
+        completeUnimported = true
+      }
+    },
+    sqlls = {},
+    vimls = {},
+    texlab = {},
+    rust_analyzer = {},
+    sumneko_lua = {
+      settings = {
+        Lua = {
+          runtime = {
+            -- Get the language server to recognize LuaJIT globals like `jit` and `bit`
+            version = 'LuaJIT',
+            -- Setup your lua path
+            path = vim.split(package.path, ';'),
+          },
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = {'vim'},
+          },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = {
+              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+            },
+          },
+        }
+      }
+    },
+  }
+
+  for server, config in pairs(servers) do
+    config.on_attach = make_on_attach(config)
+    config.capabilities = vim.tbl_deep_extend(
+      "keep", config.capabilities or {}, lsp_status.capabilities, snippet_capabilities
+      )
+
+    lspconfig[server].setup(config)
+  end
+end
+
+return M

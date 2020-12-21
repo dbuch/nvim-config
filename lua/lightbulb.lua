@@ -5,7 +5,7 @@ local sign_name = 'lsp_code_action_lightbulb'
 
 vim.fn.sign_define(sign_name, {text = '💡', texthl = '', linehl = 'CursorLine', numhl = ''})
 
-function M.place()
+function M.on_CursorHold()
   local bufnum = vim.api.nvim_get_current_buf()
   vim.fn.sign_unplace(sign_group, { buffer = bufnum })
   if #vim.lsp.buf_get_clients(0) == 0 then
@@ -26,11 +26,13 @@ function M.place()
 end
 
 
-function M.register()
-  vim.api.nvim_command('augroup '.. sign_group)
-  vim.api.nvim_command(' au! * <buffer>')
-  vim.api.nvim_command(' au CursorHold <buffer> lua require(\'lightbulb\').place()')
-  vim.api.nvim_command('augroup END')
+function M.on_attach(client)
+  if client.resolved_capabilities['code_action'] then
+    vim.api.nvim_command('augroup '.. sign_group)
+      vim.api.nvim_command('au! * <buffer>')
+      vim.api.nvim_command('au CursorHold <buffer> lua require(\'lightbulb\').on_CursorHold()')
+    vim.api.nvim_command('augroup END')
+  end
 end
 
 return M

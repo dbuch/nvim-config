@@ -1,13 +1,14 @@
 vim.g.mapleader = ' '
 
-require('plugins')
-require('keymap')
 require('settings')
+
+require('plugins')
+
+require('utils')
+require('keymap')
 require('colorizer').setup()
 require('nvim-web-devicons').setup()
 require('colorbuddy').colorscheme('onedark')
-
-require('lsp-setup')
 
 require('statusline')
 
@@ -22,7 +23,7 @@ require('nvim-treesitter').setup {
     "javascript",
     "bash",
   },
-  --indent = {
-    --'enabled'
-  --}
+  indent = {
+    'enabled'
+  }
 }
