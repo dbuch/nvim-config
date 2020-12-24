@@ -1,12 +1,15 @@
 local M = {}
 
+function M.setup()
+end
+
 function M.config()
   local snip_plug = require("snippets")
-  snip_plug.set_ux(require'snippets.inserters.floaty')
+  --snip_plug.set_ux(require'snippets.inserters.floaty')
+  snip_plug.set_ux(require'snippet-inserter')
 
-  local opts = {noremap = true, silent = true}
-  vim.api.nvim_set_keymap("i", "<Tab>", "<cmd>lua require'snippets'.expand_or_advance(1)<CR>",  opts)
-  vim.api.nvim_set_keymap("i", "<S-Tab>", "<cmd>lua require'snippets'.expand_or_advance(-1)<CR>", opts)
+  vim.g.completion_enable_snippet = 'snippets.nvim'
+  vim.g.completion_auto_change_source = 1
 end
 
 return M

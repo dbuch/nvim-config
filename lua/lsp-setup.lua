@@ -1,41 +1,43 @@
 local M = {}
 
--- define an chain complete list
-local chain_complete_list = {
-  default = {
-    {complete_items = {'lsp', 'snippet'}},
-    {complete_items = {'path'}, triggered_only = {'/'}},
-    {complete_items = {'buffers'}},
-  },
-  string = {
-    {complete_items = {'path'}, triggered_only = {'/'}},
-  },
-  comment = {},
-}
-
 local function make_on_attach(config)
   return function(client)
     if config.before then
       config.before(client)
     end
 
-    local lightbulb = require('lightbulb')
-    require('completion').on_attach({
-      sorting = 'alphabet',
-      matching_strategy_list = {'exact', 'fuzzy'},
-      chain_complete_list = chain_complete_list,
-    })
-
     -- omni completion source
     vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
+
+    require('lightbulb').on_attach(client)
 
     vim.cmd[[augroup nvim_lspconfig_user_autocmds]]
     vim.cmd[[autocmd! * <buffer>]]
     vim.cmd[[augroup end]]
 
-    lightbulb.on_attach(client)
-
     if client.name == "rust_analyzer" then
+      local workspace_folders = vim.lsp.buf.list_workspace_folders()
+      if #workspace_folders > 0 then
+        local dap = require('dap')
+        dap.configurations.rust = {}
+        local arch = tostring(io.popen('uname -m','r'):read('*l'))
+
+        for _, workspace in ipairs(workspace_folders) do
+          local cargo_toml = io.open(workspace .. "/Cargo.toml")
+          local content = cargo_toml:read("*a")
+          local parsed = require('utils.toml').parse(content)
+          local name = parsed.package.name
+          local program = workspace .. '/target/debug/' .. name
+          table.insert(dap.configurations.rust, {
+            type = 'rust';
+            request = 'launch';
+            name = 'Launch ' .. name;
+            program = program;
+            host = arch;
+          })
+        end
+      end
+
       vim.cmd(
              [[autocmd BufEnter,BufWinEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request { ]]
           .. [[prefix = '» ', highlight = "Comment", enabled = {"ChainingHint"} ]]
@@ -43,7 +45,6 @@ local function make_on_attach(config)
       )
     end
 
-    -- formatting
     if config.after then
       config.after(client)
     end
@@ -142,7 +143,7 @@ function M.config()
   local servers = {
     clangd = {
       cmd = {
-        'clangd', -- '--background-index',
+        'clangd',
         '--clang-tidy', '--completion-style=bundled', '--header-insertion=iwyu',
         '--suggest-missing-includes', '--cross-file-rename'
       },
@@ -185,7 +186,7 @@ function M.config()
   for server, config in pairs(servers) do
     config.on_attach = make_on_attach(config)
     config.capabilities = vim.tbl_deep_extend(
-      "keep", config.capabilities or {}, lsp_status.capabilities, snippet_capabilities
+      "force", config.capabilities or {}, lsp_status.capabilities, snippet_capabilities
       )
 
     lspconfig[server].setup(config)

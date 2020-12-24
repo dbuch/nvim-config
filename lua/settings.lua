@@ -20,6 +20,8 @@ options.set {
   backup = false,
   writebackup = false,
 
+  showcmd = false,
+
   -- Undo
   undodir = expand('~/.cache/nvim'),
   undofile = true,
@@ -54,7 +56,9 @@ options.set {
   smartcase = true,
 
   --" Smaller updatetime for CursorHold & CursorHoldI
-  updatetime = 300,
+  updatetime = 500,
+  timeoutlen = 500,
+  ttimeoutlen = 50,
 
   shortmess = 'filnxtToOFc',
 
@@ -75,14 +79,11 @@ options.setw {
 options.setg {
   mapleader=' ',
   syntax = 'enable',
-  completion_enable_snippet = 'vim-snip',
-  completion_auto_change_source = 1,
   cursorhold_updatetime = 100,
   diagnostic_enable_virtual_text = 0,
   diagnostic_trimmed_virtual_text = '20',
   diagnostic_insert_delay = 1,
   python3_host_prog = '/usr/bin/python',
-  python_host_prog = '/usr/bin/python2',
   termguicolors = true,
   guifont = 'Droid Sans Mono For Powerline Plug Nerd File Types Mono:h22',
   table_mode_corner_corner='+',
@@ -94,36 +95,9 @@ options.setg {
   one_allow_italics = 1,
   fillchars = 'eob:~',
   showtabline = 0,
+  dap_virtual_text = true,
 }
 
 options.setenv {
   NVIM_TUI_ENABLE_TRUE_COLOR = 1,
 }
-
-  --vim.g.completion_customize_lsp_label = {
-    --Function      = "",
-    --Method        = "",
-    --Variable      = "",
-    --Constant      = "",
-    --Struct        = "פּ",
-    --Class         = "",
-    --Interface     = "禍",
-    --Text          = "",
-    --Enum          = "",
-    --EnumMember    = "",
-    --Module        = "",
-    --Color         = "",
-    --Property      = "襁",
-    --Field         = "綠",
-    --Unit          = "",
-    --File          = "",
-    --Value         = "",
-    --Event         = "鬒",
-    --Folder        = "",
-    --Keyword       = "",
-    --Snippet       = "",
-    --Operator      = "洛",
-    --Reference     = " ",
-    --TypeParameter = "",
-    --Default       = ""
-  --}

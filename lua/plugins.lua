@@ -17,19 +17,16 @@ require('packer').startup(function(use)
   -- Vim Plugins
   use 'scrooloose/nerdcommenter'
   use 'rust-lang/rust.vim'
-  use 'lotabout/skim.vim'
   use 'lambdalisue/suda.vim'
   use 'markonm/traces.vim'
   use 'editorconfig/editorconfig-vim'
-  use 'justinmk/vim-dirvish'
   use 'voldikss/vim-floaterm'
   use 'airblade/vim-rooter'
   use 'tpope/vim-sensible'
   use 'justinmk/vim-sneak'
   use 'Matt-Deacalion/vim-systemd-syntax'
-  use 'dhruvasagar/vim-table-mode'
   use 'cespare/vim-toml'
-  use 'terryma/vim-multiple-cursors'
+  use 'kyazdani42/nvim-web-devicons'
 
   -- Lua Plugins
   use {
@@ -37,16 +34,17 @@ require('packer').startup(function(use)
     run = function () vim.cmd [[:TSUpdate]] end,
     requires = {
       {"nvim-treesitter/nvim-treesitter-refactor",    after = "nvim-treesitter"},
-      {"nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter"},
+      {"nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter"}
     }
   }
 
-  use 'kyazdani42/nvim-web-devicons'
   use {
     'glepnir/galaxyline.nvim',
-      branch = 'main',
-      config = "require('statusline')",
-      requires = {'kyazdani42/nvim-web-devicons' }
+    branch = 'main',
+    requires = {
+      'kyazdani42/nvim-web-devicons',
+    },
+    config = "require'statusline'.config()",
   }
 
   use 'norcalli/nvim-colorizer.lua'
@@ -77,6 +75,14 @@ require('packer').startup(function(use)
     event = "InsertEnter *",
     requires = {
       "norcalli/snippets.nvim",
+      {
+        "steelsojka/completion-buffers",
+        after = { "completion-nvim" }
+      },
+      {
+        "nvim-treesitter/completion-treesitter",
+        after = { "completion-nvim", "nvim-treesitter" }
+      }
     },
     setup = "require'completion-setup'.setup()",
     config = "require'completion-setup'.config()"
@@ -88,8 +94,9 @@ require('packer').startup(function(use)
     requires = {
       'nvim-lua/popup.nvim',
       'nvim-lua/plenary.nvim',
-      'nvim-lua/nvim-web-devicons',
+      'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-dap.nvim',
+      "nvim-telescope/telescope-fzy-native.nvim"
     },
     setup = "require'telescope-setup'.setup()",
     config = "require'telescope-setup'.config()"
@@ -104,7 +111,7 @@ require('packer').startup(function(use)
       {"theHamsta/nvim-dap-virtual-text", after = "nvim-treesitter"}
     },
     setup = "require'dap-setup'.setup()",
-    config = "require'dap-setup'.config()"
+    config = "require'dap-setup'.config()",
   }
 
   -- lsp-utils
@@ -114,6 +121,16 @@ require('packer').startup(function(use)
     requires = {
       'RishabhRD/popfix'
     }
+  }
+
+  -- Git
+  use {
+    "lewis6991/gitsigns.nvim",
+    branch = "main",
+    requires = {
+      "nvim-lua/plenary.nvim"
+    },
+    config = "require'gitsigns-setup'.config()"
   }
 
   -- Lua debug
