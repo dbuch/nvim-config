@@ -157,7 +157,17 @@ function M.config()
     sqlls = {},
     vimls = {},
     texlab = {},
-    rust_analyzer = {},
+    rust_analyzer = {
+      settings = {
+        ["rust-analyzer"] = {
+          diagnostics = {
+            enable = true,
+            disabled = {"unresolved-proc-macro"},
+            enableExperimental = true,
+          }
+        }
+      }
+    },
     sumneko_lua = {
       settings = {
         Lua = {

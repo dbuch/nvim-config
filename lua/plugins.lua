@@ -133,6 +133,9 @@ require('packer').startup(function(use)
     config = "require'gitsigns-setup'.config()"
   }
 
+  -- Matchup
+  use 'andymass/vim-matchup'
+
   -- Lua debug
   use 'bfredl/nvim-luadev'
 end)
