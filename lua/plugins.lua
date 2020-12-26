@@ -116,12 +116,6 @@ require('packer').startup(function(use)
 
   -- lsp-utils
   use 'nvim-lua/lsp_extensions.nvim'
-  use {
-    'RishabhRD/nvim-lsputils',
-    requires = {
-      'RishabhRD/popfix'
-    }
-  }
 
   -- Git
   use {
