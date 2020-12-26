@@ -24,7 +24,7 @@ map('n', 'k', 'v:count ? "k" : "gk"', { expr = true})
 map('n', '<leader>t', ':FloatermToggle<CR>', { nowait = true})
 map('n', '<leader>f', ':Telescope find_files<CR>')
 map('n', '<leader>b', ':Telescope buffers<CR>')
-map('n', '<leader>g', ':Telescope grep_string<CR>')
+map('n', '<leader>g', ':Telescope live_grep<CR>')
 
 maplua('n', '<leader>a', 'vim.lsp.buf.code_action()')
 maplua('n', 'K',         'vim.lsp.buf.hover()')
@@ -52,8 +52,3 @@ map('i', '<A-k>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true})
 map('i', '<cr>',  'pumvisible() ? "<C-y>" : "<C-g>u<CR>"', { expr = true})
 map('x', 'ga', '<Plug>(EasyAlign)')
 map('n', 'ga', '<Plug>(EasyAlign)')
-
---" --- Keymappings ---
---xmap ga <Plug>(EasyAlign)
---" Start interactive EasyAlign for a motion/text object (e.g. gaip)
---nmap ga <Plug>(EasyAlign)

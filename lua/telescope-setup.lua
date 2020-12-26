@@ -41,6 +41,7 @@ function M.config()
     },
   }
   telescope.load_extension('dap')
+  telescope.load_extension('fzy_native')
 end
 
 return M
