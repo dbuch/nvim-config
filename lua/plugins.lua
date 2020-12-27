@@ -21,7 +21,6 @@ require('packer').startup(function(use)
   use 'markonm/traces.vim'
   use 'editorconfig/editorconfig-vim'
   use 'voldikss/vim-floaterm'
-  use 'airblade/vim-rooter'
   use 'tpope/vim-sensible'
   use 'justinmk/vim-sneak'
   use 'Matt-Deacalion/vim-systemd-syntax'

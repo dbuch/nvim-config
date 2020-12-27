@@ -43,6 +43,8 @@ require('colorbuddy').colorscheme('onedark')
 
 require('statusline')
 
+require('rooter').setup()
+
 require('nvim-treesitter').setup {
   ensure_installed = {
     "c",
