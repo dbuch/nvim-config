@@ -35,7 +35,6 @@ require('settings')
 
 require('plugins')
 
-require('utils')
 require('keymap')
 require('colorizer').setup()
 require('nvim-web-devicons').setup()
