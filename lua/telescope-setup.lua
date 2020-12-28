@@ -8,7 +8,6 @@ function M.config()
   local telescope_actions = require('telescope.actions')
   local sorters = require("telescope.sorters")
 
-
   telescope.setup {
     defaults = {
       mappings = {

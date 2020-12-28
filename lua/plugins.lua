@@ -30,11 +30,12 @@ require('packer').startup(function(use)
   -- Lua Plugins
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = function () vim.cmd [[:TSUpdate]] end,
+    event = "BufRead *",
     requires = {
       {"nvim-treesitter/nvim-treesitter-refactor",    after = "nvim-treesitter"},
       {"nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter"}
-    }
+    },
+    config = "require'tree-sitter-setup'.config()",
   }
 
   use {

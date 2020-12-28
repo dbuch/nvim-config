@@ -181,7 +181,7 @@ function M.config()
       provider = 'DiffAdd',
       condition = checkwidth,
       icon = ' ',
-      highlight = { colors.green, colors.bg },
+      highlight = { colors.green, colors.section_bg },
     }
   })
 
@@ -190,7 +190,7 @@ function M.config()
       provider = 'DiffModified',
       condition = checkwidth,
       icon = ' ',
-      highlight = { colors.orange, colors.bg },
+      highlight = { colors.orange, colors.section_bg },
     }
   })
 
@@ -199,7 +199,7 @@ function M.config()
       provider = 'DiffRemove',
       condition = checkwidth,
       icon = ' ',
-      highlight = { colors.red,colors.bg },
+      highlight = { colors.red,colors.section_bg },
     }
   })
 
