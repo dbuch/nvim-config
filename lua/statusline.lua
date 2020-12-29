@@ -254,7 +254,7 @@ function M.config()
   -- TODO: Make use of this thing
   --table.insert(left, {
     --LuaRoot = {
-      --provider = rooter.getCurrentRoot,
+      --provider = rooter.GetRoot,
       --condition = rooter.IsRooted,
       --highlight = {colors.fg, colors.section_bg},
       --separator = " ",
