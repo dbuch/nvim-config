@@ -1,4 +1,4 @@
-local mapping = require ('utils').mapping
+local mapping = require ('utils.mapping')
 local map = mapping.map;
 local maplua = mapping.maplua;
 

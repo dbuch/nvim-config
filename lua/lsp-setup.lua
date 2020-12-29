@@ -186,6 +186,7 @@ function M.config()
             library = {
               [vim.fn.expand('$VIMRUNTIME/lua')] = true,
               [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+              [vim.fn.expand('$HOME/.config/nvim/lua')] = true,
             },
           },
         }

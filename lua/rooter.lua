@@ -2,7 +2,7 @@ local M = {}
 
 local api = vim.api
 local path = require('utils.path')
-local patterns = {'.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'Cargo.toml'}
+local patterns = {'.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'Cargo.toml', 'CMakeLists.txt'}
 
 local function register_au()
   local cmd = vim.api.nvim_command
@@ -11,6 +11,7 @@ local function register_au()
   cmd("autocmd!")
   cmd("autocmd VimEnter,BufReadPost,BufEnter * nested lua require'rooter'.root()")
   cmd("autocmd BufWritePost * nested lua require'rooter'.unroot()")
+  cmd("autocmd User RootUpdated redrawstatus!")
   cmd("augroup END")
 end
 
@@ -36,13 +37,25 @@ function M.root()
 
   local isRooted, _ = pcall(api.nvim_buf_get_var, 0, 'rootDir')
   if not isRooted then
-    local buf_file = vim.fn.expand('%')
-    local root_path = path.root_pattern {patterns} (buf_file)
+    local root_path = path.root_pattern {patterns} (vim.fn.expand('%'))
 
     api.nvim_buf_set_var(0, 'rootDir', root_path)
     api.nvim_command('cd ' .. root_path)
-    print('CWD: ' .. root_path)
+    api.nvim_command('doautocmd <nomodeline> User RootUpdated')
   end
+end
+
+function M.IsRooted()
+  local status, _ = pcall(vim.api.nvim_buf_get_var, 0, 'rootDir')
+  return status
+end
+
+function M.getCurrentRoot()
+  local status, root = pcall(vim.api.nvim_buf_get_var, 0, 'rootDir')
+  if not status then
+    return ''
+  end
+  return root
 end
 
 function M.setup()

@@ -4,6 +4,7 @@ function M.config()
   local gl = require('galaxyline')
   local lsp_msg = require('lsp-status/messaging')
   local constants = require('constants')
+  local rooter = require('rooter')
 
   local colors = constants.colors
   local icons = constants.icons
@@ -249,6 +250,17 @@ function M.config()
       separator_highlight = {colors.section_bg, colors.bg},
     }
   })
+
+  -- TODO: Make use of this thing
+  --table.insert(left, {
+    --LuaRoot = {
+      --provider = rooter.getCurrentRoot,
+      --condition = rooter.IsRooted,
+      --highlight = {colors.fg, colors.section_bg},
+      --separator = " ",
+      --separator_highlight = {colors.section_bg, colors.bg},
+    --}
+  --})
 
   -- Right side
 
