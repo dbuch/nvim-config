@@ -38,10 +38,11 @@ function M.root()
   local isRooted, _ = pcall(api.nvim_buf_get_var, 0, 'rootDir')
   if not isRooted then
     local root_path = path.root_pattern {patterns} (vim.fn.expand('%'))
-
-    api.nvim_buf_set_var(0, 'rootDir', root_path)
-    api.nvim_command('cd ' .. root_path)
-    api.nvim_command('doautocmd <nomodeline> User RootUpdated')
+    local cd_status, _ = pcall(api.nvim_command, 'cd ' .. root_path)
+    if cd_status then
+      api.nvim_buf_set_var(0, 'rootDir', root_path)
+      api.nvim_command('doautocmd <nomodeline> User RootUpdated')
+    end
   end
 end
 
