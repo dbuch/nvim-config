@@ -32,16 +32,22 @@ function M.unroot()
   vim.api.nvim_buf_set_var(0, 'rootDir', '')
 end
 
+local function isEmpty(s)
+  return s == nil or s == ''
+end
+
 function M.root()
   if not should_activate() then return end
 
   local isRooted, _ = pcall(api.nvim_buf_get_var, 0, 'rootDir')
   if not isRooted then
     local root_path = path.root_pattern {patterns} (vim.fn.expand('%'))
-    local ok, _ = pcall(api.nvim_command, 'cd ' .. root_path)
-    if ok then
-      api.nvim_buf_set_var(0, 'rootDir', root_path)
-      api.nvim_command('doautocmd <nomodeline> User RootUpdated')
+    if not isEmpty(root_path) then
+      local ok, _ = pcall(api.nvim_command, 'cd ' .. root_path)
+      if ok then
+        api.nvim_buf_set_var(0, 'rootDir', root_path)
+        api.nvim_command('doautocmd <nomodeline> User RootUpdated')
+      end
     end
   end
 end
@@ -57,7 +63,11 @@ function M.GetRoot()
     return ''
   end
   -- TODO: Likely not portable or even correct
-  return string.gsub(root, os.getenv("HOME"), '~', 1)
+  root = string.gsub(root, os.getenv("HOME"), '~', 1)
+  if root == nil then
+    return ''
+  end
+  return root
 end
 
 function M.setup()

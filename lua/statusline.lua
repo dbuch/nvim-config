@@ -251,7 +251,15 @@ function M.config()
     }
   })
 
-  -- TODO: Make use of this thing
+  -- TODO: fix rooter maybe use another autocmd to update in rooter.lua
+  --table.insert(left, {
+    --LuaRootIcon = {
+      --provider = function() return " " end,
+      --condition = rooter.IsRooted,
+      --highlight = {colors.red,colors.bg},
+    --}
+  --})
+
   --table.insert(left, {
     --LuaRoot = {
       --provider = rooter.GetRoot,

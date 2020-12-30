@@ -32,11 +32,16 @@ end
 disable_default_plugins()
 
 require('settings')
-
 require('plugins')
-
 require('keymap')
-require('colorizer').setup()
+
+require('colorizer').setup {
+  'html',
+  'lua',
+  'javascript',
+  'css'
+}
+
 require('nvim-web-devicons').setup()
 require('colorbuddy').colorscheme('onedark')
 

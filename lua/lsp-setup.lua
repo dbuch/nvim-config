@@ -155,6 +155,7 @@ function M.config()
       }
     },
     sqlls = {},
+    pyls = {},
     vimls = {},
     texlab = {},
     rust_analyzer = {
