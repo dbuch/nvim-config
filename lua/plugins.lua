@@ -10,7 +10,7 @@ end
 
 vim.cmd [[packadd packer.nvim]]
 
-require('packer').startup(function(use)
+require('packer').startup({function(use)
   -- Packer can manage itself as an optional plugin
   use { "wbthomason/packer.nvim", opt = true }
 
@@ -132,6 +132,12 @@ require('packer').startup(function(use)
 
   -- Lua debug
   use 'bfredl/nvim-luadev'
-end)
+  end,
+  config = {
+    display = {
+      open_fn = require "packer.util".float
+    }
+  }
+})
 
 vim.api.nvim_command('autocmd BufWritePost plugins.lua PackerCompile')
