@@ -52,21 +52,21 @@ local function make_on_attach(config)
 end
 
 function M.setup()
-  local code_action_handler = function (_, _, actions)
-    if actions == nil or vim.tbl_isempty(actions) then return end
-    --if vim.fn.pumvisible() ~=1 then return end
+  --local code_action_handler = function (_, _, actions)
+    --if actions == nil or vim.tbl_isempty(actions) then return end
+    ----if vim.fn.pumvisible() ~=1 then return end
 
-    local data = {}
-    for i, action in ipairs (actions) do
-      local title = action.title:gsub('\r\n', '\\r\\n')
-      title = title:gsub('\n','\\n')
-      data[i] = title
-    end
+    --local data = {}
+    --for i, action in ipairs (actions) do
+      --local title = action.title:gsub('\r\n', '\\r\\n')
+      --title = title:gsub('\n','\\n')
+      --data[i] = title
+    --end
 
-    require'luadev'.print(vim.inspect(data))
-  end
+    --require'luadev'.print(vim.inspect(data))
+  --end
 
-  vim.lsp.handlers['textDocument/codeAction'] = code_action_handler
+  --vim.lsp.handlers['textDocument/codeAction'] = code_action_handler
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
       virtual_text = false,

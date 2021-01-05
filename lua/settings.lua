@@ -86,16 +86,11 @@ options.setg {
   python3_host_prog = '/usr/bin/python',
   termguicolors = true,
   guifont = 'Droid Sans Mono For Powerline Plug Nerd File Types Mono:h22',
-  table_mode_corner_corner='+',
-  table_mode_header_fillchar='=',
   tex_flavor = "latex",
   suda_smart_edit = 1,
-  loaded_netrwPlugin = 1,
-  netrw_loaded_netrwPlugin = 1,
   one_allow_italics = 1,
   fillchars = 'eob:~',
   showtabline = 0,
-  dap_virtual_text = true,
 }
 
 options.setenv {
