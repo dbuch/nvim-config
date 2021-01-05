@@ -23,10 +23,10 @@ local function disable_default_plugins()
   vim.g.loaded_zipPlugin         = 1
 
   -- No Ruby or perl support
-  vim.g.loaded_node_provider = 0
-  vim.g.loaded_ruby_provider = 0
-  vim.g.loaded_perl_provider = 0
-  vim.g.loaded_python_provider = 0
+  vim.g.loaded_node_provider     = 0
+  vim.g.loaded_ruby_provider     = 0
+  vim.g.loaded_perl_provider     = 0
+  vim.g.loaded_python_provider   = 0
 end
 
 disable_default_plugins()

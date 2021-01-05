@@ -140,7 +140,11 @@ function M.config()
     }
   }
 
+  local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
+  local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
+
   local servers = {
+    jsonls = {},
     clangd = {
       cmd = {
         'clangd',
@@ -154,9 +158,7 @@ function M.config()
         completeUnimported = true
       }
     },
-    sqlls = {},
     pyls = {},
-    vimls = {},
     texlab = {},
     rust_analyzer = {
       settings = {
@@ -170,6 +172,7 @@ function M.config()
       }
     },
     sumneko_lua = {
+      cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
       settings = {
         Lua = {
           runtime = {

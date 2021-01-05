@@ -53,7 +53,10 @@ function M.root()
 end
 
 function M.IsRooted()
-  local status, _ = pcall(vim.api.nvim_buf_get_var, 0, 'rootDir')
+  local status = false
+  vim.schedule(function()
+    status, _ = pcall(vim.api.nvim_buf_get_var, 0, 'rootDir')
+  end)
   return status
 end
 

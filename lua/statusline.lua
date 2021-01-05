@@ -4,7 +4,6 @@ function M.config()
   local gl = require('galaxyline')
   local lsp_msg = require('lsp-status/messaging')
   local constants = require('constants')
-  local rooter = require('rooter')
 
   local colors = constants.colors
   local icons = constants.icons
