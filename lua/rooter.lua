@@ -39,8 +39,7 @@ end
 function M.root()
   if not should_activate() then return end
 
-  local isRooted, _ = pcall(api.nvim_buf_get_var, 0, 'rootDir')
-  if not isRooted then
+  if not M.IsRooted() then
     local root_path = path.root_pattern {patterns} (vim.fn.expand('%'))
     if not isEmpty(root_path) then
       local ok, _ = pcall(api.nvim_command, 'cd ' .. root_path)
@@ -53,11 +52,8 @@ function M.root()
 end
 
 function M.IsRooted()
-  local status = false
-  vim.schedule(function()
-    status, _ = pcall(vim.api.nvim_buf_get_var, 0, 'rootDir')
-  end)
-  return status
+  local status, var = pcall(vim.api.nvim_buf_get_var, 0, 'rootDir')
+  return status and not isEmpty(var)
 end
 
 function M.GetRoot()

@@ -25,6 +25,15 @@ require('packer').startup({function(use)
   use 'justinmk/vim-sneak'
   use 'Matt-Deacalion/vim-systemd-syntax'
   use 'cespare/vim-toml'
+
+  -- Theme
+  use {
+    '~/dev/nvim/onedark.nvim',
+    requires = 'tjdevries/colorbuddy.nvim'
+  }
+
+  use 'sainnhe/sonokai'
+
   use 'kyazdani42/nvim-web-devicons'
 
   -- Lua Plugins
@@ -48,11 +57,6 @@ require('packer').startup({function(use)
   }
 
   use 'norcalli/nvim-colorizer.lua'
-
-  use {
-    '~/dev/nvim/onedark.nvim',
-    requires = 'tjdevries/colorbuddy.nvim'
-  }
 
   use {
     'neovim/nvim-lspconfig',
@@ -132,6 +136,7 @@ require('packer').startup({function(use)
 
   -- Lua debug
   use 'bfredl/nvim-luadev'
+  use 'rafcamlet/nvim-luapad'
   end,
   config = {
     display = {

@@ -1,5 +1,10 @@
 local M = {}
 
+local nvim_exec = vim.api.nvim_exec
+local expand = vim.fn.expand
+local toml = require('utils.toml')
+local path = require('utils.path')
+
 local function make_on_attach(config)
   return function(client)
     if config.before then
@@ -11,9 +16,11 @@ local function make_on_attach(config)
 
     require('lightbulb').on_attach(client)
 
-    vim.cmd[[augroup nvim_lspconfig_user_autocmds]]
-    vim.cmd[[autocmd! * <buffer>]]
-    vim.cmd[[augroup end]]
+    nvim_exec([[
+      augroup nvim_lspconfig_user_autocmds
+      autocmd! * <buffer>
+      augroup end
+    ]], false)
 
     if client.name == "rust_analyzer" then
       local workspace_folders = vim.lsp.buf.list_workspace_folders()
@@ -24,8 +31,7 @@ local function make_on_attach(config)
 
         for _, workspace in ipairs(workspace_folders) do
           local cargo_toml = io.open(workspace .. "/Cargo.toml")
-          local content = cargo_toml:read("*a")
-          local parsed = require('utils.toml').parse(content)
+          local parsed = toml.parse(cargo_toml:read("*a"))
           local name = parsed.package.name
           local program = workspace .. '/target/debug/' .. name
           table.insert(dap.configurations.rust, {
@@ -52,21 +58,6 @@ local function make_on_attach(config)
 end
 
 function M.setup()
-  --local code_action_handler = function (_, _, actions)
-    --if actions == nil or vim.tbl_isempty(actions) then return end
-    ----if vim.fn.pumvisible() ~=1 then return end
-
-    --local data = {}
-    --for i, action in ipairs (actions) do
-      --local title = action.title:gsub('\r\n', '\\r\\n')
-      --title = title:gsub('\n','\\n')
-      --data[i] = title
-    --end
-
-    --require'luadev'.print(vim.inspect(data))
-  --end
-
-  --vim.lsp.handlers['textDocument/codeAction'] = code_action_handler
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
       virtual_text = false,
@@ -74,11 +65,6 @@ function M.setup()
       update_in_insert = false,
     }
   )
-
-  Indicator_errors = ' '
-  Indicator_warnings = ' '
-  Indicator_info = '🛈 '
-  Indicator_hint = '❗'
 
   local function define_signs(opts_table)
     for k, v in pairs(opts_table) do
@@ -88,19 +74,19 @@ function M.setup()
 
   define_signs {
     LspDiagnosticsSignError = {
-      text = Indicator_errors,
+      text = ' ',
       texthl = 'LspDiagnosticsSignError'
     },
     LspDiagnosticsSignWarning = {
-      text = Indicator_warnings,
+      text = ' ',
       texthl = 'LspDiagnosticsSignWarning',
     },
     LspDiagnosticsSignInformation = {
-      text = Indicator_info,
+      text = '🛈 ',
       texthl = 'LspDiagnosticsSignInformation',
     },
     LspDiagnosticsSignHint = {
-      text = Indicator_hint,
+      text = '❗',
       texthl = 'LspDiagnosticsSignHint',
     }
   }
@@ -144,7 +130,11 @@ function M.config()
   local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
 
   local servers = {
-    jsonls = {},
+    jsonls = {
+      cmd = { "vscode-json-languageserver", "--stdio" },
+      filetypes = { "json" },
+      root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
+    },
     clangd = {
       cmd = {
         'clangd',
@@ -159,7 +149,14 @@ function M.config()
       }
     },
     pyls = {},
-    texlab = {},
+    texlab = {
+      cmd = { "texlab" },
+      latex = {
+        build = {
+          onSave = true;
+        }
+      }
+    },
     rust_analyzer = {
       settings = {
         ["rust-analyzer"] = {
@@ -172,7 +169,7 @@ function M.config()
       }
     },
     sumneko_lua = {
-      cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+      cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" };
       settings = {
         Lua = {
           runtime = {
@@ -188,9 +185,9 @@ function M.config()
           workspace = {
             -- Make the server aware of Neovim runtime files
             library = {
-              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-              [vim.fn.expand('$HOME/.config/nvim/lua')] = true,
+              [expand('$VIMRUNTIME/lua')] = true,
+              [expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+              [expand('$HOME/.config/nvim/lua')] = true,
             },
           },
         }

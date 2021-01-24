@@ -1,5 +1,11 @@
 vim.g.mapleader = ' '
 
+local function load_default_modules(modules)
+  for _, module in ipairs(modules) do
+    pcall(require, module)
+  end
+end
+
 local function disable_default_plugins()
   -- Disable unnecessary default plugins
   vim.g.loaded_2html_plugin      = 1
@@ -31,20 +37,22 @@ end
 
 disable_default_plugins()
 
-require('settings')
-require('plugins')
-require('keymap')
-
-require('colorizer').setup {
-  'html',
-  'lua',
-  'javascript',
-  'css'
-}
+load_default_modules({
+  'settings',
+  'plugins',
+  'keymap',
+})
 
 require('nvim-web-devicons').setup()
 require('colorbuddy').colorscheme('onedark')
 
 require('statusline')
+
+require('colorizer').setup {
+'html';
+'lua';
+'javascript';
+'css';
+}
 
 require('rooter').setup()
