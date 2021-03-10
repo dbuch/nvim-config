@@ -1,5 +1,6 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
+local api = vim.api
 
 local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
@@ -8,14 +9,13 @@ if fn.empty(fn.glob(install_path)) > 0 then
     execute 'packadd packer.nvim'
 end
 
-vim.cmd [[packadd packer.nvim]]
+api.nvim_command('packadd packer.nvim')
 
 require('packer').startup({function(use)
   -- Packer can manage itself as an optional plugin
   use { "wbthomason/packer.nvim", opt = true }
 
   -- Vim Plugins
-  use 'scrooloose/nerdcommenter'
   use 'rust-lang/rust.vim'
   use 'lambdalisue/suda.vim'
   use 'markonm/traces.vim'
@@ -25,6 +25,7 @@ require('packer').startup({function(use)
   use 'justinmk/vim-sneak'
   use 'Matt-Deacalion/vim-systemd-syntax'
   use 'cespare/vim-toml'
+  use 'b3nj5m1n/kommentary'
 
   -- Theme
   use {
@@ -56,12 +57,14 @@ require('packer').startup({function(use)
     config = "require'statusline'.config()",
   }
 
+  use 'glepnir/lspsaga.nvim'
+
   use 'norcalli/nvim-colorizer.lua'
 
   use {
     'neovim/nvim-lspconfig',
     opt = false,
-    event = { "BufNewFile *", "BufRead *" },
+    event = { "BufNewFile *", "BufRead *", "BufEnter *" },
     requires = {
       'nvim-lua/lsp-status.nvim',
     },
@@ -144,5 +147,3 @@ require('packer').startup({function(use)
     }
   }
 })
-
-vim.api.nvim_command('autocmd BufWritePost plugins.lua PackerCompile')

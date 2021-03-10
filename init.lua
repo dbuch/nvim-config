@@ -5,7 +5,6 @@ local function load_default_modules(modules)
     pcall(require, module)
   end
 end
-
 local function disable_default_plugins()
   -- Disable unnecessary default plugins
   vim.g.loaded_2html_plugin      = 1
@@ -56,3 +55,4 @@ require('colorizer').setup {
 }
 
 require('rooter').setup()
+require('lspsaga').init_lsp_saga()

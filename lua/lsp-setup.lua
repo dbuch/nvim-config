@@ -3,7 +3,6 @@ local M = {}
 local nvim_exec = vim.api.nvim_exec
 local expand = vim.fn.expand
 local toml = require('utils.toml')
-local path = require('utils.path')
 
 local function make_on_attach(config)
   return function(client)
@@ -32,15 +31,17 @@ local function make_on_attach(config)
         for _, workspace in ipairs(workspace_folders) do
           local cargo_toml = io.open(workspace .. "/Cargo.toml")
           local parsed = toml.parse(cargo_toml:read("*a"))
-          local name = parsed.package.name
-          local program = workspace .. '/target/debug/' .. name
-          table.insert(dap.configurations.rust, {
-            type = 'rust';
-            request = 'launch';
-            name = 'Launch ' .. name;
-            program = program;
-            host = arch;
-          })
+          if ((parsed or {}).package or {}).name ~= nil then
+            local name = parsed.package.name
+            local program = workspace .. '/target/debug/' .. name
+            table.insert(dap.configurations.rust, {
+              type = 'rust';
+              request = 'launch';
+              name = 'Launch ' .. name;
+              program = program;
+              host = arch;
+            })
+          end
         end
       end
 
@@ -130,6 +131,12 @@ function M.config()
   local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
 
   local servers = {
+    html = {},
+    cssls = {},
+    tsserver = {},
+    omnisharp = {
+      cmd = { "omnisharp", "-lsp", "-hpid", tostring(vim.fn.getpid()) }
+    },
     jsonls = {
       cmd = { "vscode-json-languageserver", "--stdio" },
       filetypes = { "json" },
