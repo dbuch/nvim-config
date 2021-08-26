@@ -117,21 +117,23 @@ function M.config()
     end
   }
 
-  local snippet_capabilities = {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = true
-        }
-      }
+  local snippet_capabilities = vim.lsp.protocol.make_client_capabilities()
+
+  snippet_capabilities.textDocument.completion.completionItem.snippetSupport = true
+  snippet_capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+      'documentation',
+      'detail',
+      'additionalTextEdits',
     }
   }
 
-  local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
-  local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
+  lsp_status.capabilities = vim.tbl_extend("force", lsp_status.capabilities, snippet_capabilities)
 
   local servers = {
+    bashls = {},
     html = {},
+    yamlls = {},
     cssls = {},
     tsserver = {},
     omnisharp = {
@@ -155,7 +157,6 @@ function M.config()
         completeUnimported = true
       }
     },
-    pyls = {},
     texlab = {
       cmd = { "texlab" },
       latex = {
@@ -164,6 +165,7 @@ function M.config()
         }
       }
     },
+    pyright = {},
     rust_analyzer = {
       settings = {
         ["rust-analyzer"] = {
@@ -176,7 +178,7 @@ function M.config()
       }
     },
     sumneko_lua = {
-      cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" };
+      cmd = { "lua-language-server" },
       settings = {
         Lua = {
           runtime = {
@@ -204,11 +206,13 @@ function M.config()
 
   for server, config in pairs(servers) do
     config.on_attach = make_on_attach(config)
-    config.capabilities = vim.tbl_deep_extend(
-      "force", config.capabilities or {}, lsp_status.capabilities, snippet_capabilities
-      )
+    config.capabilities = lsp_status.capabilities
 
-    lspconfig[server].setup(config)
+    if lspconfig[server] ~= nil then
+      lspconfig[server].setup(config)
+    else
+      print("Server: " .. server)
+    end
   end
 end
 

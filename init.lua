@@ -5,6 +5,7 @@ local function load_default_modules(modules)
     pcall(require, module)
   end
 end
+
 local function disable_default_plugins()
   -- Disable unnecessary default plugins
   vim.g.loaded_2html_plugin      = 1
@@ -40,19 +41,28 @@ load_default_modules({
   'settings',
   'plugins',
   'keymap',
+  'statusline',
+  'nvim-web-devicons'
 })
 
 require('nvim-web-devicons').setup()
-require('colorbuddy').colorscheme('onedark')
-
-require('statusline')
 
 require('colorizer').setup {
-'html';
-'lua';
-'javascript';
-'css';
+  'html';
+  'lua';
+  'javascript';
+  'css';
 }
 
+-- #2B303B
 require('rooter').setup()
-require('lspsaga').init_lsp_saga()
+require('lspsaga').init_lsp_saga {
+ code_action_prompt = {
+   enable = false,
+ },
+}
+
+require'lsp-setup'.config()
+require'lsp-setup'.setup()
+require('onedark').setup()
+require('completion-setup').setup()

@@ -60,10 +60,10 @@ function M.config()
         contents = msg.content
         if msg.uri then
           local filename = vim.uri_to_fname(msg.uri)
-          filename = vim.api.fnamemodify(filename, ':~:.')
-          local space = math.min(60, math.floor(0.6 * vim.api.winwidth(0)))
+          filename = vim.fn.fnamemodify(filename, ':~:.')
+          local space = math.min(60, math.floor(0.6 * vim.fn.winwidth(0)))
           if #filename > space then
-            filename = vim.api.pathshorten(filename)
+            filename = vim.fn.pathshorten(filename)
           end
 
           contents = '(' .. filename .. ') ' .. contents

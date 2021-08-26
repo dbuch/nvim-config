@@ -62,7 +62,7 @@ options.set {
 
   shortmess = 'filnxtToOFc',
 
-  completeopt = 'menuone,noinsert,noselect',
+  completeopt = {'menuone', 'noselect'},
 
   background = 'dark',
   termguicolors = true,

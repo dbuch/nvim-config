@@ -23,19 +23,25 @@ require('packer').startup({function(use)
   use 'voldikss/vim-floaterm'
   use 'tpope/vim-sensible'
   use 'justinmk/vim-sneak'
-  use 'Matt-Deacalion/vim-systemd-syntax'
   use 'cespare/vim-toml'
   use 'b3nj5m1n/kommentary'
 
   -- Theme
-  use {
+  --[[ use {
     '~/dev/nvim/onedark.nvim',
     requires = 'tjdevries/colorbuddy.nvim'
+  } ]]
+
+  use 'navarasu/onedark.nvim'
+
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup {
+        -- TODO: Maybe configure this abit?
+      }
+    end
   }
-
-  use 'sainnhe/sonokai'
-
-  use 'kyazdani42/nvim-web-devicons'
 
   -- Lua Plugins
   use {
@@ -58,42 +64,22 @@ require('packer').startup({function(use)
   }
 
   use 'glepnir/lspsaga.nvim'
-
   use 'norcalli/nvim-colorizer.lua'
 
-  use {
-    'neovim/nvim-lspconfig',
-    opt = false,
-    event = { "BufNewFile *", "BufRead *", "BufEnter *" },
-    requires = {
-      'nvim-lua/lsp-status.nvim',
-    },
-    setup = "require'lsp-setup'.setup()",
-    config = "require'lsp-setup'.config()",
-  }
+  use 'onsails/lspkind-nvim'
+  use 'neovim/nvim-lspconfig'
+  use 'nvim-lua/lsp-status.nvim'
 
-  use {
-    "norcalli/snippets.nvim",
-    config = "require'snippet-setup'.config()",
-  }
+  use 'L3MON4D3/LuaSnip'
+  -- use 'hrsh7th/nvim-compe'
 
-  use {
-    "nvim-lua/completion-nvim",
-    event = "InsertEnter *",
-    requires = {
-      "norcalli/snippets.nvim",
-      {
-        "steelsojka/completion-buffers",
-        after = { "completion-nvim" }
-      },
-      {
-        "nvim-treesitter/completion-treesitter",
-        after = { "completion-nvim", "nvim-treesitter" }
-      }
-    },
-    setup = "require'completion-setup'.setup()",
-    config = "require'completion-setup'.config()"
-  }
+  use 'hrsh7th/nvim-cmp'
+
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-calc'
+  use 'saadparwaiz1/cmp_luasnip'
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -103,7 +89,8 @@ require('packer').startup({function(use)
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-dap.nvim',
-      "nvim-telescope/telescope-fzy-native.nvim"
+      { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
+      { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sql.nvim"} }
     },
     setup = "require'telescope-setup'.setup()",
     config = "require'telescope-setup'.config()"
@@ -121,6 +108,8 @@ require('packer').startup({function(use)
     config = "require'dap-setup'.config()",
   }
 
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+
   -- lsp-utils
   use 'nvim-lua/lsp_extensions.nvim'
 
@@ -137,9 +126,7 @@ require('packer').startup({function(use)
   -- Matchup
   use 'andymass/vim-matchup'
 
-  -- Lua debug
-  use 'bfredl/nvim-luadev'
-  use 'rafcamlet/nvim-luapad'
+
   end,
   config = {
     display = {

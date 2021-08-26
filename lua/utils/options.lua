@@ -2,12 +2,7 @@ local api = vim.api
 local options = {}
 function options.set(opts_table)
   for k, v in pairs(opts_table) do
-    local ok, _ = pcall(api.nvim_get_option, k)
-    if ok then
-      vim.o[k] = v
-    else
-      print("Couldn't insert in option")
-    end
+      vim.opt[k] = v
   end
 end
 
@@ -21,7 +16,7 @@ end
 
 function options.setg(opts_table)
   for k, v in pairs(opts_table) do
-    vim.g[k] = v
+    vim.opt_global[k] = v
   end
 end
 

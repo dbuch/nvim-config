@@ -17,19 +17,6 @@ function M.config()
         },
       },
       layout_strategy = "flex",
-      layout_default = {
-        horizontal = {
-          width_padding = 0.1,
-          height_padding = 0.1,
-          preview_width = 0.6,
-        },
-        vertical = {
-          width_padding = 0.05,
-          height_padding = 1,
-          preview_width = 0.5,
-        },
-      },
-      preview_cutoff = 100,
       file_sorter = sorters.get_fzy_sorter,
     },
     extensions = {
@@ -37,10 +24,23 @@ function M.config()
         override_generic_sorter = false,
         override_file_sorter = true,
       },
+      frecency = {
+        show_scores = false,
+        show_unindexed = true,
+        ignore_patterns = {"*.git/*", "*/tmp/*"},
+        disable_devicons = false,
+        workspaces = {
+          ["conf"]    = "/home/$USER/.config",
+          ["data"]    = "/home/$USER/.local/share",
+          ["project"] = "/home/$USER/projects",
+          ["wiki"]    = "/home/$USER/wiki"
+        }
+      }
     },
   }
   telescope.load_extension('dap')
   telescope.load_extension('fzy_native')
+  telescope.load_extension('frecency')
 end
 
 return M

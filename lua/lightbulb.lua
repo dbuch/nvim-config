@@ -7,7 +7,7 @@ vim.fn.sign_define(sign_name, {text = '💡', texthl = '', linehl = 'CursorLine'
 
 function M.on_CursorHold()
   local bufnum = vim.api.nvim_get_current_buf()
-  vim.api.sign_unplace(sign_group, { buffer = bufnum })
+  vim.fn.sign_unplace(sign_group, { buffer = bufnum })
   if #vim.lsp.buf_get_clients(0) == 0 then
     return
   end
@@ -21,7 +21,7 @@ function M.on_CursorHold()
     if err or not result or #result == 0 or vim.tbl_isempty(result) then return end
 
     local line, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    vim.api.sign_place(0, sign_group, sign_name, bufnum, { lnum = line, priority = 20 })
+    vim.fn.sign_place(0, sign_group, sign_name, bufnum, { lnum = line, priority = 20 })
   end)
 end
 
