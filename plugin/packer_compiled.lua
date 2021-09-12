@@ -93,9 +93,13 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/cmp_luasnip"
   },
-  ["editorconfig-vim"] = {
+  ["crates.nvim"] = {
     loaded = true,
-    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/editorconfig-vim"
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/crates.nvim"
+  },
+  ["editorconfig.nvim"] = {
+    loaded = true,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/editorconfig.nvim"
   },
   ["galaxyline.nvim"] = {
     config = { "require'statusline'.config()" },
@@ -118,6 +122,10 @@ _G.packer_plugins = {
   ["lsp_extensions.nvim"] = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/lsp_extensions.nvim"
+  },
+  ["lsp_signature.nvim"] = {
+    loaded = true,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim"
   },
   ["lspkind-nvim"] = {
     loaded = true,
@@ -209,9 +217,9 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/rust.vim"
   },
-  ["sql.nvim"] = {
+  ["sqlite.lua"] = {
     loaded = true,
-    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/sql.nvim"
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/sqlite.lua"
   },
   ["suda.vim"] = {
     loaded = true,
@@ -222,6 +230,7 @@ _G.packer_plugins = {
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/telescope-dap.nvim"
   },
   ["telescope-frecency.nvim"] = {
+    config = { "\27LJ\1\2M\0\0\2\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0%\1\3\0>\0\2\1G\0\1\0\rfrecency\19load_extension\14telescope\frequire\0" },
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/telescope-frecency.nvim"
   },
@@ -285,10 +294,10 @@ time([[packadd for telescope.nvim]], false)
 time([[Config for telescope.nvim]], true)
 require'telescope-setup'.config()
 time([[Config for telescope.nvim]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-require'gitsigns-setup'.config()
-time([[Config for gitsigns.nvim]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+require'dap-setup'.config()
+time([[Config for nvim-dap]], false)
 -- Config for: which-key.nvim
 time([[Config for which-key.nvim]], true)
 try_loadstring("\27LJ\1\2;\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\14which-key\frequire\0", "config", "which-key.nvim")
@@ -297,10 +306,14 @@ time([[Config for which-key.nvim]], false)
 time([[Config for galaxyline.nvim]], true)
 require'statusline'.config()
 time([[Config for galaxyline.nvim]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-require'dap-setup'.config()
-time([[Config for nvim-dap]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+require'gitsigns-setup'.config()
+time([[Config for gitsigns.nvim]], false)
+-- Config for: telescope-frecency.nvim
+time([[Config for telescope-frecency.nvim]], true)
+try_loadstring("\27LJ\1\2M\0\0\2\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0%\1\3\0>\0\2\1G\0\1\0\rfrecency\19load_extension\14telescope\frequire\0", "config", "telescope-frecency.nvim")
+time([[Config for telescope-frecency.nvim]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads

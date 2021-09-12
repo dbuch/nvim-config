@@ -13,6 +13,9 @@ local function make_on_attach(config)
     -- omni completion source
     vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
+    require('lsp_signature').on_attach({
+      floating_window_above_first = true,
+    })
     require('lightbulb').on_attach(client)
 
     nvim_exec([[
@@ -118,17 +121,7 @@ function M.config()
   }
 
   local snippet_capabilities = vim.lsp.protocol.make_client_capabilities()
-
-  snippet_capabilities.textDocument.completion.completionItem.snippetSupport = true
-  snippet_capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-      'documentation',
-      'detail',
-      'additionalTextEdits',
-    }
-  }
-
-  lsp_status.capabilities = vim.tbl_extend("force", lsp_status.capabilities, snippet_capabilities)
+  lsp_status.capabilities = require('cmp_nvim_lsp').update_capabilities(snippet_capabilities)
 
   local servers = {
     bashls = {},
@@ -166,17 +159,7 @@ function M.config()
       }
     },
     pyright = {},
-    rust_analyzer = {
-      settings = {
-        ["rust-analyzer"] = {
-          diagnostics = {
-            enable = true,
-            disabled = {"unresolved-proc-macro"},
-            enableExperimental = true,
-          }
-        }
-      }
-    },
+    rust_analyzer = {},
     sumneko_lua = {
       cmd = { "lua-language-server" },
       settings = {

@@ -19,12 +19,12 @@ require('packer').startup({function(use)
   use 'rust-lang/rust.vim'
   use 'lambdalisue/suda.vim'
   use 'markonm/traces.vim'
-  use 'editorconfig/editorconfig-vim'
   use 'voldikss/vim-floaterm'
   use 'tpope/vim-sensible'
   use 'justinmk/vim-sneak'
   use 'cespare/vim-toml'
   use 'b3nj5m1n/kommentary'
+  use 'gpanders/editorconfig.nvim'
 
   -- Theme
   --[[ use {
@@ -44,6 +44,8 @@ require('packer').startup({function(use)
   }
 
   -- Lua Plugins
+  use 'nvim-lua/plenary.nvim'
+
   use {
     'nvim-treesitter/nvim-treesitter',
     event = "BufRead *",
@@ -66,6 +68,7 @@ require('packer').startup({function(use)
   use 'glepnir/lspsaga.nvim'
   use 'norcalli/nvim-colorizer.lua'
 
+  use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'neovim/nvim-lspconfig'
   use 'nvim-lua/lsp-status.nvim'
@@ -80,6 +83,7 @@ require('packer').startup({function(use)
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-calc'
   use 'saadparwaiz1/cmp_luasnip'
+  use { 'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -90,7 +94,9 @@ require('packer').startup({function(use)
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-dap.nvim',
       { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
-      { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sql.nvim"} }
+      { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}, config = function ()
+        require"telescope".load_extension("frecency")
+      end }
     },
     setup = "require'telescope-setup'.setup()",
     config = "require'telescope-setup'.config()"
