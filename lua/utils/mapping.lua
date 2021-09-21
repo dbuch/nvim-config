@@ -17,7 +17,6 @@ function mapping.map(mode, key, result, opts)
     opts or {}
   )
 
-
   vim.api.nvim_set_keymap(mode, key, result, opts)
 end
 
