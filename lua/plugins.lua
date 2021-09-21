@@ -15,7 +15,7 @@ require('packer').startup({function(use)
   -- Packer can manage itself as an optional plugin
   use { "wbthomason/packer.nvim", opt = true }
 
-  -- Vim Plugins
+  -- Legacy Vim Plugins
   use 'rust-lang/rust.vim'
   use 'lambdalisue/suda.vim'
   use 'markonm/traces.vim'
@@ -26,25 +26,11 @@ require('packer').startup({function(use)
   use 'b3nj5m1n/kommentary'
   use 'gpanders/editorconfig.nvim'
 
-  -- Theme
-  --[[ use {
-    '~/dev/nvim/onedark.nvim',
-    requires = 'tjdevries/colorbuddy.nvim'
-  } ]]
-
-  use 'navarasu/onedark.nvim'
-
-  use {
-    "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup {
-        -- TODO: Maybe configure this abit?
-      }
-    end
-  }
-
   -- Lua Plugins
-  use 'nvim-lua/plenary.nvim'
+
+  -- Colors
+  use 'norcalli/nvim-colorizer.lua'
+  use 'navarasu/onedark.nvim'
 
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -65,26 +51,27 @@ require('packer').startup({function(use)
     config = "require'statusline'.config()",
   }
 
+  -- Lsp Plugins
   use 'glepnir/lspsaga.nvim'
-  use 'norcalli/nvim-colorizer.lua'
-
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'neovim/nvim-lspconfig'
   use 'nvim-lua/lsp-status.nvim'
+  use 'nvim-lua/lsp_extensions.nvim'
 
-  use 'L3MON4D3/LuaSnip'
-  -- use 'hrsh7th/nvim-compe'
+  -- use 'L3MON4D3/LuaSnip'
 
-  use 'hrsh7th/nvim-cmp'
+  -- Completion Plugins
+  use { 'hrsh7th/nvim-cmp', requires = { 'L3MON4D3/LuaSnip' } }
+  use { 'hrsh7th/cmp-nvim-lsp', requires = { 'hrsh7th/nvim-cmp' } }
+  use { 'hrsh7th/cmp-buffer', requires = { 'hrsh7th/nvim-cmp' } }
+  use { 'hrsh7th/cmp-path', requires = { 'hrsh7th/nvim-cmp' } }
+  use { 'hrsh7th/cmp-calc', requires = { 'hrsh7th/nvim-cmp' } }
+  use { 'saadparwaiz1/cmp_luasnip', requires = { 'hrsh7th/nvim-cmp' } }
 
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-calc'
-  use 'saadparwaiz1/cmp_luasnip'
   use { 'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
+  -- Fuzzy search
   use {
     'nvim-telescope/telescope.nvim',
     opt = false,
@@ -116,9 +103,6 @@ require('packer').startup({function(use)
 
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
 
-  -- lsp-utils
-  use 'nvim-lua/lsp_extensions.nvim'
-
   -- Git
   use {
     "lewis6991/gitsigns.nvim",
@@ -131,7 +115,6 @@ require('packer').startup({function(use)
 
   -- Matchup
   use 'andymass/vim-matchup'
-
 
   end,
   config = {

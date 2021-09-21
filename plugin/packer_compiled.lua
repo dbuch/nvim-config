@@ -267,11 +267,6 @@ _G.packer_plugins = {
   ["vim-toml"] = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/vim-toml"
-  },
-  ["which-key.nvim"] = {
-    config = { "\27LJ\1\2;\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\14which-key\frequire\0" },
-    loaded = true,
-    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/which-key.nvim"
   }
 }
 
@@ -294,22 +289,18 @@ time([[packadd for telescope.nvim]], false)
 time([[Config for telescope.nvim]], true)
 require'telescope-setup'.config()
 time([[Config for telescope.nvim]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-require'dap-setup'.config()
-time([[Config for nvim-dap]], false)
--- Config for: which-key.nvim
-time([[Config for which-key.nvim]], true)
-try_loadstring("\27LJ\1\2;\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\14which-key\frequire\0", "config", "which-key.nvim")
-time([[Config for which-key.nvim]], false)
--- Config for: galaxyline.nvim
-time([[Config for galaxyline.nvim]], true)
-require'statusline'.config()
-time([[Config for galaxyline.nvim]], false)
 -- Config for: gitsigns.nvim
 time([[Config for gitsigns.nvim]], true)
 require'gitsigns-setup'.config()
 time([[Config for gitsigns.nvim]], false)
+-- Config for: galaxyline.nvim
+time([[Config for galaxyline.nvim]], true)
+require'statusline'.config()
+time([[Config for galaxyline.nvim]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+require'dap-setup'.config()
+time([[Config for nvim-dap]], false)
 -- Config for: telescope-frecency.nvim
 time([[Config for telescope-frecency.nvim]], true)
 try_loadstring("\27LJ\1\2M\0\0\2\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0%\1\3\0>\0\2\1G\0\1\0\rfrecency\19load_extension\14telescope\frequire\0", "config", "telescope-frecency.nvim")

@@ -125,9 +125,17 @@ function M.config()
 
   local servers = {
     bashls = {},
-    html = {},
+    html = {
+      cmd = { "vscode-html-languageserver", "--stdio" },
+      filetypes = { "html" },
+      root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
+    },
     yamlls = {},
-    cssls = {},
+    cssls = {
+      cmd = { "vscode-css-languageserver", "--stdio" },
+      filetypes = { "css" },
+      root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
+    },
     tsserver = {},
     omnisharp = {
       cmd = { "omnisharp", "-lsp", "-hpid", tostring(vim.fn.getpid()) }

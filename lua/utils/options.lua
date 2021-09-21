@@ -16,7 +16,7 @@ end
 
 function options.setg(opts_table)
   for k, v in pairs(opts_table) do
-    vim.opt_global[k] = v
+    vim.g[k] = v
   end
 end
 
