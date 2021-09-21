@@ -23,10 +23,12 @@ require('packer').startup({function(use)
   use 'tpope/vim-sensible'
   use 'justinmk/vim-sneak'
   use 'cespare/vim-toml'
-  use 'b3nj5m1n/kommentary'
-  use 'gpanders/editorconfig.nvim'
 
   -- Lua Plugins
+
+  -- Utils
+  use 'b3nj5m1n/kommentary'
+  use 'gpanders/editorconfig.nvim'
 
   -- Colors
   use 'norcalli/nvim-colorizer.lua'
@@ -58,8 +60,6 @@ require('packer').startup({function(use)
   use 'neovim/nvim-lspconfig'
   use 'nvim-lua/lsp-status.nvim'
   use 'nvim-lua/lsp_extensions.nvim'
-
-  -- use 'L3MON4D3/LuaSnip'
 
   -- Completion Plugins
   use { 'hrsh7th/nvim-cmp', requires = { 'L3MON4D3/LuaSnip' } }
