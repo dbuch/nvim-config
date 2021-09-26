@@ -9,7 +9,7 @@ function M.config()
       topdelete    = {hl = 'DiffDelete', text = '_'},
       changedelete = {hl = 'DiffChange', text = '~'},
     },
-    watch_index = {
+    watch_gitdir = {
       enabled = true,
       interval = 1000
     }
