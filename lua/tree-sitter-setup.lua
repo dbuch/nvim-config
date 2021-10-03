@@ -14,6 +14,9 @@ function M.config()
     },
     indent = {
       'enabled'
+    },
+    matchup = {
+      enable = true,
     }
   }
   vim.cmd [[:TSUpdate]]

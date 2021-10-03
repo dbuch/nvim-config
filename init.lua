@@ -66,3 +66,4 @@ require'lsp-setup'.config()
 require'lsp-setup'.setup()
 require('onedark').setup()
 require('completion-setup').setup()
+require('nvim-autopairs').setup{}

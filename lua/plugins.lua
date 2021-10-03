@@ -23,6 +23,7 @@ require('packer').startup({function(use)
   use 'tpope/vim-sensible'
   use 'justinmk/vim-sneak'
   use 'cespare/vim-toml'
+  use 'windwp/nvim-autopairs'
 
   -- Lua Plugins
 
@@ -54,7 +55,7 @@ require('packer').startup({function(use)
   }
 
   -- Lsp Plugins
-  use 'glepnir/lspsaga.nvim'
+  use 'tami5/lspsaga.nvim'
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'neovim/nvim-lspconfig'
@@ -97,8 +98,12 @@ require('packer').startup({function(use)
       "mfussenegger/nvim-dap-python",
       {"theHamsta/nvim-dap-virtual-text", after = "nvim-treesitter"}
     },
-    setup = "require'dap-setup'.setup()",
-    config = "require'dap-setup'.config()",
+    setup = function ()
+      require'dap-setup'.setup()
+    end,
+    config = function ()
+      require'dap-setup'.config()
+    end,
   }
 
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }

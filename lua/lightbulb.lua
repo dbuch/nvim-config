@@ -17,11 +17,11 @@ function M.on_CursorHold()
     diagnostics = vim.lsp.diagnostic.get_line_diagnostics()
   }
 
-  vim.lsp.buf_request(bufnum, "textDocument/codeAction", params, function(err, _, result, _, _)
+  vim.lsp.buf_request(bufnum, "textDocument/codeAction", params, function(err, result, ctx, _)
     if err or not result or #result == 0 or vim.tbl_isempty(result) then return end
 
     local line, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    vim.fn.sign_place(0, sign_group, sign_name, bufnum, { lnum = line, priority = 20 })
+    vim.fn.sign_place(0, sign_group, sign_name, ctx.bufnr, { lnum = line, priority = 20 })
   end)
 end
 
