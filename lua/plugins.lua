@@ -125,10 +125,13 @@ require('packer').startup({function(use)
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-dap.nvim',
+      'nvim-telescope/telescope-project.nvim',
+      'ahmedkhalf/project.nvim',
       { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
       { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}, config = function ()
         require"telescope".load_extension("frecency")
-      end }
+      end },
+
     },
     setup = "require'telescope-setup'.setup()",
     config = "require'telescope-setup'.config()"
