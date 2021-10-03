@@ -217,6 +217,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
+  ["project.nvim"] = {
+    config = { "\27LJ\1\2µ\2\0\0\4\0\15\0\0214\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\0013\2\6\0:\2\a\0012\2\0\0:\2\b\0012\2\0\0:\2\t\0014\2\n\0007\2\v\0027\2\f\2%\3\r\0>\2\2\2:\2\14\1>\0\2\1G\0\1\0\rdatapath\tdata\fstdpath\afn\bvim\17exclude_dirs\15ignore_lsp\rpatterns\1\b\0\0\t.git\v_darcs\b.hg\t.bzr\t.svn\rMakefile\17package.json\22detection_methods\1\3\0\0\blsp\fpattern\1\0\3\16manual_mode\1\17silent_chdir\2\16show_hidden\1\nsetup\17project_nvim\frequire\0" },
+    loaded = true,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/project.nvim"
+  },
   ["rust.vim"] = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/rust.vim"
@@ -301,6 +306,10 @@ time([[Config for gitsigns.nvim]], false)
 time([[Config for galaxyline.nvim]], true)
 require'statusline'.config()
 time([[Config for galaxyline.nvim]], false)
+-- Config for: project.nvim
+time([[Config for project.nvim]], true)
+try_loadstring("\27LJ\1\2µ\2\0\0\4\0\15\0\0214\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\0013\2\6\0:\2\a\0012\2\0\0:\2\b\0012\2\0\0:\2\t\0014\2\n\0007\2\v\0027\2\f\2%\3\r\0>\2\2\2:\2\14\1>\0\2\1G\0\1\0\rdatapath\tdata\fstdpath\afn\bvim\17exclude_dirs\15ignore_lsp\rpatterns\1\b\0\0\t.git\v_darcs\b.hg\t.bzr\t.svn\rMakefile\17package.json\22detection_methods\1\3\0\0\blsp\fpattern\1\0\3\16manual_mode\1\17silent_chdir\2\16show_hidden\1\nsetup\17project_nvim\frequire\0", "config", "project.nvim")
+time([[Config for project.nvim]], false)
 -- Config for: nvim-dap
 time([[Config for nvim-dap]], true)
 try_loadstring("\27LJ\1\0028\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\vconfig\14dap-setup\frequire\0", "config", "nvim-dap")

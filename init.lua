@@ -55,7 +55,6 @@ require('colorizer').setup {
 }
 
 -- #2B303B
-require('rooter').setup()
 require('lspsaga').init_lsp_saga {
  code_action_prompt = {
    enable = false,
