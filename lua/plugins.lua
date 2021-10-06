@@ -145,12 +145,8 @@ require('packer').startup({function(use)
       "mfussenegger/nvim-dap-python",
       {"theHamsta/nvim-dap-virtual-text", after = "nvim-treesitter"}
     },
-    setup = function ()
-      require'dap-setup'.setup()
-    end,
-    config = function ()
-      require'dap-setup'.config()
-    end,
+    setup = function () require'dap-setup'.setup() end,
+    config = function () require'dap-setup'.config() end,
   }
 
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
