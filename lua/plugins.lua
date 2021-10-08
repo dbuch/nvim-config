@@ -99,7 +99,10 @@ require('packer').startup({function(use)
   }
 
   -- Lsp Plugins
-  use 'tami5/lspsaga.nvim'
+  use {
+    'tami5/lspsaga.nvim',
+    commit = "373bc031b39730cbfe492533c3acfac36007899a",
+  }
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'neovim/nvim-lspconfig'

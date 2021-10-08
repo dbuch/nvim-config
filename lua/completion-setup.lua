@@ -62,21 +62,21 @@ function M.setup()
     },
 
     mapping = {
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if vim.fn.pumvisible() == 1 then
-          feedkey("<C-n>")
+      ["<A-j>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
         elseif has_words_before() then
-          cmp.complete()
+          cmp.select_prev_item()
         else
           fallback()
         end
       end, { "i", "s" }),
 
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if vim.fn.pumvisible() == 1 then
-          feedkey("<C-p>")
+      ["<A-k>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
         elseif luasnip.jumpable(-1) then
           luasnip.jump(-1)
         else
