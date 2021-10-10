@@ -27,6 +27,35 @@ require('packer').startup({function(use)
 
   -- Lua Plugins
 
+  use 'bfredl/nvim-luadev'
+
+  use {
+    'rcarriga/nvim-notify',
+    config = function()
+      require("notify").setup({
+        -- Animation style (see below for details)
+        stages = "fade_in_slide_out",
+
+        -- Default timeout for notifications
+        timeout = 3500,
+
+        -- For stages that change opacity this is treated as the highlight behind the window
+        -- Set this to either a highlight group or an RGB hex value e.g. "#000000"
+        background_colour = "Normal",
+
+        -- Icons for the different levels
+        icons = {
+          ERROR = "",
+          WARN = "",
+          INFO = "",
+          DEBUG = "",
+          TRACE = "✎",
+        },
+      })
+      vim.notify = require("notify")
+    end
+  }
+
   -- Workspace/Projects
 
   use {
@@ -68,8 +97,6 @@ require('packer').startup({function(use)
       }
     end
   }
-
-  --
 
   -- Utils
   use 'b3nj5m1n/kommentary'

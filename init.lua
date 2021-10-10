@@ -6,6 +6,10 @@ local function load_default_modules(modules)
   end
 end
 
+function P(structure)
+  print(vim.inspect(structure))
+end
+
 local function disable_default_plugins()
   -- Disable unnecessary default plugins
   vim.g.loaded_2html_plugin      = 1
