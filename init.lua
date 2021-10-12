@@ -6,7 +6,7 @@ local function load_default_modules(modules)
   end
 end
 
-function P(structure)
+function Inspect(structure)
   print(vim.inspect(structure))
 end
 

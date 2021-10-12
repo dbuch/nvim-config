@@ -26,6 +26,7 @@ local function make_on_attach(config)
 
     if client.name == "rust_analyzer" then
       local workspace_folders = vim.lsp.buf.list_workspace_folders()
+      local au = require('utils.autocmd')
       if #workspace_folders > 0 then
         local dap = require('dap')
         dap.configurations.rust = {}
@@ -46,6 +47,19 @@ local function make_on_attach(config)
             })
           end
         end
+
+        au.BufWritePost = {
+          'Cargo.toml',
+          function ()
+            local function handler(err)
+              if err then
+                error(tostring(err))
+              end
+              vim.notify("Cargo workspace reloaded")
+            end
+            client.request("rust-analyzer/reloadWorkspace", nil, handler, 0)
+          end
+        }
       end
 
       vim.cmd(

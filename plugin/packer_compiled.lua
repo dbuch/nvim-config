@@ -178,7 +178,7 @@ _G.packer_plugins = {
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/nvim-luadev"
   },
   ["nvim-notify"] = {
-    config = { "\27LJ\1\2�\1\0\0\3\0\a\0\0144\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\1>\0\2\0014\0\6\0004\1\0\0%\2\1\0>\1\2\2:\1\1\0G\0\1\0\bvim\nicons\1\0\5\nTRACE\b✎\nDEBUG\b\tWARN\b\tINFO\b\nERROR\b\1\0\3\22background_colour\vNormal\ftimeout\3�\27\vstages\22fade_in_slide_out\nsetup\vnotify\frequire\0" },
+    config = { "\27LJ\1\2�\1\0\0\3\0\a\0\0144\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\1>\0\2\0014\0\6\0004\1\0\0%\2\1\0>\1\2\2:\1\1\0G\0\1\0\bvim\nicons\1\0\5\nTRACE\b✎\nDEBUG\b\tWARN\b\tINFO\b\nERROR\b\1\0\3\22background_colour\vNormal\ftimeout\3�\r\vstages\22fade_in_slide_out\nsetup\vnotify\frequire\0" },
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/nvim-notify"
   },
@@ -325,7 +325,7 @@ require'statusline'.config()
 time([[Config for galaxyline.nvim]], false)
 -- Config for: nvim-notify
 time([[Config for nvim-notify]], true)
-try_loadstring("\27LJ\1\2�\1\0\0\3\0\a\0\0144\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\1>\0\2\0014\0\6\0004\1\0\0%\2\1\0>\1\2\2:\1\1\0G\0\1\0\bvim\nicons\1\0\5\nTRACE\b✎\nDEBUG\b\tWARN\b\tINFO\b\nERROR\b\1\0\3\22background_colour\vNormal\ftimeout\3�\27\vstages\22fade_in_slide_out\nsetup\vnotify\frequire\0", "config", "nvim-notify")
+try_loadstring("\27LJ\1\2�\1\0\0\3\0\a\0\0144\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\1>\0\2\0014\0\6\0004\1\0\0%\2\1\0>\1\2\2:\1\1\0G\0\1\0\bvim\nicons\1\0\5\nTRACE\b✎\nDEBUG\b\tWARN\b\tINFO\b\nERROR\b\1\0\3\22background_colour\vNormal\ftimeout\3�\r\vstages\22fade_in_slide_out\nsetup\vnotify\frequire\0", "config", "nvim-notify")
 time([[Config for nvim-notify]], false)
 -- Config for: nvim-dap
 time([[Config for nvim-dap]], true)

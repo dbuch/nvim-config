@@ -37,7 +37,7 @@ require('packer').startup({function(use)
         stages = "fade_in_slide_out",
 
         -- Default timeout for notifications
-        timeout = 3500,
+        timeout = 1750,
 
         -- For stages that change opacity this is treated as the highlight behind the window
         -- Set this to either a highlight group or an RGB hex value e.g. "#000000"
@@ -46,8 +46,8 @@ require('packer').startup({function(use)
         -- Icons for the different levels
         icons = {
           ERROR = "",
-          WARN = "",
-          INFO = "",
+          WARN =  "",
+          INFO =  "",
           DEBUG = "",
           TRACE = "✎",
         },
