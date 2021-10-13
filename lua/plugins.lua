@@ -1,19 +1,13 @@
-local execute = vim.api.nvim_command
 local fn = vim.fn
-local api = vim.api
-
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-	execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-    execute 'packadd packer.nvim'
+  PackerBootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
-
-api.nvim_command('packadd packer.nvim')
 
 require('packer').startup({function(use)
   -- Packer can manage itself as an optional plugin
-  use { "wbthomason/packer.nvim", opt = true }
+  use 'wbthomason/packer.nvim'
 
   -- Legacy Vim Plugins
   use 'rust-lang/rust.vim'
@@ -89,7 +83,7 @@ require('packer').startup({function(use)
 
         -- When set to false, you will get a message when project.nvim changes your
         -- directory.
-        silent_chdir = true,
+        silent_chdir = false,
 
         -- Path where project.nvim will store the project history for use in
         -- telescope
@@ -126,13 +120,14 @@ require('packer').startup({function(use)
   }
 
   -- Lsp Plugins
+  use 'neovim/nvim-lspconfig'
+
   use {
     'tami5/lspsaga.nvim',
     commit = "373bc031b39730cbfe492533c3acfac36007899a",
   }
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
-  use 'neovim/nvim-lspconfig'
   use 'nvim-lua/lsp-status.nvim'
   use 'nvim-lua/lsp_extensions.nvim'
 
@@ -149,7 +144,7 @@ require('packer').startup({function(use)
   -- Fuzzy search
   use {
     'nvim-telescope/telescope.nvim',
-    opt = false,
+    -- opt = false,
     requires = {
       'nvim-lua/popup.nvim',
       'nvim-lua/plenary.nvim',
@@ -193,6 +188,11 @@ require('packer').startup({function(use)
 
   -- Matchup
   use 'andymass/vim-matchup'
+
+  -- bootstrap
+  if PackerBootstrap then
+    require('packer').sync()
+  end
 
   end,
   config = {
