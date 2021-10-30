@@ -6,10 +6,6 @@ local function load_default_modules(modules)
   end
 end
 
-function Inspect(structure)
-  print(vim.inspect(structure))
-end
-
 local function disable_default_plugins()
   -- Disable unnecessary default plugins
   vim.g.loaded_2html_plugin      = 1
@@ -40,6 +36,8 @@ local function disable_default_plugins()
 end
 
 disable_default_plugins()
+
+vim.cmd [[runtime plugin/astronauta.vim]]
 
 load_default_modules({
   'settings',

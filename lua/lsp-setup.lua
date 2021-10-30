@@ -37,6 +37,7 @@ local function make_on_attach(config)
           local parsed = toml.parse(cargo_toml:read("*a"))
           if ((parsed or {}).package or {}).name ~= nil then
             local name = parsed.package.name
+            -- vim.notify("Added \"" .. name .. "\" to Dap Configuration")
             local program = workspace .. '/target/debug/' .. name
             table.insert(dap.configurations.rust, {
               type = 'rust';
@@ -182,31 +183,11 @@ function M.config()
     },
     pyright = {},
     rust_analyzer = {},
-    sumneko_lua = {
-      cmd = { "lua-language-server" },
-      settings = {
-        Lua = {
-          runtime = {
-            -- Get the language server to recognize LuaJIT globals like `jit` and `bit`
-            version = 'LuaJIT',
-            -- Setup your lua path
-            path = vim.split(package.path, ';'),
-          },
-          diagnostics = {
-            -- Get the language server to recognize the `vim` global
-            globals = {'vim'},
-          },
-          workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = {
-              [expand('$VIMRUNTIME/lua')] = true,
-              [expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-              [expand('$HOME/.config/nvim/lua')] = true,
-            },
-          },
-        }
+    sumneko_lua = require("lua-dev").setup({
+      lspconfig = {
+        cmd = { "lua-language-server" },
       }
-    },
+    })
   }
 
   for server, config in pairs(servers) do

@@ -42,6 +42,7 @@ function M.setup()
     Default       = ""
   }
 
+
   cmp.setup {
     snippet = {
       expand = function(args)
@@ -109,7 +110,17 @@ function M.setup()
       { name = 'crates' },
       { name = 'buffer' },
     },
+
+    experimental = {
+      ghost_text = true,
+    }
   }
+  cmp.setup.cmdline(':', {
+    sources = {
+      { name = 'cmdline' }
+    }
+  })
+
 end
 
 function M.config()

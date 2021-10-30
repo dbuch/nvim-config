@@ -73,6 +73,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/LuaSnip"
   },
+  ["astronauta.nvim"] = {
+    loaded = true,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/astronauta.nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/cmp-buffer"
@@ -80,6 +84,10 @@ _G.packer_plugins = {
   ["cmp-calc"] = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/cmp-calc"
+  },
+  ["cmp-cmdline"] = {
+    loaded = true,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/cmp-cmdline"
   },
   ["cmp-nvim-lsp"] = {
     loaded = true,
@@ -94,8 +102,12 @@ _G.packer_plugins = {
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/cmp_luasnip"
   },
   ["crates.nvim"] = {
-    loaded = true,
-    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/crates.nvim"
+    after_files = { "/home/dbuch/.local/share/nvim/site/pack/packer/opt/crates.nvim/after/plugin/cmp_crates.lua" },
+    config = { "\27LJ\1\0024\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\nsetup\vcrates\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/opt/crates.nvim"
   },
   ["editorconfig.nvim"] = {
     loaded = true,
@@ -135,6 +147,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/lspsaga.nvim"
   },
+  ["lua-dev.nvim"] = {
+    loaded = true,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/lua-dev.nvim"
+  },
   ["nvim-autopairs"] = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/nvim-autopairs"
@@ -173,9 +189,9 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
   },
-  ["nvim-luadev"] = {
+  ["nvim-minimap"] = {
     loaded = true,
-    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/nvim-luadev"
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/nvim-minimap"
   },
   ["nvim-notify"] = {
     config = { "\27LJ\1\2Ñ\1\0\0\3\0\a\0\0144\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\1>\0\2\0014\0\6\0004\1\0\0%\2\1\0>\1\2\2:\1\1\0G\0\1\0\bvim\nicons\1\0\5\nTRACE\bâœŽ\nDEBUG\bï†ˆ\tWARN\bïª\tINFO\bïš\nERROR\bï—\1\0\3\22background_colour\vNormal\ftimeout\3Ö\r\vstages\22fade_in_slide_out\nsetup\vnotify\frequire\0" },
@@ -183,10 +199,11 @@ _G.packer_plugins = {
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/nvim-notify"
   },
   ["nvim-treesitter"] = {
-    after = { "nvim-treesitter-refactor", "nvim-treesitter-textobjects", "nvim-dap-virtual-text" },
+    after = { "nvim-treesitter-refactor", "nvim-dap-virtual-text", "nvim-treesitter-textobjects" },
     config = { "require'tree-sitter-setup'.config()" },
     loaded = false,
     needs_bufread = true,
+    only_cond = false,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/opt/nvim-treesitter"
   },
   ["nvim-treesitter-refactor"] = {
@@ -314,10 +331,10 @@ time([[Config for telescope.nvim]], false)
 time([[Config for gitsigns.nvim]], true)
 require'gitsigns-setup'.config()
 time([[Config for gitsigns.nvim]], false)
--- Config for: project.nvim
-time([[Config for project.nvim]], true)
-try_loadstring("\27LJ\1\2µ\2\0\0\4\0\15\0\0214\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\0013\2\6\0:\2\a\0012\2\0\0:\2\b\0012\2\0\0:\2\t\0014\2\n\0007\2\v\0027\2\f\2%\3\r\0>\2\2\2:\2\14\1>\0\2\1G\0\1\0\rdatapath\tdata\fstdpath\afn\bvim\17exclude_dirs\15ignore_lsp\rpatterns\1\b\0\0\t.git\v_darcs\b.hg\t.bzr\t.svn\rMakefile\17package.json\22detection_methods\1\3\0\0\blsp\fpattern\1\0\3\16manual_mode\1\17silent_chdir\1\16show_hidden\1\nsetup\17project_nvim\frequire\0", "config", "project.nvim")
-time([[Config for project.nvim]], false)
+-- Config for: telescope-frecency.nvim
+time([[Config for telescope-frecency.nvim]], true)
+try_loadstring("\27LJ\1\2M\0\0\2\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0%\1\3\0>\0\2\1G\0\1\0\rfrecency\19load_extension\14telescope\frequire\0", "config", "telescope-frecency.nvim")
+time([[Config for telescope-frecency.nvim]], false)
 -- Config for: galaxyline.nvim
 time([[Config for galaxyline.nvim]], true)
 require'statusline'.config()
@@ -330,14 +347,15 @@ time([[Config for nvim-notify]], false)
 time([[Config for nvim-dap]], true)
 try_loadstring("\27LJ\1\0028\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\vconfig\14dap-setup\frequire\0", "config", "nvim-dap")
 time([[Config for nvim-dap]], false)
--- Config for: telescope-frecency.nvim
-time([[Config for telescope-frecency.nvim]], true)
-try_loadstring("\27LJ\1\2M\0\0\2\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0%\1\3\0>\0\2\1G\0\1\0\rfrecency\19load_extension\14telescope\frequire\0", "config", "telescope-frecency.nvim")
-time([[Config for telescope-frecency.nvim]], false)
+-- Config for: project.nvim
+time([[Config for project.nvim]], true)
+try_loadstring("\27LJ\1\2µ\2\0\0\4\0\15\0\0214\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\0013\2\6\0:\2\a\0012\2\0\0:\2\b\0012\2\0\0:\2\t\0014\2\n\0007\2\v\0027\2\f\2%\3\r\0>\2\2\2:\2\14\1>\0\2\1G\0\1\0\rdatapath\tdata\fstdpath\afn\bvim\17exclude_dirs\15ignore_lsp\rpatterns\1\b\0\0\t.git\v_darcs\b.hg\t.bzr\t.svn\rMakefile\17package.json\22detection_methods\1\3\0\0\blsp\fpattern\1\0\3\16manual_mode\1\17silent_chdir\1\16show_hidden\1\nsetup\17project_nvim\frequire\0", "config", "project.nvim")
+time([[Config for project.nvim]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
+vim.cmd [[au BufRead Cargo.toml ++once lua require("packer.load")({'crates.nvim'}, { event = "BufRead Cargo.toml" }, _G.packer_plugins)]]
 vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-treesitter'}, { event = "BufRead *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")

@@ -5,7 +5,10 @@ if fn.empty(fn.glob(install_path)) > 0 then
   PackerBootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
-require('packer').startup({function(use)
+local packer = require('packer')
+local packer_util = require('packer.util')
+
+packer.startup({function(use)
   -- Packer can manage itself as an optional plugin
   use 'wbthomason/packer.nvim'
 
@@ -20,8 +23,6 @@ require('packer').startup({function(use)
   use 'windwp/nvim-autopairs'
 
   -- Lua Plugins
-
-  use 'bfredl/nvim-luadev'
 
   use {
     'rcarriga/nvim-notify',
@@ -49,6 +50,14 @@ require('packer').startup({function(use)
       vim.notify = require("notify")
     end
   }
+
+  --[[ use {
+    'simrat39/rust-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'mfussenegger/nvim-dap',
+    }
+  } ]]
 
   -- Workspace/Projects
 
@@ -92,6 +101,8 @@ require('packer').startup({function(use)
     end
   }
 
+  use 'tjdevries/astronauta.nvim'
+
   -- Utils
   use 'b3nj5m1n/kommentary'
   use 'gpanders/editorconfig.nvim'
@@ -124,7 +135,7 @@ require('packer').startup({function(use)
 
   use {
     'tami5/lspsaga.nvim',
-    commit = "373bc031b39730cbfe492533c3acfac36007899a",
+    -- commit = "373bc031b39730cbfe492533c3acfac36007899a",
   }
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
@@ -137,9 +148,17 @@ require('packer').startup({function(use)
   use { 'hrsh7th/cmp-buffer', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'hrsh7th/cmp-path', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'hrsh7th/cmp-calc', requires = { 'hrsh7th/nvim-cmp' } }
+  use { 'hrsh7th/cmp-cmdline', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'saadparwaiz1/cmp_luasnip', requires = { 'hrsh7th/nvim-cmp' } }
 
-  use { 'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use {
+      'saecki/crates.nvim',
+      event = { "BufRead Cargo.toml" },
+      requires = { { 'nvim-lua/plenary.nvim' } },
+      config = function()
+          require('crates').setup()
+      end,
+  }
 
   -- Fuzzy search
   use {
@@ -189,15 +208,18 @@ require('packer').startup({function(use)
   -- Matchup
   use 'andymass/vim-matchup'
 
+  use 'rinx/nvim-minimap'
+
+  use 'folke/lua-dev.nvim'
   -- bootstrap
   if PackerBootstrap then
-    require('packer').sync()
+    packer.sync()
   end
 
   end,
   config = {
     display = {
-      open_fn = require "packer.util".float
+      open_fn = packer_util.float
     }
   }
 })

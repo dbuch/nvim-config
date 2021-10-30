@@ -1,6 +1,7 @@
 local mapping = require ('utils.mapping')
 local map = mapping.map;
 local maplua = mapping.maplua;
+local nnoremap = vim.keymap.nnoremap
 
 vim.g.mapleader = ' '
 
@@ -27,7 +28,7 @@ maplua('n', 'gr',         'vim.lsp.buf.references()')
 maplua('n', 'g0',         'vim.lsp.buf.document_symbol()')
 maplua('n', 'gW',         'vim.lsp.buf.workspace_symbol()')
 maplua('n', 'gd',         'vim.lsp.buf.declaration()')
-maplua('n', '<leader>p',  'require"telescope".extensions.project.project{}')
+nnoremap { '<leader>p', function () require"telescope".extensions.project.project{} end }
 
 maplua('n', '<leader>=', 'vim.lsp.buf.formatting()')
 map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
@@ -38,8 +39,3 @@ map('n', '<esc>^[',   '<esc>^[')
 map('t', '<esc>',     '<C-\\><C-n>')
 
 map('n', '<leader><leader>', '<c-^>')
-
-map('i', '<A-j>', 'pumvisible() ? "<C-n>" : "<Tab>"', { expr = true})
-map('i', '<A-k>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true})
-map('s', '<A-j>', 'pumvisible() ? "<C-n>" : "<Tab>"', { expr = true})
-map('s', '<A-k>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true})
