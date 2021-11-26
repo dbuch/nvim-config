@@ -15,14 +15,14 @@ packer.startup({function(use)
   -- Legacy Vim Plugins
   use 'rust-lang/rust.vim'
   use 'lambdalisue/suda.vim'
-  use 'markonm/traces.vim'
-  use 'voldikss/vim-floaterm'
-  use 'tpope/vim-sensible'
   use 'justinmk/vim-sneak'
   use 'cespare/vim-toml'
-  use 'windwp/nvim-autopairs'
 
   -- Lua Plugins
+  use 'windwp/nvim-autopairs'
+  use 'rinx/nvim-minimap'
+  use 'folke/lua-dev.nvim'
+  use { 'kevinhwang91/nvim-hlslens' }
 
   use {
     'rcarriga/nvim-notify',
@@ -48,6 +48,20 @@ packer.startup({function(use)
         },
       })
       vim.notify = require("notify")
+    end
+  }
+
+  use {
+    'numToStr/FTerm.nvim',
+    config = function ()
+      require'FTerm'.setup({
+          border = 'single',
+          dimensions  = {
+              height = 0.9,
+              width = 0.9,
+          },
+      })
+      vim.cmd('command! FloatermToggle lua require("FTerm").toggle()')
     end
   }
 
@@ -208,9 +222,6 @@ packer.startup({function(use)
   -- Matchup
   use 'andymass/vim-matchup'
 
-  use 'rinx/nvim-minimap'
-
-  use 'folke/lua-dev.nvim'
   -- bootstrap
   if PackerBootstrap then
     packer.sync()

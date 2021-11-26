@@ -19,6 +19,7 @@ function M.config()
       n = colors.green,
       i = colors.blue,
       c = colors.green,
+      t = colors.green,
       V = colors.magenta,
       [''] = colors.magenta,
       v = colors.magenta,
@@ -102,12 +103,12 @@ function M.config()
     ViMode = {
       provider = function()
         local alias = {
-          n = 'NORMAL',
-          i = 'INSERT',
-          c = 'COMAND',
-
-          v = 'VISUAL',
-          V = 'V-LINE',
+          n =      'NORMAL',
+          i =      'INSERT',
+          c =      'COMAND',
+          t =      'TERM  ',
+          v =      'VISUAL',
+          V =      'V-LINE',
           [''] = 'V-BLOCK',
 
           R = 'REPACE',
