@@ -57,7 +57,7 @@ end
 time([[Luarocks path setup]], false)
 time([[try_loadstring definition]], true)
 local function try_loadstring(s, component, name)
-  local success, result = pcall(loadstring(s))
+  local success, result = pcall(loadstring(s), name, _G.packer_plugins[name])
   if not success then
     vim.schedule(function()
       vim.api.nvim_notify('packer.nvim: Error running ' .. component .. ' for ' .. name .. ': ' .. result, vim.log.levels.ERROR, {})
@@ -76,6 +76,7 @@ _G.packer_plugins = {
     url = "https://github.com/numToStr/FTerm.nvim"
   },
   LuaSnip = {
+    config = { "\27LJ\1\2B\0\0\2\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0)\1\1\0:\1\3\0G\0\1\0\fhistory\vconfig\fluasnip\frequire\0" },
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
@@ -124,6 +125,11 @@ _G.packer_plugins = {
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/opt/crates.nvim",
     url = "https://github.com/saecki/crates.nvim"
   },
+  ["diffview.nvim"] = {
+    loaded = true,
+    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/diffview.nvim",
+    url = "https://github.com/sindrets/diffview.nvim"
+  },
   ["editorconfig.nvim"] = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/editorconfig.nvim",
@@ -133,7 +139,7 @@ _G.packer_plugins = {
     config = { "require'statusline'.config()" },
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/galaxyline.nvim",
-    url = "https://github.com/glepnir/galaxyline.nvim"
+    url = "https://github.com/NTBBloodbath/galaxyline.nvim"
   },
   ["gitsigns.nvim"] = {
     config = { "require'gitsigns-setup'.config()" },
@@ -150,11 +156,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/lsp-status.nvim",
     url = "https://github.com/nvim-lua/lsp-status.nvim"
-  },
-  ["lsp_extensions.nvim"] = {
-    loaded = true,
-    path = "/home/dbuch/.local/share/nvim/site/pack/packer/start/lsp_extensions.nvim",
-    url = "https://github.com/nvim-lua/lsp_extensions.nvim"
   },
   ["lsp_signature.nvim"] = {
     loaded = true,
@@ -371,22 +372,26 @@ time([[Setup for telescope.nvim]], false)
 time([[packadd for telescope.nvim]], true)
 vim.cmd [[packadd telescope.nvim]]
 time([[packadd for telescope.nvim]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-try_loadstring("\27LJ\1\0028\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\vconfig\14dap-setup\frequire\0", "config", "nvim-dap")
-time([[Config for nvim-dap]], false)
+-- Config for: LuaSnip
+time([[Config for LuaSnip]], true)
+try_loadstring("\27LJ\1\2B\0\0\2\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0)\1\1\0:\1\3\0G\0\1\0\fhistory\vconfig\fluasnip\frequire\0", "config", "LuaSnip")
+time([[Config for LuaSnip]], false)
 -- Config for: telescope.nvim
 time([[Config for telescope.nvim]], true)
 require'telescope-setup'.config()
 time([[Config for telescope.nvim]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-require'gitsigns-setup'.config()
-time([[Config for gitsigns.nvim]], false)
 -- Config for: project.nvim
 time([[Config for project.nvim]], true)
 try_loadstring("\27LJ\1\2µ\2\0\0\4\0\15\0\0214\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\3\0003\2\4\0:\2\5\0013\2\6\0:\2\a\0012\2\0\0:\2\b\0012\2\0\0:\2\t\0014\2\n\0007\2\v\0027\2\f\2%\3\r\0>\2\2\2:\2\14\1>\0\2\1G\0\1\0\rdatapath\tdata\fstdpath\afn\bvim\17exclude_dirs\15ignore_lsp\rpatterns\1\b\0\0\t.git\v_darcs\b.hg\t.bzr\t.svn\rMakefile\17package.json\22detection_methods\1\3\0\0\blsp\fpattern\1\0\3\16manual_mode\1\17silent_chdir\1\16show_hidden\1\nsetup\17project_nvim\frequire\0", "config", "project.nvim")
 time([[Config for project.nvim]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+try_loadstring("\27LJ\1\0028\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\vconfig\14dap-setup\frequire\0", "config", "nvim-dap")
+time([[Config for nvim-dap]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+require'gitsigns-setup'.config()
+time([[Config for gitsigns.nvim]], false)
 -- Config for: galaxyline.nvim
 time([[Config for galaxyline.nvim]], true)
 require'statusline'.config()

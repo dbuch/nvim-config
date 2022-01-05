@@ -28,17 +28,9 @@ packer.startup({function(use)
     'rcarriga/nvim-notify',
     config = function()
       require("notify").setup({
-        -- Animation style (see below for details)
         stages = "fade_in_slide_out",
-
-        -- Default timeout for notifications
         timeout = 1750,
-
-        -- For stages that change opacity this is treated as the highlight behind the window
-        -- Set this to either a highlight group or an RGB hex value e.g. "#000000"
         background_colour = "Normal",
-
-        -- Icons for the different levels
         icons = {
           ERROR = "",
           WARN =  "",
@@ -73,6 +65,7 @@ packer.startup({function(use)
     }
   } ]]
 
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   -- Workspace/Projects
 
   use {
@@ -136,7 +129,7 @@ packer.startup({function(use)
   }
 
   use {
-    'glepnir/galaxyline.nvim',
+    'NTBBloodbath/galaxyline.nvim',
     branch = 'main',
     requires = {
       'kyazdani42/nvim-web-devicons',
@@ -154,7 +147,14 @@ packer.startup({function(use)
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'nvim-lua/lsp-status.nvim'
-  use 'nvim-lua/lsp_extensions.nvim'
+  -- use 'nvim-lua/lsp_extensions.nvim'
+
+  use {
+    'L3MON4D3/LuaSnip',
+    config = function ()
+      require('luasnip').config.history = false
+    end
+  }
 
   -- Completion Plugins
   use { 'hrsh7th/nvim-cmp', requires = { 'L3MON4D3/LuaSnip' } }

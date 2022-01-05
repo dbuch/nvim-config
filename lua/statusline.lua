@@ -3,6 +3,7 @@ local M = {}
 function M.config()
   local gl = require('galaxyline')
   local condition = require('galaxyline.condition')
+  local fileinfo = require('galaxyline.providers.fileinfo')
   local lsp_msg = require('lsp-status/messaging')
   local constants = require('constants')
 
@@ -133,7 +134,7 @@ function M.config()
     FileIcon = {
       provider = 'FileIcon',
       condition = condition.buffer_not_empty,
-      highlight = { require('galaxyline.provider_fileinfo').get_file_icon_color, colors.section_bg },
+      highlight = { fileinfo.get_file_icon_color, colors.section_bg },
       separator_highlight = {colors.section_fg, colors.section_bg},
     },
   })

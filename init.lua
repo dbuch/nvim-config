@@ -56,7 +56,6 @@ require('colorizer').setup {
   'css';
 }
 
--- #2B303B
 require('lspsaga').init_lsp_saga {
  code_action_prompt = {
    enable = false,
@@ -65,6 +64,6 @@ require('lspsaga').init_lsp_saga {
 
 require'lsp-setup'.config()
 require'lsp-setup'.setup()
-require('onedark').setup()
-require('completion-setup').setup()
-require('nvim-autopairs').setup{}
+require'onedark'.setup()
+require'completion-setup'.setup()
+require'nvim-autopairs'.setup{}
