@@ -49,7 +49,7 @@ local function make_on_attach(config)
           end
         end
 
-        au.BufWritePost = {
+        --[[ au.BufWritePost = {
           'Cargo.toml',
           function ()
             local function handler(err)
@@ -60,14 +60,8 @@ local function make_on_attach(config)
             end
             client.request("rust-analyzer/reloadWorkspace", nil, handler, 0)
           end
-        }
+        } ]]
       end
-
-      vim.cmd(
-             [[autocmd BufEnter,BufWinEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request { ]]
-          .. [[prefix = '» ', highlight = "Comment", enabled = {"ChainingHint"} ]]
-          .. [[} ]]
-      )
     end
 
     if config.after then

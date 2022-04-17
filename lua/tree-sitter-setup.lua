@@ -11,6 +11,7 @@ function M.config()
       "html",
       "javascript",
       "bash",
+      "glsl"
     },
     indent = {
       'enabled'

@@ -31,7 +31,7 @@ options.set {
   buflisted = true,
   autoread = true,
 
-  laststatus = 2,
+  laststatus = 3,
   showmode = false,
 
   -- Secure

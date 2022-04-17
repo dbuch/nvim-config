@@ -18,7 +18,7 @@ function M.config()
       pidProperty = "pid",
       pidSelect = "ask"
     };
-    command = "lldb-vscode";
+    command = "lldb-vscode",
     env = {
       LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = "YES"
     };
@@ -29,6 +29,18 @@ function M.config()
   dap.adapters.rust = lldb_adapter
 
   require('dap.ext.vscode').load_launchjs()
+
+  local dapui = require("dapui")
+  dapui.setup({})
+  dap.listeners.after.event_initialized['dapui_config'] = function()
+      dapui.open()
+  end
+  dap.listeners.before.event_terminated['dapui_config'] = function()
+      dapui.close()
+  end
+  dap.listeners.after.event_exited['dapui_config'] = function()
+      dapui.close()
+  end
 
   vim.cmd [[nnoremap <silent> <F5> :lua require'dap'.continue()<CR>]]
   vim.cmd [[nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>]]

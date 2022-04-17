@@ -37,8 +37,6 @@ end
 
 disable_default_plugins()
 
-vim.cmd [[runtime plugin/astronauta.vim]]
-
 load_default_modules({
   'settings',
   'plugins',
@@ -64,6 +62,5 @@ require('lspsaga').init_lsp_saga {
 
 require'lsp-setup'.config()
 require'lsp-setup'.setup()
-require'onedark'.setup()
 require'completion-setup'.setup()
 require'nvim-autopairs'.setup{}

@@ -114,6 +114,7 @@ function M.setup()
       { name = 'calc' },
       { name = 'crates' },
       { name = 'buffer' },
+      { name = 'nvim_lsp_signature_help' }
     },
 
     compare = {
@@ -138,7 +139,6 @@ function M.setup()
   })
 
 end
-
 
 function M.config()
 end

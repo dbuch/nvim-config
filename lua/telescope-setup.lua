@@ -1,6 +1,7 @@
 local M = {}
 
 function M.setup()
+
 end
 
 function M.config()
@@ -23,7 +24,15 @@ function M.config()
       fzy_native = {
         override_generic_sorter = false,
         override_file_sorter = true,
+
       },
+
+      ["ui-select"] = {
+        require("telescope.themes").get_cursor {
+          -- even more opts
+        }
+      },
+
       frecency = {
         show_scores = false,
         show_unindexed = true,
@@ -42,6 +51,7 @@ function M.config()
   telescope.load_extension('fzy_native')
   telescope.load_extension('frecency')
   telescope.load_extension('projects')
+  telescope.load_extension('ui-select')
 end
 
 return M

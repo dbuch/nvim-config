@@ -14,13 +14,12 @@ packer.startup({function(use)
 
   -- Legacy Vim Plugins
   use 'rust-lang/rust.vim'
-  use 'lambdalisue/suda.vim'
+--  use 'lambdalisue/suda.vim'
   use 'justinmk/vim-sneak'
   use 'cespare/vim-toml'
 
   -- Lua Plugins
   use 'windwp/nvim-autopairs'
-  use 'rinx/nvim-minimap'
   use 'folke/lua-dev.nvim'
   use { 'kevinhwang91/nvim-hlslens' }
 
@@ -44,6 +43,14 @@ packer.startup({function(use)
   }
 
   use {
+      'kyazdani42/nvim-tree.lua',
+      requires = {
+        'kyazdani42/nvim-web-devicons', -- optional, for file icon
+      },
+      config = function() require'nvim-tree'.setup {} end
+  }
+
+  use {
     'numToStr/FTerm.nvim',
     config = function ()
       require'FTerm'.setup({
@@ -57,13 +64,17 @@ packer.startup({function(use)
     end
   }
 
-  --[[ use {
+  use {
     'simrat39/rust-tools.nvim',
+    config = function()
+      require("rust-tools").setup({})
+    end,
     requires = {
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap',
+      'neovim/nvim-lspconfig',
     }
-  } ]]
+  }
 
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   -- Workspace/Projects
@@ -80,7 +91,7 @@ packer.startup({function(use)
         -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
         -- order matters: if one is not detected, the other is used as fallback. You
         -- can also delete or rearangne the detection methods.
-        detection_methods = { "lsp", "pattern" },
+        detection_methods = { "pattern", "lsp" },
 
         -- All the patterns used to detect root dir, when **"pattern"** is in
         -- detection_methods
@@ -96,7 +107,6 @@ packer.startup({function(use)
 
         -- Show hidden files in telescope
         show_hidden = false,
-
         -- When set to false, you will get a message when project.nvim changes your
         -- directory.
         silent_chdir = false,
@@ -108,7 +118,59 @@ packer.startup({function(use)
     end
   }
 
-  use 'tjdevries/astronauta.nvim'
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        position = "bottom", -- position of the list can be: bottom, top, left, right
+        height = 10, -- height of the trouble list when position is top or bottom
+        width = 50, -- width of the list when position is left or right
+        icons = true, -- use devicons for filenames
+        mode = "workspace_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
+        fold_open = "", -- icon used for open folds
+        fold_closed = "", -- icon used for closed folds
+        group = true, -- group results by file
+        padding = true, -- add an extra new line on top of the list
+        action_keys = { -- key mappings for actions in the trouble list
+            -- map to {} to remove a mapping, for example:
+            -- close = {},
+            close = "q", -- close the list
+            cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
+            refresh = "r", -- manually refresh
+            jump = {"<cr>", "<tab>"}, -- jump to the diagnostic or open / close folds
+            open_split = { "<c-x>" }, -- open buffer in new split
+            open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
+            open_tab = { "<c-t>" }, -- open buffer in new tab
+            jump_close = {"o"}, -- jump to the diagnostic and close the list
+            toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
+            toggle_preview = "P", -- toggle auto_preview
+            hover = "K", -- opens a small popup with the full multiline message
+            preview = "p", -- preview the diagnostic location
+            close_folds = {"zM", "zm"}, -- close all folds
+            open_folds = {"zR", "zr"}, -- open all folds
+            toggle_fold = {"zA", "za"}, -- toggle fold of current file
+            previous = "k", -- preview item
+            next = "j" -- next item
+        },
+        indent_lines = true, -- add an indent guide below the fold icons
+        auto_open = false, -- automatically open the list when you have diagnostics
+        auto_close = true, -- automatically close the list when you have no diagnostics
+        auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
+        auto_fold = false, -- automatically fold a file trouble list at creation
+
+        use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
+        signs = {
+            -- icons / text used for a diagnostic
+            error = "",
+            warning = "",
+            hint = "",
+            information = "",
+            other = "﫠"
+        },
+      }
+    end
+  }
 
   -- Utils
   use 'b3nj5m1n/kommentary'
@@ -116,7 +178,19 @@ packer.startup({function(use)
 
   -- Colors
   use 'norcalli/nvim-colorizer.lua'
-  use 'navarasu/onedark.nvim'
+  use {
+    'navarasu/onedark.nvim',
+    setup = function ()
+    end,
+    config = function ()
+      require'onedark'.setup {
+        style = 'darker'
+      }
+      require'onedark'.load()
+    end
+  }
+
+  use 'folke/lsp-colors.nvim'
 
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -125,7 +199,7 @@ packer.startup({function(use)
       {"nvim-treesitter/nvim-treesitter-refactor",    after = "nvim-treesitter"},
       {"nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter"}
     },
-    config = "require'tree-sitter-setup'.config()",
+    config = function () require'tree-sitter-setup'.config() end,
   }
 
   use {
@@ -134,12 +208,11 @@ packer.startup({function(use)
     requires = {
       'kyazdani42/nvim-web-devicons',
     },
-    config = "require'statusline'.config()",
+    config = function () require'statusline'.config() end,
   }
 
   -- Lsp Plugins
   use 'neovim/nvim-lspconfig'
-
   use {
     'tami5/lspsaga.nvim',
     -- commit = "373bc031b39730cbfe492533c3acfac36007899a",
@@ -152,7 +225,14 @@ packer.startup({function(use)
   use {
     'L3MON4D3/LuaSnip',
     config = function ()
-      require('luasnip').config.history = false
+      local ls = require('luasnip')
+      ls.config.set_config {
+        history = false,
+        updateevents = "TextChanged,TextChangedI",
+        delete_check_events = "TextChanged",
+        region_check_events = "InsertEnter",
+        enable_autosnippets = true,
+      }
     end
   }
 
@@ -163,6 +243,7 @@ packer.startup({function(use)
   use { 'hrsh7th/cmp-path', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'hrsh7th/cmp-calc', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'hrsh7th/cmp-cmdline', requires = { 'hrsh7th/nvim-cmp' } }
+  use { 'hrsh7th/cmp-nvim-lsp-signature-help', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'saadparwaiz1/cmp_luasnip', requires = { 'hrsh7th/nvim-cmp' } }
 
   use {
@@ -184,6 +265,10 @@ packer.startup({function(use)
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-dap.nvim',
       'nvim-telescope/telescope-project.nvim',
+      { 'nvim-telescope/telescope-file-browser.nvim', config = function ()
+        require"telescope".load_extension "file_browser"
+      end},
+      'nvim-telescope/telescope-ui-select.nvim',
       'ahmedkhalf/project.nvim',
       { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
       { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}, config = function ()
@@ -191,8 +276,8 @@ packer.startup({function(use)
       end },
 
     },
-    setup = "require'telescope-setup'.setup()",
-    config = "require'telescope-setup'.config()"
+    setup = function () require'telescope-setup'.setup() end,
+    config = function () require'telescope-setup'.config() end,
   }
 
   -- Dap
@@ -216,7 +301,7 @@ packer.startup({function(use)
     requires = {
       "nvim-lua/plenary.nvim"
     },
-    config = "require'gitsigns-setup'.config()"
+    config = function () require'gitsigns-setup'.config() end
   }
 
   -- Matchup

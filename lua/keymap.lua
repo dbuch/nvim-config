@@ -1,41 +1,37 @@
-local mapping = require ('utils.mapping')
-local map = mapping.map;
-local maplua = mapping.maplua;
-local nnoremap = vim.keymap.nnoremap
+local set = vim.keymap.set;
 
 vim.g.mapleader = ' '
 
-map('', 'H', '^')
-map('', 'L', '$')
+set('', 'H', '^')
+set('', 'L', '$')
 
-map('n', 'j', 'v:count ? "j" : "gj"', { expr = true})
-map('n', 'k', 'v:count ? "k" : "gk"', { expr = true})
+set('n', 'j', 'v:count ? "j" : "gj"', { expr = true })
+set('n', 'k', 'v:count ? "k" : "gk"', { expr = true })
 
-map('n', '<leader>t',  ':FloatermToggle<CR>', { nowait = true})
-map('n', '<leader>f',  ':Telescope find_files<CR>')
-map('n', '<leader>b',  ':Telescope buffers<CR>')
-map('n', '<leader>g',  ':Telescope live_grep<CR>')
+set('n', '<leader>t', ':FloatermToggle<CR>', { nowait = true, silent = true })
+set('n', '<leader>f', function() require('telescope.builtin').find_files() end)
+set('n', '<leader>b', function() require('telescope.builtin').buffers() end)
+set('n', '<leader>g', function() require('telescope.builtin').live_grep() end)
 
-map('n', '<leader>ca', ':Lspsaga code_action<CR>')
-map('n', '<leader>cr', ':Lspsaga rename<CR>')
-map('n', 'K',          ':Lspsaga hover_doc<CR>')
-map('n', '<c-k>',      ':Lspsaga show_line_diagnostics<CR>')
+set('n', '<c-q>', ':bd<CR>')
 
-maplua('n', '<c-]>',      'vim.lsp.buf.definition()')
-maplua('n', 'gD',         'vim.lsp.buf.implementation()')
-maplua('n', '1gD',        'vim.lsp.buf.type_definition()')
-maplua('n', 'gr',         'vim.lsp.buf.references()')
-maplua('n', 'g0',         'vim.lsp.buf.document_symbol()')
-maplua('n', 'gW',         'vim.lsp.buf.workspace_symbol()')
-maplua('n', 'gd',         'vim.lsp.buf.declaration()')
-nnoremap { '<leader>p', function () require"telescope".extensions.project.project{} end }
+set('n', '<leader>ca', ':Lspsaga code_action<CR>')
+set('n', '<leader>cr', ':Lspsaga rename<CR>')
+set('n', 'K', ':Lspsaga hover_doc<CR>')
+set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>')
 
-maplua('n', '<leader>=', 'vim.lsp.buf.formatting()')
-map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
+-- set('n', 'gd', vim.lsp.buf.definition)
+set('n', 'gd', function() require('telescope.builtin').lsp_definitions() end)
+set('n', 'gr', function() require('telescope.builtin').lsp_references() end)
+
+set('n', '<leader>p', function() require "telescope".extensions.project.project {} end)
+
+set('n', '<leader>=', vim.lsp.buf.formatting)
+set('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
 
 -- Clear search
-map('n', '<esc>',     ':noh<return><esc>')
-map('n', '<esc>^[',   '<esc>^[')
-map('t', '<esc>',     '<C-\\><C-n>')
+set('n', '<esc>', ':noh<return><esc>', { silent = true })
+set('n', '<esc>^[', '<esc>^[', { silent = true })
+set('t', '<esc>', '<C-\\><C-n>', { silent = true })
 
-map('n', '<leader><leader>', '<c-^>')
+set('n', '<leader><leader>', '<c-^>')
