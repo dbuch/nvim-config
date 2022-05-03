@@ -1,20 +1,26 @@
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
-if fn.empty(fn.glob(install_path)) > 0 then
-  PackerBootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+NeedsBootstrap = not vim.loop.fs_stat(install_path)
+
+if NeedsBootstrap then
+  fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+  print("Reopen Nvim and dbuch is running..")
+  return
 end
 
 local packer = require('packer')
 local packer_util = require('packer.util')
 
-packer.startup({function(use)
+packer.startup({ function(use)
+  use 'lewis6991/impatient.nvim'
+
   -- Packer can manage itself as an optional plugin
   use 'wbthomason/packer.nvim'
 
   -- Legacy Vim Plugins
   use 'rust-lang/rust.vim'
---  use 'lambdalisue/suda.vim'
+  --  use 'lambdalisue/suda.vim'
   use 'justinmk/vim-sneak'
   use 'cespare/vim-toml'
 
@@ -32,8 +38,8 @@ packer.startup({function(use)
         background_colour = "Normal",
         icons = {
           ERROR = "",
-          WARN =  "",
-          INFO =  "",
+          WARN = "",
+          INFO = "",
           DEBUG = "",
           TRACE = "✎",
         },
@@ -43,22 +49,22 @@ packer.startup({function(use)
   }
 
   use {
-      'kyazdani42/nvim-tree.lua',
-      requires = {
-        'kyazdani42/nvim-web-devicons', -- optional, for file icon
-      },
-      config = function() require'nvim-tree'.setup {} end
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    },
+    config = function() require 'nvim-tree'.setup {} end
   }
 
   use {
     'numToStr/FTerm.nvim',
-    config = function ()
-      require'FTerm'.setup({
-          border = 'single',
-          dimensions  = {
-              height = 0.9,
-              width = 0.9,
-          },
+    config = function()
+      require 'FTerm'.setup({
+        border     = 'single',
+        dimensions = {
+          height = 0.9,
+          width = 0.9,
+        },
       })
       vim.cmd('command! FloatermToggle lua require("FTerm").toggle()')
     end
@@ -133,25 +139,25 @@ packer.startup({function(use)
         group = true, -- group results by file
         padding = true, -- add an extra new line on top of the list
         action_keys = { -- key mappings for actions in the trouble list
-            -- map to {} to remove a mapping, for example:
-            -- close = {},
-            close = "q", -- close the list
-            cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
-            refresh = "r", -- manually refresh
-            jump = {"<cr>", "<tab>"}, -- jump to the diagnostic or open / close folds
-            open_split = { "<c-x>" }, -- open buffer in new split
-            open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
-            open_tab = { "<c-t>" }, -- open buffer in new tab
-            jump_close = {"o"}, -- jump to the diagnostic and close the list
-            toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
-            toggle_preview = "P", -- toggle auto_preview
-            hover = "K", -- opens a small popup with the full multiline message
-            preview = "p", -- preview the diagnostic location
-            close_folds = {"zM", "zm"}, -- close all folds
-            open_folds = {"zR", "zr"}, -- open all folds
-            toggle_fold = {"zA", "za"}, -- toggle fold of current file
-            previous = "k", -- preview item
-            next = "j" -- next item
+          -- map to {} to remove a mapping, for example:
+          -- close = {},
+          close = "q", -- close the list
+          cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
+          refresh = "r", -- manually refresh
+          jump = { "<cr>", "<tab>" }, -- jump to the diagnostic or open / close folds
+          open_split = { "<c-x>" }, -- open buffer in new split
+          open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
+          open_tab = { "<c-t>" }, -- open buffer in new tab
+          jump_close = { "o" }, -- jump to the diagnostic and close the list
+          toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
+          toggle_preview = "P", -- toggle auto_preview
+          hover = "K", -- opens a small popup with the full multiline message
+          preview = "p", -- preview the diagnostic location
+          close_folds = { "zM", "zm" }, -- close all folds
+          open_folds = { "zR", "zr" }, -- open all folds
+          toggle_fold = { "zA", "za" }, -- toggle fold of current file
+          previous = "k", -- preview item
+          next = "j" -- next item
         },
         indent_lines = true, -- add an indent guide below the fold icons
         auto_open = false, -- automatically open the list when you have diagnostics
@@ -161,12 +167,12 @@ packer.startup({function(use)
 
         use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
         signs = {
-            -- icons / text used for a diagnostic
-            error = "",
-            warning = "",
-            hint = "",
-            information = "",
-            other = "﫠"
+          -- icons / text used for a diagnostic
+          error = "",
+          warning = "",
+          hint = "",
+          information = "",
+          other = "﫠"
         },
       }
     end
@@ -180,13 +186,42 @@ packer.startup({function(use)
   use 'norcalli/nvim-colorizer.lua'
   use {
     'navarasu/onedark.nvim',
-    setup = function ()
+    setup = function()
     end,
-    config = function ()
-      require'onedark'.setup {
-        style = 'darker'
+    config = function()
+      require 'onedark'.setup {
+        -- Main options --
+        style = 'darker', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+        transparent = false, -- Show/hide background
+        term_colors = true, -- Change terminal color as per the selected theme style
+        ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
+        -- toggle theme style ---
+        toggle_style_key = '<leader>ts', -- Default keybinding to toggle
+        toggle_style_list = { 'darker', 'light' }, -- List of styles to toggle between
+
+        -- Change code style ---
+        -- Options are italic, bold, underline, none
+        -- You can configure multiple style with comma seperated, For e.g., keywords = 'italic,bold'
+        code_style = {
+          comments = 'italic',
+          keywords = 'none',
+          functions = 'none',
+          strings = 'none',
+          variables = 'none'
+        },
+
+        -- Custom Highlights --
+        colors = {}, -- Override default colors
+        highlights = {}, -- Override highlight groups
+
+        -- Plugins Config --
+        diagnostics = {
+          darker = true, -- darker colors for diagnostic
+          undercurl = true, -- use undercurl instead of underline for diagnostics
+          background = true, -- use background color for virtual text
+        }
       }
-      require'onedark'.load()
+      require 'onedark'.load()
     end
   }
 
@@ -196,10 +231,10 @@ packer.startup({function(use)
     'nvim-treesitter/nvim-treesitter',
     event = "BufRead *",
     requires = {
-      {"nvim-treesitter/nvim-treesitter-refactor",    after = "nvim-treesitter"},
-      {"nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter"}
+      { "nvim-treesitter/nvim-treesitter-refactor", after = "nvim-treesitter" },
+      { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" }
     },
-    config = function () require'tree-sitter-setup'.config() end,
+    config = function() require 'tree-sitter-setup'.config() end,
   }
 
   use {
@@ -208,7 +243,7 @@ packer.startup({function(use)
     requires = {
       'kyazdani42/nvim-web-devicons',
     },
-    config = function () require'statusline'.config() end,
+    config = function() require 'statusline'.config() end,
   }
 
   -- Lsp Plugins
@@ -220,11 +255,25 @@ packer.startup({function(use)
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'nvim-lua/lsp-status.nvim'
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup {
+        sources = {
+          null_ls.builtins.formatting.uncrustify,
+          null_ls.builtins.diagnostics.gitlint,
+          --          null_ls.builtins.code_actions.gitsigns,
+        },
+      }
+    end
+  }
+
   -- use 'nvim-lua/lsp_extensions.nvim'
 
   use {
     'L3MON4D3/LuaSnip',
-    config = function ()
+    config = function()
       local ls = require('luasnip')
       ls.config.set_config {
         history = false,
@@ -247,12 +296,17 @@ packer.startup({function(use)
   use { 'saadparwaiz1/cmp_luasnip', requires = { 'hrsh7th/nvim-cmp' } }
 
   use {
-      'saecki/crates.nvim',
-      event = { "BufRead Cargo.toml" },
-      requires = { { 'nvim-lua/plenary.nvim' } },
-      config = function()
-          require('crates').setup()
-      end,
+    'saecki/crates.nvim',
+    tag = 'v0.2.1',
+    requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
+    config = function()
+      require('crates').setup {
+        --[[ null_ls = {
+          enabled = true,
+          name = "crates.nvim",
+        }, ]]
+      }
+    end,
   }
 
   -- Fuzzy search
@@ -265,19 +319,19 @@ packer.startup({function(use)
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-dap.nvim',
       'nvim-telescope/telescope-project.nvim',
-      { 'nvim-telescope/telescope-file-browser.nvim', config = function ()
-        require"telescope".load_extension "file_browser"
-      end},
+      { 'nvim-telescope/telescope-file-browser.nvim', config = function()
+        require "telescope".load_extension "file_browser"
+      end },
       'nvim-telescope/telescope-ui-select.nvim',
       'ahmedkhalf/project.nvim',
       { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
-      { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}, config = function ()
-        require"telescope".load_extension("frecency")
+      { 'nvim-telescope/telescope-frecency.nvim', requires = { "tami5/sqlite.lua" }, config = function()
+        require "telescope".load_extension("frecency")
       end },
 
     },
-    setup = function () require'telescope-setup'.setup() end,
-    config = function () require'telescope-setup'.config() end,
+    setup = function() require 'telescope-setup'.setup() end,
+    config = function() require 'telescope-setup'.config() end,
   }
 
   -- Dap
@@ -286,13 +340,13 @@ packer.startup({function(use)
     opt = false,
     requires = {
       "mfussenegger/nvim-dap-python",
-      {"theHamsta/nvim-dap-virtual-text", after = "nvim-treesitter"}
+      { "theHamsta/nvim-dap-virtual-text", after = "nvim-treesitter" }
     },
-    setup = function () require'dap-setup'.setup() end,
-    config = function () require'dap-setup'.config() end,
+    setup = function() require 'dap-setup'.setup() end,
+    config = function() require 'dap-setup'.config() end,
   }
 
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
 
   -- Git
   use {
@@ -301,21 +355,20 @@ packer.startup({function(use)
     requires = {
       "nvim-lua/plenary.nvim"
     },
-    config = function () require'gitsigns-setup'.config() end
+    config = function() require 'gitsigns-setup'.config() end
   }
 
   -- Matchup
   use 'andymass/vim-matchup'
 
   -- bootstrap
-  if PackerBootstrap then
+  if NeedsBootstrap then
     packer.sync()
   end
 
-  end,
-  config = {
-    display = {
-      open_fn = packer_util.float
-    }
+end,
+config = {
+  display = {
+    open_fn = packer_util.float
   }
-})
+} })

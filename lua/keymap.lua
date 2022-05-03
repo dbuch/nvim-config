@@ -15,16 +15,16 @@ set('n', '<leader>g', function() require('telescope.builtin').live_grep() end)
 
 set('n', '<c-q>', ':bd<CR>')
 
-set('n', '<leader>ca', ':Lspsaga code_action<CR>')
-set('n', '<leader>cr', ':Lspsaga rename<CR>')
-set('n', 'K', ':Lspsaga hover_doc<CR>')
-set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>')
+set('n', '<leader>ca', ':Lspsaga code_action<CR>', { silent = true })
+set('n', '<leader>cr', ':Lspsaga rename<CR>', { silent = true })
+set('n', 'K', ':Lspsaga hover_doc<CR>', { silent = true })
+set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>', { silent = true })
 
 -- set('n', 'gd', vim.lsp.buf.definition)
-set('n', 'gd', function() require('telescope.builtin').lsp_definitions() end)
-set('n', 'gr', function() require('telescope.builtin').lsp_references() end)
+set('n', '<leader>d', function() require('telescope.builtin').lsp_definitions() end)
+set('n', '<leader>r', function() require('telescope.builtin').lsp_references() end)
 
-set('n', '<leader>p', function() require "telescope".extensions.project.project {} end)
+set('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
 
 set('n', '<leader>=', vim.lsp.buf.formatting)
 set('n', '<leader>w', '<esc>:w<CR>', { noremap = false })

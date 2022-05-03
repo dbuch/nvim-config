@@ -1,8 +1,11 @@
 vim.g.mapleader = ' '
 
-local function load_default_modules(modules)
+local function load_core_module(modules)
   for _, module in ipairs(modules) do
-    pcall(require, module)
+    local ok, _ = pcall(require, module)
+    if not ok then
+      vim.notify(string.format("Failed to load: %s", module))
+    end
   end
 end
 
@@ -29,15 +32,16 @@ local function disable_default_plugins()
   vim.g.loaded_zipPlugin         = 1
 
   -- No Ruby or perl support
-  vim.g.loaded_node_provider     = 0
-  vim.g.loaded_ruby_provider     = 0
-  vim.g.loaded_perl_provider     = 0
-  vim.g.loaded_python_provider   = 0
+  vim.g.loaded_node_provider   = 1
+  vim.g.loaded_ruby_provider   = 1
+  vim.g.loaded_perl_provider   = 1
+  vim.g.loaded_python_provider = 1
 end
 
 disable_default_plugins()
 
-load_default_modules({
+load_core_module({
+  'impatient',
   'settings',
   'plugins',
   'keymap',
@@ -55,12 +59,12 @@ require('colorizer').setup {
 }
 
 require('lspsaga').init_lsp_saga {
- code_action_prompt = {
-   enable = false,
- },
+  code_action_prompt = {
+    enable = false,
+  },
 }
 
-require'lsp-setup'.config()
-require'lsp-setup'.setup()
-require'completion-setup'.setup()
-require'nvim-autopairs'.setup{}
+require 'lsp-setup'.config()
+require 'lsp-setup'.setup()
+require 'completion-setup'.setup()
+require 'nvim-autopairs'.setup {}
