@@ -25,7 +25,20 @@ packer.startup({ function(use)
   use 'cespare/vim-toml'
 
   -- Lua Plugins
-  use 'windwp/nvim-autopairs'
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
+      require 'nvim-autopairs'.setup {
+      }
+    end,
+    requires = {
+      'hrsh7th/nvim-cmp',
+    }
+  }
+
   use 'folke/lua-dev.nvim'
   use { 'kevinhwang91/nvim-hlslens' }
 
@@ -325,10 +338,6 @@ packer.startup({ function(use)
       'nvim-telescope/telescope-ui-select.nvim',
       'ahmedkhalf/project.nvim',
       { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
-      { 'nvim-telescope/telescope-frecency.nvim', requires = { "tami5/sqlite.lua" }, config = function()
-        require "telescope".load_extension("frecency")
-      end },
-
     },
     setup = function() require 'telescope-setup'.setup() end,
     config = function() require 'telescope-setup'.config() end,
