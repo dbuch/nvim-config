@@ -3,7 +3,7 @@ local M = {}
 function M.config()
   local gl = require('galaxyline')
   local condition = require('galaxyline.condition')
-  local fileinfo = require('galaxyline.providers.fileinfo')
+  local fileinfo = require('galaxyline.provider_fileinfo')
   local lsp_msg = require('lsp-status/messaging')
   local constants = require('constants')
 

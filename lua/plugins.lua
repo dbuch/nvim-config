@@ -17,7 +17,6 @@ packer.startup({ function(use)
 
   -- Packer can manage itself as an optional plugin
   use 'wbthomason/packer.nvim'
-
   -- Legacy Vim Plugins
   use 'rust-lang/rust.vim'
   --  use 'lambdalisue/suda.vim'
@@ -66,7 +65,10 @@ packer.startup({ function(use)
     requires = {
       'kyazdani42/nvim-web-devicons', -- optional, for file icon
     },
-    config = function() require 'nvim-tree'.setup {} end
+    config = function() require 'nvim-tree'.setup {
+        sync_root_with_cwd = true,
+      }
+    end
   }
 
   use {
@@ -86,7 +88,15 @@ packer.startup({ function(use)
   use {
     'simrat39/rust-tools.nvim',
     config = function()
-      require("rust-tools").setup({})
+      require("rust-tools").setup({
+        dap = {
+          adapter = {
+            type = "executable",
+            command = "lldb-vscode",
+            name = "rt_lldb",
+          },
+        },
+      })
     end,
     requires = {
       'nvim-lua/plenary.nvim',
@@ -178,15 +188,15 @@ packer.startup({ function(use)
         auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
         auto_fold = false, -- automatically fold a file trouble list at creation
 
-        use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
-        signs = {
+        use_diagnostic_signs = true, -- enabling this will use the signs defined in your lsp client
+        --[[ signs = {
           -- icons / text used for a diagnostic
           error = "",
           warning = "",
           hint = "",
           information = "",
           other = "﫠"
-        },
+        }, ]]
       }
     end
   }
@@ -197,48 +207,15 @@ packer.startup({ function(use)
 
   -- Colors
   use 'norcalli/nvim-colorizer.lua'
+  use 'folke/lsp-colors.nvim'
+
   use {
-    'navarasu/onedark.nvim',
-    setup = function()
-    end,
+    'kaicataldo/material.vim',
     config = function()
-      require 'onedark'.setup {
-        -- Main options --
-        style = 'darker', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-        transparent = false, -- Show/hide background
-        term_colors = true, -- Change terminal color as per the selected theme style
-        ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
-        -- toggle theme style ---
-        toggle_style_key = '<leader>ts', -- Default keybinding to toggle
-        toggle_style_list = { 'darker', 'light' }, -- List of styles to toggle between
-
-        -- Change code style ---
-        -- Options are italic, bold, underline, none
-        -- You can configure multiple style with comma seperated, For e.g., keywords = 'italic,bold'
-        code_style = {
-          comments = 'italic',
-          keywords = 'none',
-          functions = 'none',
-          strings = 'none',
-          variables = 'none'
-        },
-
-        -- Custom Highlights --
-        colors = {}, -- Override default colors
-        highlights = {}, -- Override highlight groups
-
-        -- Plugins Config --
-        diagnostics = {
-          darker = true, -- darker colors for diagnostic
-          undercurl = true, -- use undercurl instead of underline for diagnostics
-          background = true, -- use background color for virtual text
-        }
-      }
-      require 'onedark'.load()
+      vim.g.material_theme_style = 'darker'
+      vim.cmd [[colorscheme material]]
     end
   }
-
-  use 'folke/lsp-colors.nvim'
 
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -251,38 +228,40 @@ packer.startup({ function(use)
   }
 
   use {
-    'NTBBloodbath/galaxyline.nvim',
+    'glepnir/galaxyline.nvim',
     branch = 'main',
     requires = {
       'kyazdani42/nvim-web-devicons',
     },
     config = function() require 'statusline'.config() end,
   }
+  
 
   -- Lsp Plugins
   use 'neovim/nvim-lspconfig'
   use {
-    'tami5/lspsaga.nvim',
-    -- commit = "373bc031b39730cbfe492533c3acfac36007899a",
+    'glepnir/lspsaga.nvim',
+    branch = "main",
+    config = function()
+      local saga = require("lspsaga")
+      saga.init_lsp_saga({
+        -- if true can press number to execute the codeaction in codeaction window
+        code_action_num_shortcut = true,
+        code_action_lightbulb = {
+            enable = true,
+            enable_in_insert = true,
+            cache_code_action = true,
+            sign = true,
+            update_time = 150,
+            sign_priority = 20,
+            virtual_text = false,
+        },
+      })
+    end,
   }
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'nvim-lua/lsp-status.nvim'
-  use {
-    'jose-elias-alvarez/null-ls.nvim',
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup {
-        sources = {
-          null_ls.builtins.formatting.uncrustify,
-          null_ls.builtins.diagnostics.gitlint,
-          --          null_ls.builtins.code_actions.gitsigns,
-        },
-      }
-    end
-  }
-
-  -- use 'nvim-lua/lsp_extensions.nvim'
 
   use {
     'L3MON4D3/LuaSnip',
@@ -310,15 +289,9 @@ packer.startup({ function(use)
 
   use {
     'saecki/crates.nvim',
-    tag = 'v0.2.1',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
     config = function()
-      require('crates').setup {
-        --[[ null_ls = {
-          enabled = true,
-          name = "crates.nvim",
-        }, ]]
-      }
+      require('crates').setup { }
     end,
   }
 
@@ -376,8 +349,8 @@ packer.startup({ function(use)
   end
 
 end,
-config = {
-  display = {
-    open_fn = packer_util.float
-  }
-} })
+  config = {
+    display = {
+      open_fn = packer_util.float
+    }
+  } })

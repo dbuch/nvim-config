@@ -57,12 +57,6 @@ require('colorizer').setup {
   'css';
 }
 
-require('lspsaga').init_lsp_saga {
-  code_action_prompt = {
-    enable = false,
-  },
-}
-
 require 'lsp-setup'.config()
 require 'lsp-setup'.setup()
 require 'completion-setup'.setup()

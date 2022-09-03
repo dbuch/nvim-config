@@ -6,6 +6,7 @@ end
 
 function M.config()
   local dap = require('dap')
+  local set = vim.keymap.set;
 
   vim.fn.sign_define("DapBreakpoint", {text = "🛑", texthl = "", linehl = "", numhl = ""})
   vim.fn.sign_define("DapStopped", {text = "→", texthl = "", linehl = "NvimDapStopped", numhl = ""})
@@ -33,22 +34,21 @@ function M.config()
   local dapui = require("dapui")
   dapui.setup({})
   dap.listeners.after.event_initialized['dapui_config'] = function()
-      dapui.open()
+      dapui.open({})
   end
   dap.listeners.before.event_terminated['dapui_config'] = function()
-      dapui.close()
+      dapui.close({})
   end
   dap.listeners.after.event_exited['dapui_config'] = function()
-      dapui.close()
+      dapui.close({})
   end
 
-  vim.cmd [[nnoremap <silent> <F5> :lua require'dap'.continue()<CR>]]
-  vim.cmd [[nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>]]
-  vim.cmd [[nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>]]
-  vim.cmd [[nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>]]
-  vim.cmd [[nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>]]
-  vim.cmd [[nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>]]
-  vim.cmd [[nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>]]
+  set('n', '<F5>', function () require'dap'.continue() end)
+  set('n', '<leader>db', function () require'dap'.toggle_breakpoint() end)
+  set('n', '<leader>dr', function () require'dap'.repl.open() end)
+  set('n', '<F10>'     , function () require'dap'.step_over({}) end)
+  set('n', '<F11>'     , function () require'dap'.step_into({}) end)
+  set('n', '<F12>'     , function () require'dap'.step_out({}) end)
 end
 
 function M.setup()

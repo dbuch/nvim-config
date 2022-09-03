@@ -17,7 +17,13 @@ set('n', '<c-q>', ':bd<CR>')
 
 set('n', '<leader>ca', ':Lspsaga code_action<CR>', { silent = true })
 set('n', '<leader>cr', ':Lspsaga rename<CR>', { silent = true })
-set('n', 'K', ':Lspsaga hover_doc<CR>', { silent = true })
+set('n', 'K', function ()
+  if vim.fn.expand('%:t') == 'Cargo.toml' then
+    require('crates').show_popup()
+  else
+    require('lspsaga.hover'):render_hover_doc()
+  end
+end, { silent = true })
 set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>', { silent = true })
 
 -- set('n', 'gd', vim.lsp.buf.definition)
@@ -25,6 +31,7 @@ set('n', '<leader>d', function() require('telescope.builtin').lsp_definitions() 
 set('n', '<leader>r', function() require('telescope.builtin').lsp_references() end)
 
 set('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
+set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', { silent = true })
 
 set('n', '<leader>=', vim.lsp.buf.formatting)
 set('n', '<leader>w', '<esc>:w<CR>', { noremap = false })

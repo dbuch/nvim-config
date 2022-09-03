@@ -1,20 +1,18 @@
 local M = {}
 
-local toml = require('utils.toml')
-
 local function make_on_attach(config)
-  return function(client)
+  return function(client, bufnr)
     if config.before then
       config.before(client)
     end
 
     -- omni completion source
-    vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     require('lsp_signature').on_attach({
       floating_window_above_first = true,
-    })
-    require('lightbulb').on_attach(client)
+      bind = false,
+    }, bufnr)
 
     if config.after then
       config.after(client)
@@ -25,36 +23,17 @@ end
 function M.setup()
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-  }
+      virtual_text = false,
+      signs = true,
+      update_in_insert = false,
+    }
   )
 
-  local function define_signs(opts_table)
-    for k, v in pairs(opts_table) do
-      vim.fn.sign_define(k, v)
-    end
+  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " } 
+  for type, icon in pairs(signs) do
+      local hl = "DiagnosticSign" .. type
+      vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
   end
-
-  define_signs {
-    LspDiagnosticsSignError = {
-      text = ' ',
-      texthl = 'LspDiagnosticsSignError'
-    },
-    LspDiagnosticsSignWarning = {
-      text = ' ',
-      texthl = 'LspDiagnosticsSignWarning',
-    },
-    LspDiagnosticsSignInformation = {
-      text = '🛈 ',
-      texthl = 'LspDiagnosticsSignInformation',
-    },
-    LspDiagnosticsSignHint = {
-      text = '❗',
-      texthl = 'LspDiagnosticsSignHint',
-    }
-  }
 end
 
 function M.config()
@@ -108,7 +87,7 @@ function M.config()
     },
     clangd = {
       cmd = {
-        'clangd',
+        'clangd', '--offset-encoding=utf-32',
         '--clang-tidy', '--completion-style=bundled', '--header-insertion=iwyu',
         '--suggest-missing-includes', '--cross-file-rename'
       },
@@ -117,7 +96,8 @@ function M.config()
         clangdFileStatus = true,
         usePlaceholders = true,
         completeUnimported = true
-      }
+      },
+      capabilities = vim.tbl_deep_extend("force", lsp_status.capabilities, { offsetEncoding = { 'utf-32' } })
     },
     texlab = {
       cmd = { "texlab" },
@@ -128,7 +108,19 @@ function M.config()
       }
     },
     pyright = {},
-    rust_analyzer = {},
+    rust_analyzer = {
+      settings = {
+        ["rust-analyzer"] = {
+          ["cargo"] = {
+            features = "all",
+            runBuildScripts = "true",
+          },
+          checkOnSave = {
+            command = "clippy"
+          },
+        }
+      },
+    },
     sumneko_lua = require("lua-dev").setup({
       lspconfig = {
         cmd = { "lua-language-server" },
@@ -138,6 +130,9 @@ function M.config()
 
   for server, config in pairs(servers) do
     config.on_attach = make_on_attach(config)
+    config.flags = {
+      debounce_text_changes = 150,
+    }
     config.capabilities = lsp_status.capabilities
 
     if lspconfig[server] ~= nil then
