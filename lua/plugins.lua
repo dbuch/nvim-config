@@ -67,21 +67,18 @@ packer.startup({ function(use)
     },
     config = function() require 'nvim-tree'.setup {
         sync_root_with_cwd = true,
+        disable_netrw = true,
+        open_on_setup = false,
       }
     end
   }
 
-  use {
-    'numToStr/FTerm.nvim',
+  use {"akinsho/toggleterm.nvim",
+    tag = '*',
     config = function()
-      require 'FTerm'.setup({
-        border     = 'single',
-        dimensions = {
-          height = 0.9,
-          width = 0.9,
-        },
-      })
-      vim.cmd('command! FloatermToggle lua require("FTerm").toggle()')
+      require("toggleterm").setup {
+        shade_terminals = false
+      }
     end
   }
 
@@ -235,7 +232,6 @@ packer.startup({ function(use)
     },
     config = function() require 'statusline'.config() end,
   }
-  
 
   -- Lsp Plugins
   use 'neovim/nvim-lspconfig'
@@ -353,4 +349,5 @@ end,
     display = {
       open_fn = packer_util.float
     }
-  } })
+  }
+})

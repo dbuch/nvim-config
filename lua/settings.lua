@@ -26,7 +26,7 @@ options.set {
   undodir = expand('~/.cache/nvim'),
   undofile = true,
 
-  lazyredraw = false,
+  lazyredraw = true,
 
   buflisted = true,
   autoread = true,
@@ -70,7 +70,7 @@ options.set {
 
 options.setw {
   number = true,
-  colorcolumn = '100',
+  colorcolumn = '0',
   relativenumber = true,
   signcolumn = 'yes',
   wrap = false,
