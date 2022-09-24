@@ -13,7 +13,7 @@ constants.icons = {
 
 -- Colors
 constants.colors = {
-  bg =         '#282a36',
+  bg =         '#212121',
   fg =         '#f8f8f2',
   section_bg = '#38393f',
   yellow =     '#f1fa8c',

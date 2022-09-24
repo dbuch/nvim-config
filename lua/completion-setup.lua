@@ -132,11 +132,34 @@ function M.setup()
       ghost_text = true,
     }
   }
+
   cmp.setup.cmdline(':', {
-    sources = {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
       { name = 'cmdline' }
-    }
+    })
   })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  for _,v in pairs({ '/', '?' }) do
+    cmp.setup.cmdline(v, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' }
+      }
+    })
+  end
+
 
 end
 

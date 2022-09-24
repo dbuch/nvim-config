@@ -1,18 +1,17 @@
 local fn = vim.fn
 
-local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-NeedsBootstrap = not vim.loop.fs_stat(install_path)
-
-if NeedsBootstrap then
-  fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-  print("Reopen Nvim and dbuch is running..")
-  return
+local packer_installed = function()
+  local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+  if not vim.loop.fs_stat(install_path) then
+    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    vim.cmd [[packadd packer.nvim]]
+  end
+  return false
 end
 
-local packer = require('packer')
-local packer_util = require('packer.util')
+local should_bootstrap = packer_installed()
 
-packer.startup({ function(use)
+require('packer').startup({ function(use)
   use 'lewis6991/impatient.nvim'
 
   -- Packer can manage itself as an optional plugin
@@ -73,13 +72,33 @@ packer.startup({ function(use)
     end
   }
 
-  use {"akinsho/toggleterm.nvim",
+  use { "akinsho/toggleterm.nvim",
     tag = '*',
     config = function()
       require("toggleterm").setup {
-        shade_terminals = false
+        shade_terminals = false,
+        shell = "nu"
       }
+      -- if you only want these mappings for toggle term use term://*toggleterm#* instead
+      vim.api.nvim_create_autocmd("TermOpen", {
+        callback = function(args)
+          if string.match(args.match, "#toggleterm") then
+            local opts = { buffer = args.buf }
+            vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+            vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+            vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+            vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+            vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+            vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+          end
+        end
+      })
     end
+  }
+
+  use {
+    'LhKipp/nvim-nu',
+    run = ":TSInstall nu"
   }
 
   use {
@@ -244,13 +263,13 @@ packer.startup({ function(use)
         -- if true can press number to execute the codeaction in codeaction window
         code_action_num_shortcut = true,
         code_action_lightbulb = {
-            enable = true,
-            enable_in_insert = true,
-            cache_code_action = true,
-            sign = true,
-            update_time = 150,
-            sign_priority = 20,
-            virtual_text = false,
+          enable = true,
+          enable_in_insert = true,
+          cache_code_action = true,
+          sign = true,
+          update_time = 150,
+          sign_priority = 20,
+          virtual_text = false,
         },
       })
     end,
@@ -258,6 +277,7 @@ packer.startup({ function(use)
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'nvim-lua/lsp-status.nvim'
+  use "rafamadriz/friendly-snippets"
 
   use {
     'L3MON4D3/LuaSnip',
@@ -270,6 +290,7 @@ packer.startup({ function(use)
         region_check_events = "InsertEnter",
         enable_autosnippets = true,
       }
+      require("luasnip.loaders.from_vscode").lazy_load()
     end
   }
 
@@ -282,12 +303,12 @@ packer.startup({ function(use)
   use { 'hrsh7th/cmp-cmdline', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'hrsh7th/cmp-nvim-lsp-signature-help', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'saadparwaiz1/cmp_luasnip', requires = { 'hrsh7th/nvim-cmp' } }
-
+  use { 'petertriho/cmp-git', requires = { 'hrsh7th/nvim-cmp' } }
   use {
     'saecki/crates.nvim',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
     config = function()
-      require('crates').setup { }
+      require('crates').setup {}
     end,
   }
 
@@ -340,14 +361,14 @@ packer.startup({ function(use)
   use 'andymass/vim-matchup'
 
   -- bootstrap
-  if NeedsBootstrap then
-    packer.sync()
+  if should_bootstrap then
+    require('packer').sync()
   end
 
 end,
   config = {
     display = {
-      open_fn = packer_util.float
+      open_fn = require('packer.util').float
     }
   }
 })

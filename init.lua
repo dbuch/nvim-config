@@ -49,6 +49,7 @@ load_core_module({
   'nvim-web-devicons'
 })
 
+
 require('nvim-web-devicons').setup()
 require('colorizer').setup {
   'html';

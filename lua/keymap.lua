@@ -19,7 +19,8 @@ set('n', '<leader>la', ':Lspsaga code_action<CR>', { silent = true })
 set('n', '<leader>ln', ':Lspsaga rename<CR>', { silent = true })
 set('n', '<leader>ls', function() require('telescope.builtin').lsp_definitions() end)
 set('n', '<leader>lr', function() require('telescope.builtin').lsp_references() end)
-set('n', '<leader>ld', ':Lspsaga preview_definition<CR>', { silent = true })
+set('n', '<leader>ld', ':Lspsaga peek_definition<CR>', { silent = true })
+set('n', '<leader>lt', ':TroubleToggle<CR>', { silent = true })
 
 set('n', 'K', function ()
   if vim.fn.expand('%:t') == 'Cargo.toml' then
