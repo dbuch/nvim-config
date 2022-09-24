@@ -97,11 +97,6 @@ require('packer').startup({ function(use)
   }
 
   use {
-    'LhKipp/nvim-nu',
-    run = ":TSInstall nu"
-  }
-
-  use {
     'simrat39/rust-tools.nvim',
     config = function()
       require("rust-tools").setup({
@@ -140,7 +135,7 @@ require('packer').startup({ function(use)
 
         -- All the patterns used to detect root dir, when **"pattern"** is in
         -- detection_methods
-        patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+        patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "Cargo.toml" },
 
         -- Table of lsp clients to ignore by name
         -- eg: { "efm", ... }
@@ -148,13 +143,13 @@ require('packer').startup({ function(use)
 
         -- Don't calculate root dir on specific directories
         -- Ex: { "~/.cargo/*", ... }
-        exclude_dirs = {},
+        exclude_dirs = { "~/.local/share/*", "~/.rustup/toolchains/*", "~/.cargo/*"},
 
         -- Show hidden files in telescope
         show_hidden = false,
         -- When set to false, you will get a message when project.nvim changes your
         -- directory.
-        silent_chdir = false,
+        silent_chdir = true,
 
         -- Path where project.nvim will store the project history for use in
         -- telescope
@@ -205,14 +200,6 @@ require('packer').startup({ function(use)
         auto_fold = false, -- automatically fold a file trouble list at creation
 
         use_diagnostic_signs = true, -- enabling this will use the signs defined in your lsp client
-        --[[ signs = {
-          -- icons / text used for a diagnostic
-          error = "",
-          warning = "",
-          hint = "",
-          information = "",
-          other = "﫠"
-        }, ]]
       }
     end
   }
@@ -275,7 +262,42 @@ require('packer').startup({ function(use)
     end,
   }
   use 'ray-x/lsp_signature.nvim'
-  use 'onsails/lspkind-nvim'
+  use {
+    'onsails/lspkind-nvim',
+    config = function()
+      require('lspkind').init({
+        mode = "text",
+        symbol_map = {
+          Text = '  ',
+          Method = '  ',
+          Function = '  ',
+          Constructor = '  ',
+          Field = '  ',
+          Variable = '  ',
+          Class = '  ',
+          Interface = '  ',
+          Module = '  ',
+          Property = '  ',
+          Unit = '  ',
+          Value = '  ',
+          Enum = '  ',
+          Keyword = '  ',
+          Snippet = '  ',
+          Color = '  ',
+          File = '  ',
+          Reference = '  ',
+          Folder = '  ',
+          EnumMember = '  ',
+          Constant = '  ',
+          Struct = '  ',
+          Event = '  ',
+          Operator = '  ',
+          TypeParameter = '  ',
+        }
+      })
+    end
+
+  }
   use 'nvim-lua/lsp-status.nvim'
   use "rafamadriz/friendly-snippets"
 
@@ -303,7 +325,6 @@ require('packer').startup({ function(use)
   use { 'hrsh7th/cmp-cmdline', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'hrsh7th/cmp-nvim-lsp-signature-help', requires = { 'hrsh7th/nvim-cmp' } }
   use { 'saadparwaiz1/cmp_luasnip', requires = { 'hrsh7th/nvim-cmp' } }
-  use { 'petertriho/cmp-git', requires = { 'hrsh7th/nvim-cmp' } }
   use {
     'saecki/crates.nvim',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },

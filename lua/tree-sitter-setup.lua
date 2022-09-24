@@ -11,7 +11,7 @@ function M.config()
       "html",
       "javascript",
       "bash",
-      "glsl"
+      "glsl",
     },
     indent = {
       'enabled'
@@ -20,7 +20,6 @@ function M.config()
       enable = true,
     }
   }
-  vim.cmd [[:TSUpdate]]
 end
 
 return M

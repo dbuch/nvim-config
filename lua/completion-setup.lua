@@ -3,42 +3,16 @@ local lspkind = require('lspkind')
 
 
 function M.setup()
-  local cmp = require'cmp'
-  local luasnip = require'luasnip'
+
+  local cmp = require 'cmp'
+
+  local luasnip = require 'luasnip'
+
 
   local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
-
-  vim.g.completion_customize_lsp_label = {
-    Function      = "",
-    Method        = "",
-    Variable      = "",
-    Constant      = "<U+F8FF>",
-    Struct        = "פּ",
-    Class         = "",
-    Interface     = "禍",
-    Text          = "",
-    Enum          = "",
-    EnumMember    = "",
-    Module        = "",
-    Color         = "",
-    Property      = "襁",
-    Field         = "綠",
-    Unit          = "",
-    File          = "",
-    Value         = "",
-    Event         = "鬒",
-    Folder        = "",
-    Keyword       = "",
-    Snippet       = "",
-    Operator      = "洛",
-    Reference     = " ",
-    TypeParameter = "",
-    Default       = ""
-  }
-
 
   cmp.setup {
     snippet = {
@@ -47,15 +21,42 @@ function M.setup()
       end
     },
 
+    window = {
+      completion = {
+        winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+        col_offset = -3,
+        side_padding = 0,
+      },
+    },
+
     formatting = {
-      format = lspkind.cmp_format()
+      fields = { "kind", "abbr", "menu" },
+      -- format = lspkind.cmp_format()
+      format = function(entry, item)
+        local kind = require("lspkind").cmp_format({
+          mode = "symbol_text",
+          maxwidth = 50
+        })(entry, item)
+
+        local strings = {}
+        for s in vim.gsplit(kind.kind, "%s") do
+          if s ~= '' then
+            table.insert(strings, s)
+          end
+        end
+
+        kind.kind = " " .. strings[1] .. " "
+        kind.menu = "    (" .. strings[2] .. ")"
+
+        return kind
+      end
     },
 
     completion = {
       completeopt = 'menu,menuone,noinsert',
     },
 
-    mapping = {
+    mapping = cmp.mapping.preset.insert({
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -104,7 +105,7 @@ function M.setup()
         behavior = cmp.ConfirmBehavior.Insert,
         select = true,
       })
-    },
+    }),
 
     sources = {
       { name = 'nvim_lua' },
@@ -142,16 +143,7 @@ function M.setup()
     })
   })
 
-  -- Set configuration for specific filetype.
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
-  for _,v in pairs({ '/', '?' }) do
+  for _, v in pairs({ '/', '?' }) do
     cmp.setup.cmdline(v, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
@@ -159,6 +151,7 @@ function M.setup()
       }
     })
   end
+
 
 
 end
