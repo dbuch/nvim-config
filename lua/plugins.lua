@@ -216,6 +216,7 @@ require('packer').startup({ function(use)
     'kaicataldo/material.vim',
     config = function()
       vim.g.material_theme_style = 'darker'
+
       vim.cmd [[colorscheme material]]
     end
   }
