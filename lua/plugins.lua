@@ -1,5 +1,90 @@
 local fn = vim.fn
 
+COLOR_BG =             '#212121'
+COLOR_FG =             '#eeffff'
+COLOR_INVISIBLES =     '#65738e'
+COLOR_COMMENTS =       '#545454'
+COLOR_CARET =          '#ffcc00'
+COLOR_SELECTION =      '#2c2c2c'
+COLOR_GUIDES =         '#37474f'
+COLOR_LINE_NUMBERS =   '#37474f'
+COLOR_LINE_HIGHLIGHT = '#171717'
+COLOR_WHITE =          '#ffffff'
+COLOR_BLACK =          '#000000'
+COLOR_ORANGE =         '#f78c6c'
+COLOR_RED =            '#ff5370'
+COLOR_YELLOW =         '#ffcb6b'
+COLOR_GREEN =          '#c3e88d'
+COLOR_CYAN =           '#89ddff'
+COLOR_BLUE =           '#82aaff'
+COLOR_PALEBLUE =       '#b2ccd6'
+COLOR_PURPLE =         '#c792ea'
+COLOR_BROWN =          '#c17e70'
+COLOR_PINK =           '#f07178'
+COLOR_VIOLET =         '#bb80b3'
+
+CUSTOM_HIGHLIGHTS = {
+  Normal =      { fg = COLOR_FG, bg = COLOR_BG },
+  NormalNC =    { fg = COLOR_FG, bg = COLOR_BG },
+  NormalFloat = { fg = COLOR_FG, bg = COLOR_BG },
+
+  Comment    = { fg = COLOR_COMMENTS, bg = COLOR_BG, italic = true },
+  Conceal    = { fg = COLOR_BROWN,    bg = COLOR_BG },
+  Constant   = { fg = COLOR_ORANGE,   bg = COLOR_BG },
+  String     = { fg = COLOR_GREEN,    bg = COLOR_BG },
+  Character  = { fg = COLOR_GREEN,    bg = COLOR_BG },
+  Identifier = { fg = COLOR_RED,      bg = COLOR_BG },
+  Function   = { fg = COLOR_BLUE,     bg = COLOR_BG },
+  Statement  = { fg = COLOR_PURPLE,   bg = COLOR_BG },
+  Operator   = { fg = COLOR_CYAN,     bg = COLOR_BG },
+  PreProc    = { fg = COLOR_CYAN,     bg = COLOR_BG },
+  Include    = { fg = COLOR_BLUE,     bg = COLOR_BG },
+  Define     = { fg = COLOR_PURPLE,   bg = COLOR_BG },
+  Macro      = { fg = COLOR_PURPLE,   bg = COLOR_BG },
+  Type       = { fg = COLOR_YELLOW,   bg = COLOR_BG },
+  Structure  = { fg = COLOR_CYAN,     bg = COLOR_BG },
+  Special    = { fg = COLOR_VIOLET,   bg = COLOR_BG,},
+  Underlined = { fg = COLOR_BLUE,     bg = COLOR_BG },
+
+  CmpItemAbbrDeprecated = { fg = "#7E8294", bg = "NONE", strikethrough = true },
+  CmpItemAbbrMatch = { fg = "#82AAFF", bg = "NONE", bold = true },
+  CmpItemAbbrMatchFuzzy = { fg = "#82AAFF", bg = "NONE", bold = true },
+  CmpItemMenu = { fg = "#C792EA", bg = "NONE", italic = true },
+
+  CmpItemKindField = { fg = "#EED8DA", bg = "#B5585F" },
+  CmpItemKindProperty = { fg = "#EED8DA", bg = "#B5585F" },
+  CmpItemKindEvent = { fg = "#EED8DA", bg = "#B5585F" },
+
+  CmpItemKindText = { fg = "#C3E88D", bg = "#9FBD73" },
+  CmpItemKindEnum = { fg = "#C3E88D", bg = "#9FBD73" },
+  CmpItemKindKeyword = { fg = "#C3E88D", bg = "#9FBD73" },
+
+  CmpItemKindConstant = { fg = "#FFE082", bg = "#D4BB6C" },
+  CmpItemKindConstructor = { fg = "#FFE082", bg = "#D4BB6C" },
+  CmpItemKindReference = { fg = "#FFE082", bg = "#D4BB6C" },
+
+  CmpItemKindFunction = { fg = "#EADFF0", bg = "#A377BF" },
+  CmpItemKindStruct = { fg = "#EADFF0", bg = "#A377BF" },
+  CmpItemKindClass = { fg = "#EADFF0", bg = "#A377BF" },
+  CmpItemKindModule = { fg = "#EADFF0", bg = "#A377BF" },
+  CmpItemKindOperator = { fg = "#EADFF0", bg = "#A377BF" },
+
+  CmpItemKindVariable = { fg = "#C5CDD9", bg = "#7E8294" },
+  CmpItemKindFile = { fg = "#C5CDD9", bg = "#7E8294" },
+
+  CmpItemKindUnit = { fg = "#F5EBD9", bg = "#D4A959" },
+  CmpItemKindSnippet = { fg = "#F5EBD9", bg = "#D4A959" },
+  CmpItemKindFolder = { fg = "#F5EBD9", bg = "#D4A959" },
+
+  CmpItemKindMethod = { fg = "#DDE5F5", bg = "#6C8ED4" },
+  CmpItemKindValue = { fg = "#DDE5F5", bg = "#6C8ED4" },
+  CmpItemKindEnumMember = { fg = "#DDE5F5", bg = "#6C8ED4" },
+
+  CmpItemKindInterface = { fg = "#D8EEEB", bg = "#58B5A8" },
+  CmpItemKindColor = { fg = "#D8EEEB", bg = "#58B5A8" },
+  CmpItemKindTypeParameter = { fg = "#D8EEEB", bg = "#58B5A8" },
+}
+
 local packer_installed = function()
   local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   if not vim.loop.fs_stat(install_path) then
@@ -26,11 +111,10 @@ require('packer').startup({ function(use)
   use {
     'windwp/nvim-autopairs',
     config = function()
+      require 'nvim-autopairs'.setup {}
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       local cmp = require('cmp')
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
-      require 'nvim-autopairs'.setup {
-      }
     end,
     requires = {
       'hrsh7th/nvim-cmp',
@@ -143,7 +227,7 @@ require('packer').startup({ function(use)
 
         -- Don't calculate root dir on specific directories
         -- Ex: { "~/.cargo/*", ... }
-        exclude_dirs = { "~/.local/share/*", "~/.rustup/toolchains/*", "~/.cargo/*"},
+        exclude_dirs = { "~/.local/share/*", "~/.rustup/toolchains/*", "~/.cargo/*" },
 
         -- Show hidden files in telescope
         show_hidden = false,
@@ -211,13 +295,67 @@ require('packer').startup({ function(use)
   -- Colors
   use 'norcalli/nvim-colorizer.lua'
   use 'folke/lsp-colors.nvim'
-
   use {
-    'kaicataldo/material.vim',
+    'marko-cerovac/material.nvim',
     config = function()
-      vim.g.material_theme_style = 'darker'
+      vim.g.material_style = "darker"
+      require('material').setup({
+        contrast = {
+          sidebars = false, -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
+          floating_windows = false, -- Enable contrast for floating windows
+          line_numbers = false, -- Enable contrast background for line numbers
+          sign_column = false, -- Enable contrast background for the sign column
+          cursor_line = false, -- Enable darker background for the cursor line
+          non_current_windows = false, -- Enable darker background for non-current windows
+          popup_menu = false, -- Enable lighter background for the popup menu
+        },
 
-      vim.cmd [[colorscheme material]]
+        italics = {
+          comments = true, -- Enable italic comments
+          keywords = false, -- Enable italic keywords
+          functions = false, -- Enable italic functions
+          strings = false, -- Enable italic strings
+          variables = false -- Enable italic variables
+        },
+
+        contrast_filetypes = { },
+
+        high_visibility = {
+          lighter = false, -- Enable higher contrast text for lighter style
+          darker = false -- Enable higher contrast text for darker style
+        },
+
+        disable = {
+          colored_cursor = false, -- Disable the colored cursor
+          borders = false, -- Disable borders between verticaly split windows
+          background = false, -- Prevent the theme from setting the background (NeoVim then uses your teminal background)
+          term_colors = false, -- Prevent the theme from setting terminal colors
+          eob_lines = false -- Hide the end-of-buffer lines
+        },
+
+        custom_highlights = CUSTOM_HIGHLIGHTS,
+
+        plugins = { -- Here, you can disable(set to false) plugins that you don't use or don't want to apply the theme to
+          trouble = true,
+          nvim_cmp = true,
+          neogit = false,
+          gitsigns = true,
+          git_gutter = true,
+          telescope = true,
+          nvim_tree = true,
+          sidebar_nvim = true,
+          lsp_saga = true,
+          nvim_dap = true,
+          nvim_navic = false,
+          which_key = false,
+          sneak = false,
+          hop = false,
+          indent_blankline = false,
+          nvim_illuminate = false,
+          mini = false,
+        }
+      })
+      vim.cmd 'colorscheme material'
     end
   }
 

@@ -13,7 +13,7 @@ set('n', '<leader>f', function() require('telescope.builtin').find_files() end)
 set('n', '<leader>b', function() require('telescope.builtin').buffers() end)
 set('n', '<leader>g', function() require('telescope.builtin').live_grep() end)
 
-set('n', '<c-q>', ':bd<CR>')
+set('n', '<c-q>', ':bd<CR>', { silent = true })
 
 set('n', '<leader>la', ':Lspsaga code_action<CR>', { silent = true })
 set('n', '<leader>ln', ':Lspsaga rename<CR>', { silent = true })
