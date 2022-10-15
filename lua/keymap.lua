@@ -22,7 +22,7 @@ set('n', '<leader>lr', function() require('telescope.builtin').lsp_references() 
 set('n', '<leader>ld', ':Lspsaga peek_definition<CR>', { silent = true })
 set('n', '<leader>lt', ':TroubleToggle<CR>', { silent = true })
 
-set('n', 'K', function ()
+set('n', 'K', function()
   if vim.fn.expand('%:t') == 'Cargo.toml' then
     require('crates').show_popup()
   else
@@ -36,7 +36,7 @@ set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>', { silent = true })
 set('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
 set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', { silent = true })
 
-set('n', '<leader>=', vim.lsp.buf.formatting)
+set('n', '<leader>=', function() vim.lsp.buf.format { async = true}  end)
 set('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
 
 -- Clear search

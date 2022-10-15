@@ -29,7 +29,7 @@ function M.setup()
     }
   )
 
-  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " } 
+  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
   for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
@@ -39,6 +39,7 @@ end
 function M.config()
   local lspconfig = require('lspconfig')
   local lsp_status = require('lsp-status')
+  require('neodev').setup({})
 
   lsp_status.register_progress()
   lsp_status.config {
@@ -60,8 +61,7 @@ function M.config()
     end
   }
 
-  local snippet_capabilities = vim.lsp.protocol.make_client_capabilities()
-  lsp_status.capabilities = require('cmp_nvim_lsp').update_capabilities(snippet_capabilities)
+  lsp_status.capabilities = require('cmp_nvim_lsp').default_capabilities()
 
   local servers = {
     bashls = {},
@@ -156,11 +156,14 @@ function M.config()
         }
       },
     },
-    sumneko_lua = require("lua-dev").setup({
+    wgsl_analyzer = {
+      cmd = { "wgsl_analyzer" }
+    },
+    sumneko_lua = {
       lspconfig = {
         cmd = { "lua-language-server" },
       }
-    })
+    }
   }
 
   for server, config in pairs(servers) do

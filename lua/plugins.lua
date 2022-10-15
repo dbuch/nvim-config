@@ -12,8 +12,6 @@ end
 local should_bootstrap = packer_installed()
 
 require('packer').startup({ function(use)
-  use 'lewis6991/impatient.nvim'
-
   -- Packer can manage itself as an optional plugin
   use 'wbthomason/packer.nvim'
   -- Legacy Vim Plugins
@@ -36,7 +34,16 @@ require('packer').startup({ function(use)
     }
   }
 
-  use 'folke/lua-dev.nvim'
+  use {
+    'folke/neodev.nvim',
+    config = function()
+      require('neodev').setup({})
+    end,
+    requires = {
+      'neovim/nvim-lspconfig',
+      'hrsh7th/nvim-cmp',
+    }
+  }
   use { 'kevinhwang91/nvim-hlslens' }
 
   use {
@@ -94,6 +101,11 @@ require('packer').startup({ function(use)
       })
     end
   }
+
+  --[[ use {
+    'romgrk/barbar.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'}
+  } ]]
 
   use {
     'simrat39/rust-tools.nvim',
@@ -233,7 +245,7 @@ require('packer').startup({ function(use)
           variables = false -- Enable italic variables
         },
 
-        contrast_filetypes = { },
+        contrast_filetypes = {},
 
         high_visibility = {
           lighter = false, -- Enable higher contrast text for lighter style
@@ -241,7 +253,7 @@ require('packer').startup({ function(use)
         },
 
         disable = {
-          colored_cursor = false, -- Disable the colored cursor
+          colored_cursor = true, -- Disable the colored cursor
           borders = false, -- Disable borders between verticaly split windows
           background = false, -- Prevent the theme from setting the background (NeoVim then uses your teminal background)
           term_colors = false, -- Prevent the theme from setting terminal colors

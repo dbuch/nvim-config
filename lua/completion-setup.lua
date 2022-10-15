@@ -1,13 +1,9 @@
 local M = {}
 local lspkind = require('lspkind')
 
-
 function M.setup()
-
   local cmp = require 'cmp'
-
   local luasnip = require 'luasnip'
-
 
   local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -31,22 +27,22 @@ function M.setup()
 
     formatting = {
       fields = { "kind", "abbr", "menu" },
-      -- format = lspkind.cmp_format()
       format = function(entry, item)
-        local kind = require("lspkind").cmp_format({
+        local kind = lspkind.cmp_format({
           mode = "symbol_text",
-          maxwidth = 50
+          maxwidth = 50,
+          ellipsis_char = '…',
         })(entry, item)
 
-        local strings = {}
-        for s in vim.gsplit(kind.kind, "%s") do
-          if s ~= '' then
-            table.insert(strings, s)
+        local tokens = {}
+        for token in vim.gsplit(kind.kind, "%s") do
+          if token ~= '' then
+            table.insert(tokens, token)
           end
         end
 
-        kind.kind = " " .. strings[1] .. " "
-        kind.menu = "    (" .. strings[2] .. ")"
+        kind.kind = (' %s '):format(tokens[1])
+        kind.menu = ("    (%s)"):format(tokens[2])
 
         return kind
       end
@@ -151,9 +147,6 @@ function M.setup()
       }
     })
   end
-
-
-
 end
 
 function M.config()
