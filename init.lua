@@ -23,10 +23,10 @@ local function disable_default_plugins()
   vim.g.loaded_zipPlugin         = 1
 
   -- No Ruby or perl support
-  vim.g.loaded_node_provider     = 1
-  vim.g.loaded_ruby_provider     = 1
-  vim.g.loaded_perl_provider     = 1
-  vim.g.loaded_python_provider   = 1
+  vim.g.loaded_node_provider   = 1
+  vim.g.loaded_ruby_provider   = 1
+  vim.g.loaded_perl_provider   = 1
+  vim.g.loaded_python_provider = 1
 end
 
 disable_default_plugins()
@@ -41,7 +41,6 @@ local function load_core_module(modules)
 end
 
 load_core_module({
-  'impatient',
   'settings',
   'plugins',
   'keymap',
@@ -60,3 +59,17 @@ require('colorizer').setup {
 require 'lsp-setup'.config()
 require 'lsp-setup'.setup()
 require 'completion-setup'.setup()
+
+vim.filetype.add({
+  extension = {
+    wgsl = 'wgsl',
+    nu = 'nu',
+  },
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.wgsl" },
+  callback = function()
+    vim.cmd('set filetype=wgsl')
+  end,
+})
