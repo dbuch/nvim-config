@@ -40,7 +40,10 @@ extensions = {
   }
 },
 }
---telescope.load_extension('dap')
--- telescope.load_extension('fzy_native')
+
+telescope.load_extension('fzy_native')
 telescope.load_extension('projects')
---telescope.load_extension('ui-select')
+telescope.load_extension('ui-select')
+
+--TODO:
+--telescope.load_extension('dap')

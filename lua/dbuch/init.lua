@@ -1,6 +1,6 @@
 require 'dbuch.plugins'
 
-local o, api = vim.opt, vim.api
+local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 
 if 'Plugins' then
   -- Load any plugins which are work sensitive.
@@ -33,21 +33,20 @@ if 'Options' then
   o.pumblend       = 10
   o.relativenumber = true
   o.scrolloff      = 6
-  o.shiftwidth     = 4
+  o.shiftwidth     = 2
   o.sidescroll     = 6
   o.sidescrolloff  = 6
-  o.signcolumn     = 'auto:3'
+  o.signcolumn     = 'yes'
   o.smartcase      = true
   o.softtabstop    = 4
   o.startofline    = false
   o.swapfile       = false
-  o.tabstop        = 4
+  o.tabstop        = 2
   o.termguicolors  = true
   o.textwidth      = 80
   o.virtualedit    = 'block' -- allow cursor to exist where there is no character
   o.winblend       = 10
   o.wrap           = false
-  -- o.lazyredraw     = true
 
   -- Avoid showing message extra message when using completion
   o.shortmess:append('c')
@@ -70,6 +69,7 @@ if 'Options' then
 
   o.undolevels = 10000
   o.undofile   = true
+  o.undodir = expand('~/.cache/nvim')
   o.splitright = true
   o.splitbelow = true
   o.spell      = true
@@ -86,4 +86,56 @@ if 'Options' then
     t = true, -- Do not auto wrap text
     n = true, -- Recognise lists
   }
+
+  o.cmdheight = 0
+  o.laststatus = 3
+  o.showmode = false
+  o.showcmd = false
 end
+
+
+vim.g.mapleader = ' '
+
+set('', 'H', '^')
+set('', 'L', '$')
+
+set('n', 'j', 'v:count ? "j" : "gj"', { expr = true })
+set('n', 'k', 'v:count ? "k" : "gk"', { expr = true })
+
+set('n', '<leader>t', ':ToggleTerm<CR>', { nowait = true, silent = true })
+set('n', '<leader>f', function() require('telescope.builtin').find_files() end)
+set('n', '<leader>b', function() require('telescope.builtin').buffers() end)
+set('n', '<leader>g', function() require('telescope.builtin').live_grep() end)
+
+set('n', '<c-q>', ':bd<CR>', { silent = true })
+
+set('n', '<leader>la', ':Lspsaga code_action<CR>', { silent = true })
+set('n', '<leader>ln', ':Lspsaga rename<CR>', { silent = true })
+set('n', '<leader>ls', function() require('telescope.builtin').lsp_definitions() end)
+set('n', '<leader>lr', function() require('telescope.builtin').lsp_references() end)
+set('n', '<leader>ld', ':Lspsaga peek_definition<CR>', { silent = true })
+set('n', '<leader>lt', ':TroubleToggle<CR>', { silent = true })
+
+set('n', 'K', function()
+  if vim.fn.expand('%:t') == 'Cargo.toml' then
+    require('crates').show_popup()
+  else
+    require('lspsaga.hover'):render_hover_doc()
+  end
+end, { silent = true })
+set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>', { silent = true })
+
+-- set('n', 'gd', vim.lsp.buf.definition)
+
+set('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
+set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', { silent = true })
+
+set('n', '<leader>=', function() vim.lsp.buf.format { async = true}  end)
+set('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
+
+-- Clear search
+set('n', '<esc>', ':noh<return><esc>', { silent = true })
+set('n', '<esc>^[', '<esc>^[', { silent = true })
+set('t', '<esc>', '<C-\\><C-n>', { silent = true })
+
+set('n', '<leader><leader>', '<c-^>')

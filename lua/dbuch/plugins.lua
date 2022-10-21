@@ -21,6 +21,17 @@ packer.setup {
     end
   },
 
+  {'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    },
+    config = function() require 'nvim-tree'.setup {
+        sync_root_with_cwd = true,
+        open_on_setup = false,
+      }
+    end
+  },
+
   {'b3nj5m1n/kommentary'},
   {'gpanders/editorconfig.nvim'},
 
@@ -31,6 +42,31 @@ packer.setup {
   'folke/trouble.nvim',
 
   {'ahmedkhalf/project.nvim', config = "require'dbuch.project'"},
+
+  {'akinsho/toggleterm.nvim',
+    tag = '*',
+    config = function()
+      require("toggleterm").setup {
+        shade_terminals = false,
+        shell = "nu"
+      }
+      -- if you only want these mappings for toggle term use term://*toggleterm#* instead
+      vim.api.nvim_create_autocmd("TermOpen", {
+        callback = function(args)
+          if string.match(args.match, "#toggleterm") then
+            local opts = { buffer = args.buf }
+            vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+            vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+            vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+            vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+            vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+            vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+          end
+        end
+      })
+    end
+  },
+
 
   -- Dap
   {"mfussenegger/nvim-dap",
@@ -170,6 +206,7 @@ packer.setup {
     requires = {
       'nvim-telescope/telescope-ui-select.nvim',
       'nvim-telescope/telescope-fzf-native.nvim',
+      { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
       'nvim-lua/plenary.nvim'
     },
     config = [[require('dbuch.telescope')]]
