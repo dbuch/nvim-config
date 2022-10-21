@@ -32,58 +32,6 @@ function M.config()
     return mode_colors[mode]
   end
 
-  local function get_lsp_spinner()
-    local messages = lsp_msg.messages()
-    for _, msg in ipairs(messages) do
-      if msg.spinner then
-        return icons.spinner_frames[(msg.spinner % #icons.spinner_frames) + 1]
-      end
-    end
-    return icons.indicator_ok
-  end
-
-  local function parse_lsp_messages()
-    local msgs = {}
-    local buf_messages = lsp_msg.messages()
-    for _, msg in ipairs(buf_messages) do
-      local contents = ''
-      if msg.progress then
-        contents = msg.title
-
-        if msg.percentage then
-          contents = contents .. ' (' .. msg.percentage .. '%' .. ')'
-        end
-
-        if msg.message then
-          contents = contents .. ' ' .. msg.message
-        end
-
-      elseif msg.status then
-        contents = msg.content
-        if msg.uri then
-          local filename = vim.uri_to_fname(msg.uri)
-          filename = vim.fn.fnamemodify(filename, ':~:.')
-          local space = math.min(60, math.floor(0.6 * vim.fn.winwidth(0)))
-          if #filename > space then
-            filename = vim.fn.pathshorten(filename)
-          end
-
-          contents = '(' .. filename .. ') ' .. contents
-        end
-      else
-        contents = msg.content
-      end
-
-      table.insert(msgs, contents)
-    end
-    local base_status = table.concat(msgs, ' ')
-    if base_status ~= '' then
-      return base_status
-    end
-
-    return nil
-  end
-
   local function trailing_whitespace()
       local trail = vim.fn.search("\\s$", "nw")
       if trail ~= 0 then
@@ -221,23 +169,9 @@ function M.config()
     DiagnosticInfo = {
       provider = 'DiagnosticInfo',
       icon = '  ',
-      highlight = {colors.fg,colors.section_bg},
-    }
-  })
-
-  insert(left, {
-    LspSpinner = {
-      provider = get_lsp_spinner,
-      highlight = {colors.red, colors.section_bg},
-    }
-  })
-
-  insert(left, {
-    LspMessages = {
-      provider = parse_lsp_messages,
-      highlight = {colors.fg, colors.section_bg},
       separator = " ",
       separator_highlight = {colors.section_bg, colors.bg},
+      highlight = {colors.fg,colors.section_bg},
     }
   })
 

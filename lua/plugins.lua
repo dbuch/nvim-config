@@ -36,15 +36,16 @@ require('packer').startup({ function(use)
 
   use {
     'folke/neodev.nvim',
-    config = function()
-      require('neodev').setup({})
-    end,
     requires = {
       'neovim/nvim-lspconfig',
       'hrsh7th/nvim-cmp',
     }
   }
-  use { 'kevinhwang91/nvim-hlslens' }
+
+  use {
+    'kevinhwang91/nvim-hlslens',
+    config = function() require('hlslens').setup() end
+  }
 
   use {
     'rcarriga/nvim-notify',
@@ -101,6 +102,31 @@ require('packer').startup({ function(use)
       })
     end
   }
+
+  use {
+    'j-hui/fidget.nvim', config = function()
+    require'fidget'.setup{
+      text = {
+        spinner = "dots",
+      },
+      fmt = {
+        stack_upwards = false,
+        task = function(task_name, message, percentage)
+          local pct = percentage and string.format(" (%s%%)", percentage) or ""
+          if task_name then
+            return string.format("%s%s [%s]", message, pct, task_name)
+          else
+            return string.format("%s%s", message, pct)
+          end
+        end,
+      },
+      sources = {
+        ['null-ls'] = {
+          ignore = true
+        }
+      }
+    }
+  end}
 
   --[[ use {
     'romgrk/barbar.nvim',
@@ -227,31 +253,6 @@ require('packer').startup({ function(use)
     config = function()
       vim.g.material_style = "darker"
       require('material').setup({
-        contrast = {
-          sidebars = false, -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
-          floating_windows = false, -- Enable contrast for floating windows
-          line_numbers = false, -- Enable contrast background for line numbers
-          sign_column = false, -- Enable contrast background for the sign column
-          cursor_line = false, -- Enable darker background for the cursor line
-          non_current_windows = false, -- Enable darker background for non-current windows
-          popup_menu = false, -- Enable lighter background for the popup menu
-        },
-
-        italics = {
-          comments = true, -- Enable italic comments
-          keywords = false, -- Enable italic keywords
-          functions = false, -- Enable italic functions
-          strings = false, -- Enable italic strings
-          variables = false -- Enable italic variables
-        },
-
-        contrast_filetypes = {},
-
-        high_visibility = {
-          lighter = false, -- Enable higher contrast text for lighter style
-          darker = false -- Enable higher contrast text for darker style
-        },
-
         disable = {
           colored_cursor = true, -- Disable the colored cursor
           borders = false, -- Disable borders between verticaly split windows
@@ -262,25 +263,20 @@ require('packer').startup({ function(use)
 
         custom_highlights = require('material-override'),
 
-        plugins = { -- Here, you can disable(set to false) plugins that you don't use or don't want to apply the theme to
-          trouble = true,
-          nvim_cmp = true,
-          neogit = false,
-          gitsigns = true,
-          git_gutter = true,
-          telescope = true,
-          nvim_tree = true,
-          sidebar_nvim = true,
-          lsp_saga = true,
-          nvim_dap = true,
-          nvim_navic = false,
-          which_key = false,
-          sneak = false,
-          hop = false,
-          indent_blankline = false,
-          nvim_illuminate = false,
-          mini = false,
-        }
+        plugins = { -- Uncomment the plugins that you use to highlight them
+              -- Available plugins:
+              "dap",
+              "dashboard",
+              "gitsigns",
+              "lspsaga",
+              "nvim-cmp",
+              -- "nvim-navic",
+              "nvim-tree",
+              -- "sneak",
+              "telescope",
+              "trouble",
+              -- "which-key",
+        },
       })
       vim.cmd 'colorscheme material'
     end

@@ -56,8 +56,8 @@ require('colorizer').setup {
   'css';
 }
 
-require 'lsp-setup'.config()
 require 'lsp-setup'.setup()
+require 'lsp-setup'.config()
 require 'completion-setup'.setup()
 
 vim.filetype.add({
