@@ -21,11 +21,28 @@ packer.setup {
     end
   },
 
+  {'b3nj5m1n/kommentary'},
+  {'gpanders/editorconfig.nvim'},
+
   {'sindrets/diffview.nvim',
     requires = { 'nvim-lua/plenary.nvim' }
   },
 
-  'folke/trouble.nvim', --  EXITFREE lag
+  'folke/trouble.nvim',
+
+  {'ahmedkhalf/project.nvim', config = "require'dbuch.project'"},
+
+  -- Dap
+  {"mfussenegger/nvim-dap",
+    requires = {
+      "mfussenegger/nvim-dap-python",
+      { "theHamsta/nvim-dap-virtual-text", after = "nvim-treesitter" }
+    },
+  --  setup = function() require 'dap-setup'.setup() end,
+  --  config = function() require 'dap-setup'.config() end,
+  },
+
+  {"rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
 
   -- Buffer
   {'lewis6991/hover.nvim', config  = function()
@@ -155,7 +172,7 @@ packer.setup {
       'nvim-telescope/telescope-fzf-native.nvim',
       'nvim-lua/plenary.nvim'
     },
-    config = [[require('dbuch.telescope")]]
+    config = [[require('dbuch.telescope')]]
   },
 
 
@@ -201,4 +218,3 @@ packer.setup {
   -- },
   --'fladson/vim-kitty',
 }
-
