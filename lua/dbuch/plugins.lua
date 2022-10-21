@@ -1,7 +1,6 @@
 local packer = require('dbuch.packer')
 packer.setup {
   -- Core
-
   'lewis6991/impatient.nvim',
   'wbthomason/packer.nvim',
 
@@ -19,8 +18,6 @@ packer.setup {
       }
     end
   },
-
-  'bluz71/vim-mistfly-statusline',
 
   {'kyazdani42/nvim-tree.lua',
     requires = {
@@ -174,6 +171,15 @@ packer.setup {
   },
 
   {'jose-elias-alvarez/null-ls.nvim', config = [[require('dbuch.null-ls')]]},
+
+  'rafamadriz/friendly-snippets',
+
+  {'saecki/crates.nvim',
+    requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
+    config = function()
+      require('crates').setup {}
+    end,
+  },
 
   {'hrsh7th/nvim-cmp',
     requires = {
