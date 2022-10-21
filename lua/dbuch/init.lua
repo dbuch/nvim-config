@@ -1,13 +1,9 @@
 require 'dbuch.plugins'
 
+
 local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 
 if 'Plugins' then
-  -- Load any plugins which are work sensitive.
-  for _, f in ipairs(vim.fn.globpath('~/gerrit/', '*', false, true)) do
-    o.rtp:prepend(f)
-  end
-
   -- Stop loading built in plugins
   vim.g.loaded_netrwPlugin = 1
   vim.g.loaded_tutor_mode_plugin = 1
@@ -58,7 +54,6 @@ if 'Options' then
   }
 
   o.showbreak   = '↳ '
-  -- o.showbreak   = '    ↳ '
   o.mouse       = 'a'
 
   o.diffopt:append{

@@ -1,6 +1,5 @@
 local packer = require('dbuch.packer')
 packer.setup {
-
   -- Core
 
   'lewis6991/impatient.nvim',
@@ -20,6 +19,8 @@ packer.setup {
       }
     end
   },
+
+  'bluz71/vim-mistfly-statusline',
 
   {'kyazdani42/nvim-tree.lua',
     requires = {
@@ -122,6 +123,10 @@ packer.setup {
     end
   },
 
+  {'kevinhwang91/nvim-hlslens',
+    config = function() require('hlslens').setup() end
+  },
+
   {'rcarriga/nvim-notify', config = function()
     vim.notify = require("notify")
   end},
@@ -221,7 +226,7 @@ packer.setup {
     },
     run = ':TSUpdate',
     config = [[require('dbuch.treesitter')]],
-  }
+  },
 
   --TODO:
 
