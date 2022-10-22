@@ -21,7 +21,7 @@ if 'Options' then
   o.breakindent    = true -- Indent wrapped lines to match start
   o.clipboard      = 'unnamedplus'
   o.expandtab      = true
-  o.fillchars      = {eob=' ', diff = ' '}
+  o.fillchars      = { eob = ' ', diff = ' ' }
   o.hidden         = true
   o.ignorecase     = true
   o.inccommand     = 'split'
@@ -46,17 +46,17 @@ if 'Options' then
 
   -- Avoid showing message extra message when using completion
   o.shortmess:append('c')
-  o.completeopt:append{
+  o.completeopt:append {
     'noinsert',
     'menuone',
     'noselect',
     'preview'
   }
 
-  o.showbreak   = '↳ '
-  o.mouse       = 'a'
+  o.showbreak = '↳ '
+  o.mouse     = 'a'
 
-  o.diffopt:append{
+  o.diffopt:append {
     'vertical',
     'foldcolumn:0',
     'indent-heuristic',
@@ -64,17 +64,17 @@ if 'Options' then
 
   o.undolevels = 10000
   o.undofile   = true
-  o.undodir = expand('~/.cache/nvim')
+  o.undodir    = expand('~/.cache/nvim')
   o.splitright = true
   o.splitbelow = true
   o.spell      = true
 
   local xdg_cfg = os.getenv('XDG_CONFIG_HOME')
   if xdg_cfg then
-    o.spellfile = xdg_cfg..'/nvim/spell/en.utf-8.add'
+    o.spellfile = xdg_cfg .. '/nvim/spell/en.utf-8.add'
   end
 
-  o.formatoptions:append{
+  o.formatoptions:append {
     r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
     o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
     l = true, -- Long lines are not broken in insert mode.
@@ -125,7 +125,7 @@ set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>', { silent = true })
 set('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
 set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', { silent = true })
 
-set('n', '<leader>=', function() vim.lsp.buf.format { async = true}  end)
+set('n', '<leader>=', function() vim.lsp.buf.format { async = true } end)
 set('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
 
 -- Clear search
