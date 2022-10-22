@@ -4,82 +4,66 @@ packer.setup {
   'lewis6991/impatient.nvim',
   'wbthomason/packer.nvim',
 
-  {'lewis6991/github_dark.nvim', config = function()
-    vim.cmd.color'github_dark'
-  end},
+  { 'lewis6991/github_dark.nvim', config = function()
+    vim.cmd.color 'github_dark'
+  end },
 
   -- Editor
-  {'lewis6991/spaceless.nvim', config = [[require('spaceless').setup()]]},
-  {'lewis6991/cleanfold.nvim', config = [[require('cleanfold').setup()]]},
-  {'lewis6991/foldsigns.nvim',
+  { 'lewis6991/spaceless.nvim', config = [[require('spaceless').setup()]] },
+  { 'lewis6991/cleanfold.nvim', config = [[require('cleanfold').setup()]] },
+  { 'lewis6991/foldsigns.nvim',
     config = function()
-      require'foldsigns'.setup{
-        exclude = {'GitSigns.*'}
+      require 'foldsigns'.setup {
+        exclude = { 'GitSigns.*' }
       }
     end
   },
 
-  {'kyazdani42/nvim-tree.lua',
+  { 'kyazdani42/nvim-tree.lua',
     requires = {
       'kyazdani42/nvim-web-devicons', -- optional, for file icon
     },
-    config = function() require 'nvim-tree'.setup {
-        sync_root_with_cwd = true,
-        open_on_setup = false,
-      }
-    end
+    config = [[require'dbuch.tree']]
   },
 
-  {'b3nj5m1n/kommentary'},
-  {'gpanders/editorconfig.nvim'},
+  { 'b3nj5m1n/kommentary' },
+  { 'gpanders/editorconfig.nvim' },
 
-  {'sindrets/diffview.nvim',
+  { 'sindrets/diffview.nvim',
     requires = { 'nvim-lua/plenary.nvim' }
   },
 
   'folke/trouble.nvim',
 
-  {'ahmedkhalf/project.nvim', config = "require'dbuch.project'"},
+  { 'ahmedkhalf/project.nvim', config = [[require'dbuch.project']] },
 
-  {'akinsho/toggleterm.nvim',
+  { 'akinsho/toggleterm.nvim',
     tag = '*',
+    config = [[require'dbuch.terminal']]
+  },
+
+  { 'ggandor/leap-ast.nvim',
+    requires = 'ggandor/leap.nvim',
     config = function()
-      require("toggleterm").setup {
-        shade_terminals = false,
-        shell = "nu"
-      }
-      -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-      vim.api.nvim_create_autocmd("TermOpen", {
-        callback = function(args)
-          if string.match(args.match, "#toggleterm") then
-            local opts = { buffer = args.buf }
-            vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-            vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
-            vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-            vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-            vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-            vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
-          end
-        end
-      })
-    end
+      require('leap').add_default_mappings()
+    end,
   },
 
   -- Dap
-  {"mfussenegger/nvim-dap",
+  { "mfussenegger/nvim-dap",
     requires = {
       "mfussenegger/nvim-dap-python",
       { "theHamsta/nvim-dap-virtual-text", after = "nvim-treesitter" }
     },
-  --  setup = function() require 'dap-setup'.setup() end,
-  --  config = function() require 'dap-setup'.config() end,
+    --  setup = function() require 'dap-setup'.setup() end,
+    --  config = function() require 'dap-setup'.config() end,
   },
 
-  {"rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
+  { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
 
   -- Buffer
-  {'lewis6991/hover.nvim', config  = function()
-    require('hover').setup{
+  { 'lewis6991/hover.nvim', config = function()
+    require('hover').setup {
       init = function()
         require('hover.providers.lsp')
         require('hover.providers.gh')
@@ -87,13 +71,13 @@ packer.setup {
         require('hover.providers.man')
       end
     }
-    vim.keymap.set('n', 'K', require('hover').hover, {desc='hover.nvim'})
-    vim.keymap.set('n', 'gK', require('hover').hover_select, {desc='hover.nvim (select)'})
-  end},
+    vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
+    vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
+  end },
 
-  {'lewis6991/gitsigns.nvim', config = "require'dbuch.gitsigns'" },
+  { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
 
-  {'windwp/nvim-autopairs',
+  { 'windwp/nvim-autopairs',
     config = function()
       require 'nvim-autopairs'.setup {}
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
@@ -105,7 +89,7 @@ packer.setup {
     }
   },
 
-  {'AndrewRadev/bufferize.vim',
+  { 'AndrewRadev/bufferize.vim',
     cmd = 'Bufferize',
     config = function()
       vim.g.bufferize_command = 'enew'
@@ -119,16 +103,16 @@ packer.setup {
     end
   },
 
-  {'kevinhwang91/nvim-hlslens',
+  { 'kevinhwang91/nvim-hlslens',
     config = function() require('hlslens').setup() end
   },
 
-  {'rcarriga/nvim-notify', config = function()
+  { 'rcarriga/nvim-notify', config = function()
     vim.notify = require("notify")
-  end},
+  end },
 
-  {'j-hui/fidget.nvim', config = function()
-    require'fidget'.setup{
+  { 'j-hui/fidget.nvim', config = function()
+    require 'fidget'.setup {
       text = {
         spinner = "dots",
       },
@@ -149,18 +133,18 @@ packer.setup {
         }
       }
     }
-  end},
+  end },
 
   -- Coloring
   'folke/lsp-colors.nvim',
-  {'lewis6991/nvim-colorizer.lua', config = [[require('colorizer').setup()]] },
+  { 'lewis6991/nvim-colorizer.lua', config = [[require('colorizer').setup()]] },
 
   -- Icons
   'kyazdani42/nvim-web-devicons',
   'ryanoasis/vim-devicons',
 
   -- LSP
-  {'neovim/nvim-lspconfig',
+  { 'neovim/nvim-lspconfig',
     requires = {
       'folke/lua-dev.nvim',
       'ray-x/lsp_signature.nvim',
@@ -169,18 +153,18 @@ packer.setup {
     config = "require'dbuch.lsp'"
   },
 
-  {'jose-elias-alvarez/null-ls.nvim', config = [[require('dbuch.null-ls')]]},
+  { 'jose-elias-alvarez/null-ls.nvim', config = [[require('dbuch.null-ls')]] },
 
   'rafamadriz/friendly-snippets',
 
-  {'saecki/crates.nvim',
+  { 'saecki/crates.nvim',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
     config = function()
       require('crates').setup {}
     end,
   },
 
-  {'hrsh7th/nvim-cmp',
+  { 'hrsh7th/nvim-cmp',
     requires = {
       'L3MON4D3/LuaSnip',
       'hrsh7th/cmp-nvim-lsp',
@@ -197,12 +181,12 @@ packer.setup {
 
   -- Lua/Neovim Dev
 
-  {'neovim/nvimdev.nvim',
-    requires = {'neomake/neomake'}
+  { 'neovim/nvimdev.nvim',
+    requires = { 'neomake/neomake' }
   },
 
 
-  {'folke/neodev.nvim',
+  { 'folke/neodev.nvim',
     requires = {
       'neovim/nvim-lspconfig',
       'hrsh7th/nvim-cmp',
@@ -211,8 +195,8 @@ packer.setup {
 
   -- Treesitter
 
-  {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-  {'nvim-lua/telescope.nvim',
+  { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+  { 'nvim-lua/telescope.nvim',
     requires = {
       'nvim-telescope/telescope-ui-select.nvim',
       'nvim-telescope/telescope-fzf-native.nvim',
@@ -223,7 +207,7 @@ packer.setup {
   },
 
 
-  {'nvim-treesitter/nvim-treesitter',
+  { 'nvim-treesitter/nvim-treesitter',
     requires = {
       'nvim-treesitter/nvim-treesitter-context',
       'JoosepAlviste/nvim-ts-context-commentstring',
@@ -232,36 +216,4 @@ packer.setup {
     run = ':TSUpdate',
     config = [[require('dbuch.treesitter')]],
   },
-
-  --TODO:
-
-  --[[ {'whatyouhide/vim-lengthmatters', config = function()
-    vim.g.lengthmatters_highlight_one_column = 1
-    vim.g.lengthmatters_excluded = {'packer'}
-  end}, ]]
-
-  -- {'junegunn/vim-easy-align',
-  --   keys = 'ga',
-  --   config = function()
-  --     vim.keymap.set({'x', 'n'}, 'ga', '<Plug>(EasyAlign)')
-  --     vim.g.easy_align_delimiters = {
-  --       [';']  = { pattern = ';'        , left_margin = 0 },
-  --       ['[']  = { pattern = '['        , left_margin = 1, right_margin = 0 },
-  --       [']']  = { pattern = ']'        , left_margin = 0, right_margin = 1 },
-  --       [',']  = { pattern = ','        , left_margin = 0, right_margin = 1 },
-  --       [')']  = { pattern = ')'        , left_margin = 0, right_margin = 0 },
-  --       ['(']  = { pattern = '('        , left_margin = 0, right_margin = 0 },
-  --       ['=']  = { pattern = [[<\?=>\?]], left_margin = 1, right_margin = 1 },
-  --       ['|']  = { pattern = [[|\?|]]   , left_margin = 1, right_margin = 1 },
-  --       ['&']  = { pattern = [[&\?&]]   , left_margin = 1, right_margin = 1 },
-  --       [':']  = { pattern = ':'        , left_margin = 1, right_margin = 1 },
-  --       ['?']  = { pattern = '?'        , left_margin = 1, right_margin = 1 },
-  --       ['<']  = { pattern = '<'        , left_margin = 1, right_margin = 0 },
-  --       ['>']  = { pattern = '>'        , left_margin = 1, right_margin = 0 },
-  --       ['\\'] = { pattern = '\\'       , left_margin = 1, right_margin = 0 },
-  --       ['+']  = { pattern = '+'        , left_margin = 1, right_margin = 1 }
-  --     }
-  --   end
-  -- },
-  --'fladson/vim-kitty',
 }
