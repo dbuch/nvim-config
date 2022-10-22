@@ -65,7 +65,6 @@ packer.setup {
     end
   },
 
-
   -- Dap
   {"mfussenegger/nvim-dap",
     requires = {
