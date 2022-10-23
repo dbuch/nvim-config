@@ -1,4 +1,4 @@
-require'lsp_signature'.setup{
+require 'lsp_signature'.setup {
   hi_parameter = "Visual",
 }
 require("neodev").setup({})
@@ -51,25 +51,33 @@ local function make_on_attach(config)
       bind = false,
     }, bufnr)
 
+    if client.server_capabilities.code_lens then
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+        buffer = bufnr,
+        callback = vim.lsp.codelens.refresh
+      })
+      vim.lsp.codelens.refresh()
+    end
+
     if config.after then
       config.after(client)
     end
   end
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+--[[ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-  }
+  virtual_text = false,
+  signs = true,
+  update_in_insert = false,
+}
 )
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
-end
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end ]]
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -137,7 +145,7 @@ local servers = {
       ["rust-analyzer"] = {
         ["cargo"] = {
           features = "all",
-          runBuildScripts = "true",
+          runBuildScripts = true,
         },
         checkOnSave = {
           command = "clippy"

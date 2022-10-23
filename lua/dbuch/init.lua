@@ -1,3 +1,4 @@
+require 'dbuch.status'
 require 'dbuch.diagnostic'
 require 'dbuch.plugins'
 

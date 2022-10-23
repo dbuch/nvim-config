@@ -1,7 +1,7 @@
 local gitsigns = require('gitsigns')
 
 gitsigns.setup{
-  debug_mode = true,
+  debug_mode = false,
   max_file_length = 1000000000,
   signs = {
     add          = {show_count = false},
@@ -13,13 +13,6 @@ gitsigns.setup{
   preview_config = {
     border = 'rounded',
   },
-  --[[ current_line_blame = true,
-  current_line_blame_formatter_opts = {
-    relative_time = true
-  },
-  current_line_blame_opts = {
-    delay = 50
-  }, ]]
   count_chars = {
     '⒈', '⒉', '⒊', '⒋', '⒌', '⒍', '⒎', '⒏', '⒐',
     '⒑', '⒒', '⒓', '⒔', '⒕', '⒖', '⒗', '⒘', '⒙', '⒚', '⒛',

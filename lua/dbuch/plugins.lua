@@ -8,6 +8,14 @@ packer.setup {
     vim.cmd.color 'github_dark'
   end },
 
+  --[[ { 'projekt0n/github-nvim-theme',
+    config = function()
+      require('github-theme').setup({
+        theme_style = "dark_default",
+      })
+    end
+  }, ]]
+
   -- Editor
   { 'lewis6991/spaceless.nvim', config = [[require('spaceless').setup()]] },
   { 'lewis6991/cleanfold.nvim', config = [[require('cleanfold').setup()]] },
@@ -74,6 +82,8 @@ packer.setup {
     vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
     vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
   end },
+
+  { 'glepnir/lspsaga.nvim' },
 
   { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
 
