@@ -1,1 +1,9 @@
 dbuch
+buf
+BufWinEnter
+BufWinEnter
+'<,'>
+WinEnter
+cmdline
+nvim_lsp
+calc

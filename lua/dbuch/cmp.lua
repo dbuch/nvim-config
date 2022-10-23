@@ -25,10 +25,14 @@ cmp.setup {
 
   window = {
     completion = {
-      winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+      winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:Visual,Search:None",
       col_offset = -3,
       side_padding = 0,
     },
+  },
+
+  view = {
+    entries = {name = 'custom', selection_order = 'near_cursor' }
   },
 
   formatting = {

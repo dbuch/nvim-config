@@ -22,11 +22,12 @@ if 'Plugins' then
   api.nvim_create_augroup('vimrc', {})
 end
 
+
 if 'Options' then
   o.backup         = true
   o.backupdir:remove('.')
   o.breakindent    = true -- Indent wrapped lines to match start
-  o.clipboard      = 'unnamedplus'
+--  o.clipboard      = 'unnamedplus' TODO Fix this when wl-copy behaves
   o.expandtab      = true
   o.fillchars      = { eob = ' ', diff = ' ' }
   o.hidden         = true
@@ -51,7 +52,7 @@ if 'Options' then
   o.winblend       = 10
   o.wrap           = false
 
-  -- Avoid showing message extra message when using completion
+  -- Avoid showing extra message when using completion
   o.shortmess:append('c')
   o.completeopt:append {
     'noinsert',
