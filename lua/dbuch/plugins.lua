@@ -62,7 +62,7 @@ packer.setup {
     require('hover').setup {
       init = function()
         require('hover.providers.lsp')
-        require('hover.providers.gh')
+        --require('hover.providers.gh')
         require('hover.providers.dictionary')
         require('hover.providers.man')
       end
@@ -102,7 +102,10 @@ packer.setup {
   },
 
   { 'kevinhwang91/nvim-hlslens',
-    config = function() require('hlslens').setup() end
+    config = function() require('hlslens').setup({
+        calm_down = true,
+      })
+    end
   },
 
   { 'rcarriga/nvim-notify', config = function()
@@ -177,27 +180,11 @@ packer.setup {
     config = [[require('dbuch.cmp')]]
   },
 
-  -- Lua/Neovim Dev
-
-  { 'neovim/nvimdev.nvim',
-    requires = { 'neomake/neomake' }
-  },
-
-
-  { 'folke/neodev.nvim',
-    requires = {
-      'neovim/nvim-lspconfig',
-      'hrsh7th/nvim-cmp',
-    }
-  },
-
   -- Treesitter
 
-  { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
   { 'nvim-lua/telescope.nvim',
     requires = {
       'nvim-telescope/telescope-ui-select.nvim',
-      'nvim-telescope/telescope-fzf-native.nvim',
       { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
       'nvim-lua/plenary.nvim'
     },
@@ -213,5 +200,18 @@ packer.setup {
     },
     run = ':TSUpdate',
     config = [[require('dbuch.treesitter')]],
+  },
+
+  -- Lua/Neovim Dev
+
+  { 'neovim/nvimdev.nvim',
+    requires = { 'neomake/neomake' }
+  },
+
+  { 'folke/neodev.nvim',
+    requires = {
+      'neovim/nvim-lspconfig',
+      'hrsh7th/nvim-cmp',
+    }
   },
 }

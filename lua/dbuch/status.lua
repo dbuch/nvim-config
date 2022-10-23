@@ -45,10 +45,6 @@ function M.lsp_status(active)
     end
   end
 
-  if vim.g.metals_status then
-    status[#status+1] = vim.g.metals_status:gsub('%%', '%%%%')
-  end
-
   local r = table.concat(status, ' ')
 
   return r == '' and 'LSP' or r
@@ -125,22 +121,22 @@ local function recording()
     local reg = vim.fn.reg_recording()
     if reg ~= '' then
         return '%#ModeMsg#  RECORDING['..reg..']  '
-    else
-        return ''
     end
+
+    return ''
 end
 
 function M.bufname()
-  ---@diagnostic disable-next-line: undefined-field
   local name = vim.api.nvim_eval_statusline('%f', {}).str
   local buf_name = vim.api.nvim_buf_get_name(0)
-  if vim.startswith(buf_name, 'fugitive://') then
-    local _, _, commit, relpath = buf_name:find([[^fugitive://.*/%.git.*/(%x-)/(.*)]])
-    name = relpath..'@'..commit:sub(1, 7)
-  end
   if vim.startswith(buf_name, 'gitsigns://') then
     local _, _, revision, relpath = buf_name:find([[^gitsigns://.*/%.git.*/(.*):(.*)]])
     name = relpath..'@'..revision:sub(1, 7)
+  end
+
+  if vim.startswith(buf_name, 'term://') then
+    --TODO: Find terminal number in buf name
+    name = "Terminal"
   end
 
   return name
