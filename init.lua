@@ -3,4 +3,4 @@ if ok then
   impatient.enable_profile()
 end
 
-require'dbuch'
+require 'dbuch'

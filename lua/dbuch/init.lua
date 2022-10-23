@@ -1,6 +1,7 @@
 require 'dbuch.status'
 require 'dbuch.diagnostic'
 require 'dbuch.plugins'
+require 'dbuch.theme'
 
 local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 

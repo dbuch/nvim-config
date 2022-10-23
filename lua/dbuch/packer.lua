@@ -1,7 +1,7 @@
 local M = {}
 
 local function bootstap()
-  local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
   if not vim.loop.fs_stat(install_path) then
     if vim.fn.input("Download Packer? (y for yes): ") ~= "y" then
@@ -23,7 +23,7 @@ local function use_local(init)
 
   local function try_get_local(plugin)
     local _, name = unpack(vim.split(plugin, '/'))
-    local loc_install = home..'/projects/'..name
+    local loc_install = home .. '/projects/' .. name
     if name ~= '' and vim.loop.fs_stat(loc_install) then
       return loc_install
     else
@@ -43,7 +43,7 @@ local function use_local(init)
     end
   end
 
-  try_local{init}
+  try_local { init }
 end
 
 -- Hacky way of auto clean/install/compile
@@ -85,7 +85,7 @@ function M.setup(init)
 
   automize(packer)
 
-  packer.startup{init,
+  packer.startup { init,
     config = {
       git = {
         default_url_format = 'git@github.com:/%s',
@@ -104,7 +104,7 @@ function M.setup(init)
     }
   }
 
-  vim.keymap.set('n', '<leader>u', '<cmd>PackerUpdate<CR>', {silent=true})
+  vim.keymap.set('n', '<leader>u', '<cmd>PackerUpdate<CR>', { silent = true })
 end
 
 return M

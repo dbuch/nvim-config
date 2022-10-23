@@ -22,7 +22,7 @@ local job = async.wrap(function(obj, callback)
 
   if handle then
     stdout:read_start(function(_, data)
-      stdout_data[#stdout_data+1] = data
+      stdout_data[#stdout_data + 1] = data
     end)
   else
     stdout:close()
@@ -46,7 +46,7 @@ local function process_results(result, detail)
   local items = {}
   for _, gh_item in ipairs(parsed) do
     local ghnum = string.format("#%s", gh_item.number)
-    items[#items+1] = {
+    items[#items + 1] = {
       word = ghnum,
       label = string.format("%s %s", ghnum, gh_item.title),
       detail = detail,
@@ -82,7 +82,7 @@ source.complete = async.void(function(self, _, callback)
 
   local items = vim.list_extend(
     process_results(issue_stdout, 'Issue'),
-    process_results(pr_stdout   , 'PR')
+    process_results(pr_stdout, 'PR')
   )
 
   self.cache[bufnr] = items

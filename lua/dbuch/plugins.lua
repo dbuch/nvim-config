@@ -4,18 +4,6 @@ packer.setup {
   'lewis6991/impatient.nvim',
   'wbthomason/packer.nvim',
 
-  { 'lewis6991/github_dark.nvim', config = function()
-    vim.cmd.color 'github_dark'
-  end },
-
-  --[[ { 'projekt0n/github-nvim-theme',
-    config = function()
-      require('github-theme').setup({
-        theme_style = "dark_default",
-      })
-    end
-  }, ]]
-
   -- Editor
   { 'lewis6991/spaceless.nvim', config = [[require('spaceless').setup()]] },
   { 'lewis6991/cleanfold.nvim', config = [[require('cleanfold').setup()]] },
@@ -29,7 +17,7 @@ packer.setup {
 
   { 'kyazdani42/nvim-tree.lua',
     requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+      'kyazdani42/nvim-web-devicons',
     },
     config = [[require'dbuch.tree']]
   },

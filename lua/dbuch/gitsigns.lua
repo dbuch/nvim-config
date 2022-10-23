@@ -1,14 +1,14 @@
 local gitsigns = require('gitsigns')
 
-gitsigns.setup{
+gitsigns.setup {
   debug_mode = false,
   max_file_length = 1000000000,
   signs = {
-    add          = {show_count = false},
-    change       = {show_count = false},
-    delete       = {show_count = true },
-    topdelete    = {show_count = true },
-    changedelete = {show_count = true },
+    add          = { show_count = false },
+    change       = { show_count = false },
+    delete       = { show_count = true },
+    topdelete    = { show_count = true },
+    changedelete = { show_count = true },
   },
   preview_config = {
     border = 'rounded',
