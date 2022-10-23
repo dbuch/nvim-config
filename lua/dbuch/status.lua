@@ -17,9 +17,9 @@ end
 local function hldefs()
   local bg = api.nvim_get_hl_by_name('StatusLine', true).background
   for _, ty in ipairs { 'Warn', 'Error', 'Info', 'Hint' } do
-    local hl = api.nvim_get_hl_by_name('Diagnostic'..ty, true)
+    local hl = api.nvim_get_hl_by_name('Diagnostic' .. ty, true)
     local name = ('Diagnostic%sStatus'):format(ty)
-    api.nvim_set_hl(0, name, { fg = hl.foreground, bg = bg})
+    api.nvim_set_hl(0, name, { fg = hl.foreground, bg = bg })
   end
 end
 
@@ -34,7 +34,7 @@ function M.lsp_status(active)
   local status = {}
 
   for _, ty in ipairs { 'Error', 'Warn', 'Info', 'Hint' } do
-    local n = vim.diagnostic.get(0, {severity=ty})
+    local n = vim.diagnostic.get(0, { severity = ty })
     if #n > 0 then
       local icon = icons[ty]
       if active == 1 then
@@ -54,7 +54,7 @@ function M.hunks()
   if vim.b.gitsigns_status then
     local status = vim.b.gitsigns_head
     if vim.b.gitsigns_status ~= '' then
-      status = status ..' '..vim.b.gitsigns_status
+      status = status .. ' ' .. vim.b.gitsigns_status
     end
     return status
   elseif vim.g.gitsigns_head then
@@ -78,7 +78,7 @@ local function filetype_symbol()
     return res
   end
   local name = api.nvim_buf_get_name(0)
-  res = require'nvim-web-devicons'.get_icon(name, vim.bo.filetype, {default = true})
+  res = require 'nvim-web-devicons'.get_icon(name, vim.bo.filetype, { default = true })
   return res
 end
 
@@ -94,36 +94,36 @@ function M.filetype()
     -- Causes artifacts in ruler section
     -- is_treesitter() and '🌴' or nil
     is_treesitter() and '' or nil
-  } , ' ')
+  }, ' ')
 end
 
 function M.encodingAndFormat()
-    local e = vim.bo.fileencoding and vim.bo.fileencoding or vim.o.encoding
+  local e = vim.bo.fileencoding and vim.bo.fileencoding or vim.o.encoding
 
-    local r = {}
-    if e ~= 'utf-8' then
-      r[#r+1] = e
+  local r = {}
+  if e ~= 'utf-8' then
+    r[#r + 1] = e
+  end
+
+  local f = vim.bo.fileformat
+  if f ~= 'unix' then
+    r[#r + 1] = '[' .. f .. ']'
+    local ok, res = pcall(api.nvim_call_function, 'WebDevIconsGetFileFormatSymbol')
+    if ok then
+      r[#r + 1] = res
     end
+  end
 
-    local f = vim.bo.fileformat
-    if f ~= 'unix' then
-      r[#r+1] = '['..f..']'
-      local ok, res = pcall(api.nvim_call_function, 'WebDevIconsGetFileFormatSymbol')
-      if ok then
-        r[#r+1] = res
-      end
-    end
-
-    return table.concat(r, ' ')
+  return table.concat(r, ' ')
 end
 
 local function recording()
-    local reg = vim.fn.reg_recording()
-    if reg ~= '' then
-        return '%#ModeMsg#  RECORDING['..reg..']  '
-    end
+  local reg = vim.fn.reg_recording()
+  if reg ~= '' then
+    return '%#ModeMsg#  RECORDING[' .. reg .. ']  '
+  end
 
-    return ''
+  return ''
 end
 
 function M.bufname()
@@ -131,7 +131,7 @@ function M.bufname()
   local buf_name = vim.api.nvim_buf_get_name(0)
   if vim.startswith(buf_name, 'gitsigns://') then
     local _, _, revision, relpath = buf_name:find([[^gitsigns://.*/%.git.*/(.*):(.*)]])
-    name = relpath..'@'..revision:sub(1, 7)
+    name = relpath .. '@' .. revision:sub(1, 7)
   end
 
   if vim.startswith(buf_name, 'term://') then
@@ -143,12 +143,12 @@ function M.bufname()
 end
 
 local function pad(x)
-  return '%( '..x..' %)'
+  return '%( ' .. x .. ' %)'
 end
 
 local function func(name, active, mods)
   active = active or 1
-  return '%'..(mods or '')..'{%v:lua.statusline.'..name..'('..tostring(active)..')%}'
+  return '%' .. (mods or '') .. '{%v:lua.statusline.' .. name .. '(' .. tostring(active) .. ')%}'
 end
 
 local function parse_sections(sections)
@@ -156,9 +156,9 @@ local function parse_sections(sections)
   for _, s in ipairs(sections) do
     local sub_result = {}
     for _, part in ipairs(s) do
-      sub_result[#sub_result+1] = part
+      sub_result[#sub_result + 1] = part
     end
-    result[#result+1] = table.concat(sub_result)
+    result[#result + 1] = table.concat(sub_result)
   end
   -- Leading '%=' reeded for first highlight to work
   return '%=' .. table.concat(result, '%=')
@@ -166,7 +166,7 @@ end
 
 function M.set(active, global)
   local scope = global and 'o' or 'wo'
-  vim[scope].statusline = parse_sections{
+  vim[scope].statusline = parse_sections {
     {
       highlight(1, active),
       recording(),
@@ -177,7 +177,7 @@ function M.set(active, global)
     },
     {
       '%<',
-      pad(func('bufname', nil, '0.60')..'%m%r%h%q'),
+      pad(func('bufname', nil, '0.60') .. '%m%r%h%q'),
     },
     {
       pad(func('filetype')),
@@ -190,10 +190,10 @@ end
 
 -- Only set up WinEnter autocmd when the WinLeave autocmd runs
 api.nvim_create_augroup('statusline', {})
-api.nvim_create_autocmd({'WinLeave', 'FocusLost'}, {
+api.nvim_create_autocmd({ 'WinLeave', 'FocusLost' }, {
   group = 'statusline',
   callback = function()
-    api.nvim_create_autocmd({'BufWinEnter', 'WinEnter', 'FocusGained'}, {
+    api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter', 'FocusGained' }, {
       group = 'statusline',
       callback = function()
         M.set(1)
