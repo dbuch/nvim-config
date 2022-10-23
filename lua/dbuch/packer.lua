@@ -96,15 +96,11 @@ function M.setup(init)
       },
       max_jobs = 30,
       display = {
-        -- open_cmd = '65vnew \\[packer\\]',
-        -- open_cmd = 'edit \\[packer\\]',
         prompt_border = 'rounded'
       },
       autoremove = true
     }
   }
-
-  vim.keymap.set('n', '<leader>u', '<cmd>PackerUpdate<CR>', { silent = true })
 end
 
 return M
