@@ -3,7 +3,6 @@ packer.setup {
   -- Core
   'lewis6991/impatient.nvim',
   'wbthomason/packer.nvim',
-
   -- Editor
   { 'lewis6991/spaceless.nvim', config = [[require('spaceless').setup()]] },
   { 'lewis6991/cleanfold.nvim', config = [[require('cleanfold').setup()]] },
@@ -14,37 +13,29 @@ packer.setup {
       }
     end
   },
-
   { 'kyazdani42/nvim-tree.lua',
     requires = {
       'kyazdani42/nvim-web-devicons',
     },
     config = [[require'dbuch.tree']]
   },
-
   { 'b3nj5m1n/kommentary' },
   { 'gpanders/editorconfig.nvim' },
-
   { 'sindrets/diffview.nvim',
     requires = { 'nvim-lua/plenary.nvim' }
   },
-
   'folke/trouble.nvim',
-
   { 'ahmedkhalf/project.nvim', config = [[require'dbuch.project']] },
-
   { 'akinsho/toggleterm.nvim',
     tag = '*',
     config = [[require'dbuch.terminal']]
   },
-
   { 'ggandor/leap-ast.nvim',
     requires = 'ggandor/leap.nvim',
     config = function()
       require('leap').add_default_mappings()
     end,
   },
-
   -- Dap
   { "mfussenegger/nvim-dap",
     requires = {
@@ -54,9 +45,7 @@ packer.setup {
     --  setup = function() require 'dap-setup'.setup() end,
     --  config = function() require 'dap-setup'.config() end,
   },
-
   { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
-
   -- Buffer
   { 'lewis6991/hover.nvim', config = function()
     require('hover').setup {
@@ -70,11 +59,8 @@ packer.setup {
     vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
     vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
   end },
-
   { 'glepnir/lspsaga.nvim' },
-
   { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
-
   { 'windwp/nvim-autopairs',
     config = function()
       require 'nvim-autopairs'.setup {}
@@ -86,7 +72,6 @@ packer.setup {
       'hrsh7th/nvim-cmp',
     }
   },
-
   { 'AndrewRadev/bufferize.vim',
     cmd = 'Bufferize',
     config = function()
@@ -100,18 +85,15 @@ packer.setup {
       })
     end
   },
-
   { 'kevinhwang91/nvim-hlslens',
     config = function() require('hlslens').setup({
         calm_down = true,
       })
     end
   },
-
   { 'rcarriga/nvim-notify', config = function()
     vim.notify = require("notify")
   end },
-
   { 'j-hui/fidget.nvim', config = function()
     require 'fidget'.setup {
       text = {
@@ -135,36 +117,29 @@ packer.setup {
       }
     }
   end },
-
   -- Coloring
   'folke/lsp-colors.nvim',
   { 'lewis6991/nvim-colorizer.lua', config = [[require('colorizer').setup()]] },
-
   -- Icons
   'kyazdani42/nvim-web-devicons',
   'ryanoasis/vim-devicons',
-
   -- LSP
   { 'neovim/nvim-lspconfig',
     requires = {
-      'folke/lua-dev.nvim',
+      'folke/neodev.nvim',
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind-nvim',
     },
     config = "require'dbuch.lsp'"
   },
-
   { 'jose-elias-alvarez/null-ls.nvim', config = [[require('dbuch.null-ls')]] },
-
   'rafamadriz/friendly-snippets',
-
   { 'saecki/crates.nvim',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
     config = function()
       require('crates').setup {}
     end,
   },
-
   { 'hrsh7th/nvim-cmp',
     requires = {
       'L3MON4D3/LuaSnip',
@@ -179,9 +154,7 @@ packer.setup {
     },
     config = [[require('dbuch.cmp')]]
   },
-
   -- Treesitter
-
   { 'nvim-lua/telescope.nvim',
     requires = {
       'nvim-telescope/telescope-ui-select.nvim',
@@ -190,24 +163,16 @@ packer.setup {
     },
     config = [[require('dbuch.telescope')]]
   },
-
-
   { 'nvim-treesitter/nvim-treesitter',
     requires = {
       'nvim-treesitter/nvim-treesitter-context',
       'JoosepAlviste/nvim-ts-context-commentstring',
-      'nvim-treesitter/playground',
+      --'nvim-treesitter/playground',
     },
     run = ':TSUpdate',
     config = [[require('dbuch.treesitter')]],
   },
-
   -- Lua/Neovim Dev
-
-  { 'neovim/nvimdev.nvim',
-    requires = { 'neomake/neomake' }
-  },
-
   { 'folke/neodev.nvim',
     requires = {
       'neovim/nvim-lspconfig',
