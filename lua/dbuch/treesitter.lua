@@ -11,8 +11,6 @@ require 'nvim-treesitter'.define_modules {
   }
 }
 
-
-
 parser_config.wgsl = {
   install_info = {
     url = "https://github.com/szebniok/tree-sitter-wgsl",

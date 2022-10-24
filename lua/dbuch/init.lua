@@ -22,7 +22,6 @@ if 'Plugins' then
   api.nvim_create_augroup('vimrc', {})
 end
 
-
 if 'Options' then
   o.backup         = true
   o.backupdir:remove('.')
@@ -95,7 +94,6 @@ if 'Options' then
   o.showmode = false
   o.showcmd = false
 end
-
 
 if 'Mappings' then
   vim.g.mapleader = ' '

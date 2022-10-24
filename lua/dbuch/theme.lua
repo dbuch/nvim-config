@@ -152,13 +152,13 @@ hi {
   GitSignsDeleteSec = { fg = red[1] },
 }
 
--- vim-gitgutter
+--[[ -- vim-gitgutter
 hi {
   GitGutterAdd          = { link = 'GitSignsAdd' },
   GitGutterChange       = { link = 'GitSignsChange' },
   GitGutterDelete       = { link = 'GitSignsDelete' },
   GitGutterChangeDelete = { link = 'GitSignsChange' },
-}
+} ]]
 
 hi {
   Operator    = { fg = red[7] },
