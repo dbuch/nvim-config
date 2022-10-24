@@ -167,7 +167,6 @@ packer.setup {
     requires = {
       'nvim-treesitter/nvim-treesitter-context',
       'JoosepAlviste/nvim-ts-context-commentstring',
-      --'nvim-treesitter/playground',
     },
     run = ':TSUpdate',
     config = [[require('dbuch.treesitter')]],
