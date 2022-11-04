@@ -1,4 +1,5 @@
 local packer = require('dbuch.packer')
+
 packer.setup {
   -- Core
   'lewis6991/impatient.nvim',
@@ -19,22 +20,25 @@ packer.setup {
     },
     config = [[require'dbuch.tree']]
   },
-  { 'b3nj5m1n/kommentary' },
+  {'numToStr/Comment.nvim',
+    requires = { 'JoosepAlviste/nvim-treesitter' },
+    config = function ()
+      require('Comment').setup {
+        pre_hook = require'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook()
+      }
+    end
+  },
   { 'gpanders/editorconfig.nvim' },
   { 'sindrets/diffview.nvim',
     requires = { 'nvim-lua/plenary.nvim' }
   },
-  'folke/trouble.nvim',
+  { 'folke/trouble.nvim',
+    config = [[require'dbuch.trouble']]
+  },
   { 'ahmedkhalf/project.nvim', config = [[require'dbuch.project']] },
   { 'akinsho/toggleterm.nvim',
     tag = '*',
     config = [[require'dbuch.terminal']]
-  },
-  { 'ggandor/leap-ast.nvim',
-    requires = 'ggandor/leap.nvim',
-    config = function()
-      require('leap').add_default_mappings()
-    end,
   },
   -- Dap
   { "mfussenegger/nvim-dap",
@@ -47,19 +51,25 @@ packer.setup {
   },
   { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
   -- Buffer
-  { 'lewis6991/hover.nvim', config = function()
-    require('hover').setup {
-      init = function()
-        require('hover.providers.lsp')
-        --require('hover.providers.gh')
-        require('hover.providers.dictionary')
-        require('hover.providers.man')
-      end
-    }
-    vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
-    vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
-  end },
-  { 'glepnir/lspsaga.nvim' },
+  { 'dbuch/hover.nvim',
+    config = function()
+      require('hover').setup {
+        init = function()
+          require('hover.providers.lsp')
+          --require('hover.providers.gh')
+          require('hover.providers.dictionary')
+          require('hover.providers.man')
+        end
+      }
+      vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
+      vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
+    end
+  },
+  { 'rmagatti/goto-preview',
+    config = function()
+      require('goto-preview').setup()
+    end
+  },
   { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
   { 'windwp/nvim-autopairs',
     config = function()
@@ -129,6 +139,7 @@ packer.setup {
       'folke/neodev.nvim',
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind-nvim',
+      'theHamsta/nvim-semantic-tokens',
     },
     config = "require'dbuch.lsp'"
   },
@@ -166,11 +177,14 @@ packer.setup {
   { 'nvim-treesitter/nvim-treesitter',
     requires = {
       'nvim-treesitter/nvim-treesitter-context',
+      'nvim-treesitter/nvim-treesitter-refactor',
+      'nvim-treesitter/nvim-treesitter-textobjects',
       'JoosepAlviste/nvim-ts-context-commentstring',
     },
     run = ':TSUpdate',
     config = [[require('dbuch.treesitter')]],
   },
+
   -- Lua/Neovim Dev
   { 'folke/neodev.nvim',
     requires = {

@@ -3,6 +3,7 @@ require 'dbuch.status'
 require 'dbuch.diagnostic'
 require 'dbuch.plugins'
 require 'dbuch.theme'
+require 'dbuch.jumps'
 
 local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 
@@ -25,8 +26,8 @@ end
 if 'Options' then
   o.backup         = true
   o.backupdir:remove('.')
-  o.breakindent    = true -- Indent wrapped lines to match start
---  o.clipboard      = 'unnamedplus' TODO Fix this when wl-copy behaves
+  o.breakindent    = true
+--TODO  o.clipboard      = 'unnamedplus' Fix this when wl-copy behaves
   o.expandtab      = true
   o.fillchars      = { eob = ' ', diff = ' ' }
   o.hidden         = true

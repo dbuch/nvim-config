@@ -23,7 +23,7 @@ local function use_local(init)
 
   local function try_get_local(plugin)
     local _, name = unpack(vim.split(plugin, '/'))
-    local loc_install = home .. '/projects/' .. name
+    local loc_install = home .. '/dev/nvim/' .. name
     if name ~= '' and vim.loop.fs_stat(loc_install) then
       return loc_install
     else

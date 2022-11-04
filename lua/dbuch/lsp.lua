@@ -1,41 +1,11 @@
-require 'lsp_signature'.setup {
+--[[ require 'lsp_signature'.setup {
   hi_parameter = "Visual",
-}
+} ]]
 require("neodev").setup({})
 
 local lspconfig = require('lspconfig')
--- local lsp_status = require('lsp-status')
 
-require('lspkind').init({
-  mode = "text",
-  symbol_map = {
-    Text = '  ',
-    Method = '  ',
-    Function = '  ',
-    Constructor = '  ',
-    Field = '  ',
-    Variable = '  ',
-    Class = '  ',
-    Interface = '  ',
-    Module = '  ',
-    Property = '  ',
-    Unit = '  ',
-    Value = '  ',
-    Enum = '  ',
-    Keyword = '  ',
-    Snippet = '  ',
-    Color = '  ',
-    File = '  ',
-    Reference = '  ',
-    Folder = '  ',
-    EnumMember = '  ',
-    Constant = '  ',
-    Struct = '  ',
-    Event = '  ',
-    Operator = '  ',
-    TypeParameter = '  ',
-  }
-})
+local done_st = false
 
 local function make_on_attach(config)
   return function(client, bufnr)
@@ -48,6 +18,7 @@ local function make_on_attach(config)
 
     require('lsp_signature').on_attach({
       floating_window_above_first = true,
+      hi_parameter = "Visual",
       bind = false,
     }, bufnr)
 
@@ -59,18 +30,39 @@ local function make_on_attach(config)
       vim.lsp.codelens.refresh()
     end
 
+    if not done_st then
+      require("nvim-semantic-tokens").setup {
+        preset = "default",
+        highlighters = { require 'nvim-semantic-tokens.table-highlighter' }
+      }
+      vim.api.nvim_create_augroup('SemanticTokens', {})
+      done_st = true
+    end
+    if client.server_capabilities.semanticTokensProvider and client.server_capabilities.semanticTokensProvider.full then
+      vim.api.nvim_create_autocmd("TextChanged", {
+        group = 'SemanticTokens',
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.semantic_tokens_full()
+        end,
+      })
+      -- fire it first time on load as well
+      vim.lsp.buf.semantic_tokens_full()
+    end
+
     if config.after then
       config.after(client)
     end
   end
 end
 
---[[ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+--[[
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-  virtual_text = false,
-  signs = true,
-  update_in_insert = false,
-}
+    virtual_text = false,
+    signs = true,
+    update_in_insert = false,
+  }
 )
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -109,7 +101,7 @@ local servers = {
     enable_roslyn_analyzers = true,
     organize_imports_on_format = true,
     enable_import_completion = true,
-    sdk_include_prereleases = true,
+    sdk_include_prereleases = false,
     analyze_open_documents_only = false,
   },
 
@@ -119,7 +111,6 @@ local servers = {
       '--clang-tidy', '--completion-style=bundled', '--header-insertion=iwyu',
       '--suggest-missing-includes', '--cross-file-rename'
     },
-    -- handlers = lsp_status.extensions.clangd.setup(),
     init_options = {
       clangdFileStatus = true,
       usePlaceholders = true,
@@ -175,6 +166,6 @@ for server, config in pairs(servers) do
   if lspconfig[server] ~= nil then
     lspconfig[server].setup(config)
   else
-    print("Server: " .. server)
+    vim.notify("Failed to setup: " .. server, vim.log.levels.WARN)
   end
 end

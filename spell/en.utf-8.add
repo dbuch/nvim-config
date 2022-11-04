@@ -7,3 +7,7 @@ cmdline
 nvim_lsp
 calc
 filetype
+ui
+hover_select
+egui
+lang

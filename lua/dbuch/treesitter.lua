@@ -5,7 +5,7 @@ require 'nvim-treesitter'.define_modules {
     attach = function()
       vim.opt_local.foldexpr = 'nvim_treesitter#foldexpr()'
       vim.opt_local.foldmethod = 'expr'
-      vim.cmd.normal 'zx' -- recompute folds
+      vim.opt_local.foldenable = false
     end,
     detach = function() end,
   }
@@ -37,6 +37,20 @@ require('nvim-treesitter.configs').setup {
     "glsl",
     "wgsl"
   },
+
+  highlight = {
+    enable = true
+  },
+
+  refactor = {
+    highlight_current_scope = { enable = true },
+  },
+
+  textobjects = {
+    enable = true,
+    lookahead = true
+  },
+
   indent = {
     'enabled'
   },
@@ -57,8 +71,8 @@ require('nvim-treesitter.configs').setup {
 
   fold = {
     enable = true,
-    disable = {'rst', 'make'}
+    disable = { 'rst', 'make' }
   },
 
-  context_commentstring = { enable = true }
+  context_commentstring = { enable = true, enable_autocmd = false }
 }

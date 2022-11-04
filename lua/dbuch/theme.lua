@@ -46,27 +46,7 @@ local pink = {
   [5] = 0xdb61a2, [6] = 0xf778ba, [7] = 0xff9bce, [8] = 0xffbedd, [9] = 0xffdaec
 }
 
--- local black    = 0x010409
 local white = gray[9]
-
--- local ansi_black          = gray_0
--- local ansi_black_bright   = gray_1
--- local ansi_white          = gray_7
--- local ansi_white_bright   = gray_8
--- local ansi_gray           = gray_5
--- local ansi_red            = red_6
--- local ansi_red_bright     = red_7
--- local ansi_green          = green_6
--- local ansi_green_bright   = green_7
--- local ansi_yellow         = yellow_6
--- local ansi_yellow_bright  = yellow_7
--- local ansi_blue           = blue_6
--- local ansi_blue_bright    = blue_7
--- local ansi_magenta        = purple_6
--- local ansi_magenta_bright = purple_7
--- local ansi_cyan           = 0x76e3ea
--- local ansi_cyan_bright    = 0xb3f0ff
-
 local selection_bg = 0x29384B
 
 vim.cmd('highlight clear')
@@ -151,14 +131,6 @@ hi {
   GitSignsChangeSec = { fg = purple[3] },
   GitSignsDeleteSec = { fg = red[1] },
 }
-
---[[ -- vim-gitgutter
-hi {
-  GitGutterAdd          = { link = 'GitSignsAdd' },
-  GitGutterChange       = { link = 'GitSignsChange' },
-  GitGutterDelete       = { link = 'GitSignsDelete' },
-  GitGutterChangeDelete = { link = 'GitSignsChange' },
-} ]]
 
 hi {
   Operator    = { fg = red[7] },
