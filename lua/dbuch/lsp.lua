@@ -4,7 +4,7 @@
 require("neodev").setup({})
 
 local lspconfig = require('lspconfig')
-
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local done_st = false
 
 local function make_on_attach(config)
@@ -38,6 +38,7 @@ local function make_on_attach(config)
       vim.api.nvim_create_augroup('SemanticTokens', {})
       done_st = true
     end
+
     if client.server_capabilities.semanticTokensProvider and client.server_capabilities.semanticTokensProvider.full then
       vim.api.nvim_create_autocmd("TextChanged", {
         group = 'SemanticTokens',
@@ -56,24 +57,9 @@ local function make_on_attach(config)
   end
 end
 
---[[
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-  }
-)
-
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end ]]
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local servers = {
+  -- VSCode Servers
   html = {
     cmd = { "vscode-html-languageserver", "--stdio" },
     filetypes = { "html" },
@@ -150,8 +136,10 @@ local servers = {
   },
 
   sumneko_lua = {
-    lspconfig = {
-      cmd = { "lua-language-server" },
+    Lua = {
+      completion = {
+        callSnippet = "Replace"
+      }
     }
   }
 }

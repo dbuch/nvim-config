@@ -24,10 +24,10 @@ if 'Plugins' then
 end
 
 if 'Options' then
-  o.backup         = true
+  o.backup = true
   o.backupdir:remove('.')
   o.breakindent    = true
---TODO  o.clipboard      = 'unnamedplus' Fix this when wl-copy behaves
+  --TODO  o.clipboard      = 'unnamedplus' Fix this when wl-copy behaves
   o.expandtab      = true
   o.fillchars      = { eob = ' ', diff = ' ' }
   o.hidden         = true
@@ -102,8 +102,14 @@ if 'Mappings' then
   set('', 'H', '^')
   set('', 'L', '$')
 
+  set('n', 'Y', 'y$')
+
+  set('n', 'q', '<nop>')
+
   set('n', 'j', 'v:count ? "j" : "gj"', { expr = true })
   set('n', 'k', 'v:count ? "k" : "gk"', { expr = true })
+  set('n', '|', [[!v:count ? "<C-W>v<C-W><Right>" : '|']], { expr = true, silent = true })
+  set('n', '_', [[!v:count ? "<C-W>s<C-W><Down>"  : '_']], { expr = true, silent = true })
 
   set('n', '<leader>t', ':ToggleTerm<CR>', { nowait = true, silent = true })
   set('n', '<leader>f', function() require('telescope.builtin').find_files() end)
@@ -112,23 +118,13 @@ if 'Mappings' then
 
   set('n', '<c-q>', ':bd<CR>', { silent = true })
 
-  set('n', '<leader>la', ':Lspsaga code_action<CR>', { silent = true })
-  set('n', '<leader>ln', ':Lspsaga rename<CR>', { silent = true })
-  set('n', '<leader>ls', function() require('telescope.builtin').lsp_definitions() end)
-  set('n', '<leader>lr', function() require('telescope.builtin').lsp_references() end)
-  set('n', '<leader>ld', ':Lspsaga peek_definition<CR>', { silent = true })
-  set('n', '<leader>lt', ':TroubleToggle<CR>', { silent = true })
-
-  set('n', 'K', function()
-    if vim.fn.expand('%:t') == 'Cargo.toml' then
-      require('crates').show_popup()
-    else
-      require('lspsaga.hover'):render_hover_doc()
-    end
-  end, { silent = true })
-  set('n', '<c-k>', ':Lspsaga show_line_diagnostics<CR>', { silent = true })
-
-  -- set('n', 'gd', vim.lsp.buf.definition)
+  -- set('n', '<leader>la', ':Lspsaga code_action<CR>', { silent = true })
+  -- set('n', '<leader>ln', ':Lspsaga rename<CR>', { silent = true })
+  set('n', 'gD', function() require('telescope.builtin').lsp_definitions() end)
+  set('n', 'gr', function() require('telescope.builtin').lsp_references() end)
+  set('n', 'gp', function() require('goto-preview').goto_preview_definition() end, { silent = true })
+  set('n', 'gd', vim.lsp.buf.definition)
+  set('n', 'gt', ':TroubleToggle<CR>', { silent = true })
 
   set('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
   set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', { silent = true })

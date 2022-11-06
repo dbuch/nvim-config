@@ -117,15 +117,6 @@ function M.encodingAndFormat()
   return table.concat(r, ' ')
 end
 
-local function recording()
-  local reg = vim.fn.reg_recording()
-  if reg ~= '' then
-    return '%#ModeMsg#  RECORDING[' .. reg .. ']  '
-  end
-
-  return ''
-end
-
 function M.bufname()
   local name = vim.api.nvim_eval_statusline('%f', {}).str
   local buf_name = vim.api.nvim_buf_get_name(0)
@@ -169,7 +160,6 @@ function M.set(active, global)
   vim[scope].statusline = parse_sections {
     {
       highlight(1, active),
-      recording(),
       pad(func('hunks')),
       highlight(2, active),
       pad(func('lsp_status', active)),

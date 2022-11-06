@@ -35,7 +35,8 @@ require('nvim-treesitter.configs').setup {
     "javascript",
     "bash",
     "glsl",
-    "wgsl"
+    "wgsl",
+    "nu",
   },
 
   highlight = {

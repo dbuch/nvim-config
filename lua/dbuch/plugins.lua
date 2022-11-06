@@ -5,7 +5,6 @@ packer.setup {
   'lewis6991/impatient.nvim',
   'wbthomason/packer.nvim',
   -- Editor
-  { 'lewis6991/spaceless.nvim', config = [[require('spaceless').setup()]] },
   { 'lewis6991/cleanfold.nvim', config = [[require('cleanfold').setup()]] },
   { 'lewis6991/foldsigns.nvim',
     config = function()
@@ -14,19 +13,11 @@ packer.setup {
       }
     end
   },
-  { 'kyazdani42/nvim-tree.lua',
+  { 'nvim-tree/nvim-tree.lua',
     requires = {
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
     },
     config = [[require'dbuch.tree']]
-  },
-  {'numToStr/Comment.nvim',
-    requires = { 'JoosepAlviste/nvim-treesitter' },
-    config = function ()
-      require('Comment').setup {
-        pre_hook = require'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook()
-      }
-    end
   },
   { 'gpanders/editorconfig.nvim' },
   { 'sindrets/diffview.nvim',
@@ -58,6 +49,7 @@ packer.setup {
           require('hover.providers.lsp')
           --require('hover.providers.gh')
           require('hover.providers.dictionary')
+          require('hover.providers.diagnostic')
           require('hover.providers.man')
         end
       }
@@ -65,9 +57,34 @@ packer.setup {
       vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
     end
   },
+  { 'numToStr/Comment.nvim',
+    requires = { 'JoosepAlviste/nvim-treesitter' },
+    config = function()
+      require('Comment').setup {
+        pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook()
+      }
+    end
+  },
   { 'rmagatti/goto-preview',
     config = function()
-      require('goto-preview').setup()
+      require('goto-preview').setup {
+        width = 120; -- Width of the floating window
+        height = 15; -- Height of the floating window
+        border = { "↖", "─", "┐", "│", "┘", "─", "└", "│" }; -- Border characters of the floating window
+        default_mappings = false; -- Bind default mappings
+        debug = false; -- Print debug information
+        opacity = nil; -- 0-100 opacity level of the floating window where 100 is fully transparent.
+        resizing_mappings = false; -- Binds arrow keys to resizing the floating window.
+        post_open_hook = nil; -- A function taking two arguments, a buffer and a window to be ran as a hook.
+        -- references = { -- Configure the telescope UI for slowing the references cycling window.
+        --   telescope = telescope.themes.get_dropdown({ hide_preview = false })
+        -- };
+        -- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
+        focus_on_open = true; -- Focus the floating window when opening it.
+        dismiss_on_move = true; -- Dismiss the floating window when moving the cursor.
+        force_close = true, -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
+        bufhidden = "wipe", -- the bufhidden option to set on the floating window. See :h bufhidden
+      }
     end
   },
   { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
@@ -185,11 +202,14 @@ packer.setup {
     config = [[require('dbuch.treesitter')]],
   },
 
-  -- Lua/Neovim Dev
-  { 'folke/neodev.nvim',
-    requires = {
-      'neovim/nvim-lspconfig',
-      'hrsh7th/nvim-cmp',
-    }
-  },
+  -- Other
+  { 'LhKipp/nvim-nu',
+    requires = { 'jose-elias-alvarez/null-ls.nvim' },
+    config = function()
+      require('nu').setup({
+        complete_cmd_names = true,
+      })
+    end
+
+  }
 }
