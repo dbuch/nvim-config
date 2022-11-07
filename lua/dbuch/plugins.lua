@@ -90,13 +90,16 @@ packer.setup {
   { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
   { 'windwp/nvim-autopairs',
     config = function()
-      require 'nvim-autopairs'.setup {}
+      require 'nvim-autopairs'.setup {
+        check_ts = true
+      }
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       local cmp = require('cmp')
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
     requires = {
       'hrsh7th/nvim-cmp',
+      'nvim-treesitter/nvim-treesitter',
     }
   },
   { 'AndrewRadev/bufferize.vim',
@@ -201,15 +204,16 @@ packer.setup {
     run = ':TSUpdate',
     config = [[require('dbuch.treesitter')]],
   },
-
   -- Other
   { 'LhKipp/nvim-nu',
-    requires = { 'jose-elias-alvarez/null-ls.nvim' },
+    requires = {
+      'jose-elias-alvarez/null-ls.nvim',
+      'nvim-treesitter/nvim-treesitter'
+    },
     config = function()
-      require('nu').setup({
+      require('nu').setup {
         complete_cmd_names = true,
-      })
+      }
     end
-
   }
 }
