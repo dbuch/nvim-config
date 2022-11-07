@@ -1,11 +1,14 @@
---[[ require 'lsp_signature'.setup {
-  hi_parameter = "Visual",
-} ]]
-require("neodev").setup({})
-
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local done_st = false
+local semanticTokensGroup = vim.api.nvim_create_augroup('SemanticTokens', {})
+
+require("nvim-semantic-tokens").setup {
+  preset = "default",
+  highlighters = { require 'nvim-semantic-tokens.table-highlighter' }
+}
+
+require("neodev").setup({})
+local lsp_signature = require('lsp_signature')
 
 local function make_on_attach(config)
   return function(client, bufnr)
@@ -13,16 +16,18 @@ local function make_on_attach(config)
       config.before(client)
     end
 
+    local server_capabilities = client.server_capabilities
+
     -- omni completion source
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    require('lsp_signature').on_attach({
+    lsp_signature.on_attach({
       floating_window_above_first = true,
       hi_parameter = "Visual",
       bind = false,
     }, bufnr)
 
-    if client.server_capabilities.code_lens then
+    if server_capabilities.code_lens then
       vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
         buffer = bufnr,
         callback = vim.lsp.codelens.refresh
@@ -30,18 +35,9 @@ local function make_on_attach(config)
       vim.lsp.codelens.refresh()
     end
 
-    if not done_st then
-      require("nvim-semantic-tokens").setup {
-        preset = "default",
-        highlighters = { require 'nvim-semantic-tokens.table-highlighter' }
-      }
-      vim.api.nvim_create_augroup('SemanticTokens', {})
-      done_st = true
-    end
-
-    if client.server_capabilities.semanticTokensProvider and client.server_capabilities.semanticTokensProvider.full then
+    if server_capabilities.semanticTokensProvider and server_capabilities.semanticTokensProvider.full then
       vim.api.nvim_create_autocmd("TextChanged", {
-        group = 'SemanticTokens',
+        group = semanticTokensGroup,
         buffer = bufnr,
         callback = function()
           vim.lsp.buf.semantic_tokens_full()

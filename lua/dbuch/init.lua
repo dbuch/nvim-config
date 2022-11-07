@@ -119,9 +119,9 @@ if 'Mappings' then
   set('n', '<c-q>', ':bd<CR>', { silent = true })
 
   -- set('n', '<leader>la', ':Lspsaga code_action<CR>', { silent = true })
-  -- set('n', '<leader>ln', ':Lspsaga rename<CR>', { silent = true })
-  set('n', 'gD', function() require('telescope.builtin').lsp_definitions() end)
-  set('n', 'gr', function() require('telescope.builtin').lsp_references() end)
+  set('n', 'gn', vim.lsp.buf.rename, { silent = true })
+  set('n', 'gD', function() require('telescope.builtin').lsp_definitions() end, {silent = true})
+  set('n', 'gr', function() require('telescope.builtin').lsp_references() end, {silent = true})
   set('n', 'gp', function() require('goto-preview').goto_preview_definition() end, { silent = true })
   set('n', 'gd', vim.lsp.buf.definition)
   set('n', 'gt', ':TroubleToggle<CR>', { silent = true })

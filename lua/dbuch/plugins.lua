@@ -49,7 +49,7 @@ packer.setup {
           require('hover.providers.lsp')
           --require('hover.providers.gh')
           require('hover.providers.dictionary')
-          require('hover.providers.diagnostic')
+          --require('hover.providers.diagnostic')
           require('hover.providers.man')
         end
       }
