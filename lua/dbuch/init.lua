@@ -112,19 +112,19 @@ if 'Mappings' then
   set('n', '_', [[!v:count ? "<C-W>s<C-W><Down>"  : '_']], { expr = true, silent = true })
 
   set('n', '<leader>t', ':ToggleTerm<CR>', { nowait = true, silent = true })
-  set('n', '<leader>f', function() require('telescope.builtin').find_files() end)
-  set('n', '<leader>b', function() require('telescope.builtin').buffers() end)
-  set('n', '<leader>g', function() require('telescope.builtin').live_grep() end)
+  set('n', '<leader>f', require('telescope.builtin').find_files)
+  set('n', '<leader>b', require('telescope.builtin').buffers)
+  set('n', '<leader>g', require('telescope.builtin').live_grep)
 
   set('n', '<c-q>', ':bd<CR>', { silent = true })
 
   -- set('n', '<leader>la', ':Lspsaga code_action<CR>', { silent = true })
+  set('n', 'gD', require('telescope.builtin').lsp_definitions, { silent = true })
+  set('n', 'gp', require('goto-preview').goto_preview_definition, { silent = true })
+  set('n', 'gd', vim.lsp.buf.definition, { silent = true})
   set('n', 'gn', vim.lsp.buf.rename, { silent = true })
-  set('n', 'gD', function() require('telescope.builtin').lsp_definitions() end, {silent = true})
-  set('n', 'gr', function() require('telescope.builtin').lsp_references() end, {silent = true})
-  set('n', 'gp', function() require('goto-preview').goto_preview_definition() end, { silent = true })
-  set('n', 'gd', vim.lsp.buf.definition)
   set('n', 'gt', ':TroubleToggle<CR>', { silent = true })
+  set('n', 'gr', ':TroubleToggle lsp_references<CR>', { silent = true })
 
   set('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
   set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', { silent = true })
