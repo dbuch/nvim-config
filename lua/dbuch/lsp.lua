@@ -7,7 +7,12 @@ require("nvim-semantic-tokens").setup {
   highlighters = { require 'nvim-semantic-tokens.table-highlighter' }
 }
 
-require("neodev").setup({})
+require("neodev").setup {
+  library = {
+    plugins = false
+  }
+}
+
 local lsp_signature = require('lsp_signature')
 
 local function make_on_attach(config)

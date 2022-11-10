@@ -1,4 +1,5 @@
 require 'dbuch.filetype'
+require 'dbuch.autocmds'
 require 'dbuch.status'
 require 'dbuch.diagnostic'
 require 'dbuch.plugins'
@@ -9,6 +10,7 @@ local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 
 if 'Plugins' then
   -- Stop loading built in plugins
+  vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
   vim.g.loaded_tutor_mode_plugin = 1
   vim.g.loaded_2html_plugin = 1
@@ -34,7 +36,6 @@ if 'Options' then
   o.ignorecase     = true
   o.inccommand     = 'split'
   o.number         = true
-  o.pumblend       = 10
   o.relativenumber = true
   o.scrolloff      = 6
   o.shiftwidth     = 2
@@ -48,11 +49,11 @@ if 'Options' then
   o.tabstop        = 2
   o.termguicolors  = true
   o.textwidth      = 80
-  o.virtualedit    = 'block' -- allow cursor to exist where there is no character
-  o.winblend       = 10
+  o.virtualedit    = 'block'
+  o.winblend       = 6
+  o.pumblend       = 6
   o.wrap           = false
 
-  -- Avoid showing extra message when using completion
   o.shortmess:append('c')
   o.completeopt:append {
     'noinsert',
@@ -111,6 +112,7 @@ if 'Mappings' then
   set('n', '|', [[!v:count ? "<C-W>v<C-W><Right>" : '|']], { expr = true, silent = true })
   set('n', '_', [[!v:count ? "<C-W>s<C-W><Down>"  : '_']], { expr = true, silent = true })
 
+  set('n', '<leader>T', ':Telescope<CR>', { nowait = true, silent = true })
   set('n', '<leader>t', ':ToggleTerm<CR>', { nowait = true, silent = true })
   set('n', '<leader>f', require('telescope.builtin').find_files)
   set('n', '<leader>b', require('telescope.builtin').buffers)

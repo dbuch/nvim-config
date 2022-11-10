@@ -1,6 +1,4 @@
-local packer = require('dbuch.packer')
-
-packer.setup {
+require('dbuch.packer').setup {
   -- Core
   'lewis6991/impatient.nvim',
   'wbthomason/packer.nvim',
