@@ -1,0 +1,14 @@
+-- TODO: Find a way to force close and write [No name] buf on quit
+-- local prequit_group = vim.api.nvim_create_augroup("_prequitgroup", {})
+-- vim.api.nvim_create_autocmd("VimLeavePre", {
+--   group = prequit_group,
+--   pattern = "*",
+--   callback = function ()
+--     local buffers = vim.api.nvim_list_bufs()
+--     for _, buf in ipairs(buffers) do
+--       if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) == "" then
+--         vim.api.nvim_buf_delete(buf, { force = true})
+--       end
+--     end
+--   end
+-- })
