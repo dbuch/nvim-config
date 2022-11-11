@@ -1,19 +1,19 @@
-local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local semanticTokensGroup = vim.api.nvim_create_augroup('SemanticTokens', {})
+local lspconfig = require("lspconfig")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local semanticTokensGroup = vim.api.nvim_create_augroup("SemanticTokens", {})
 
-require("nvim-semantic-tokens").setup {
+require("nvim-semantic-tokens").setup({
   preset = "default",
-  highlighters = { require 'nvim-semantic-tokens.table-highlighter' }
-}
+  highlighters = { require("nvim-semantic-tokens.table-highlighter") },
+})
 
-require("neodev").setup {
+require("neodev").setup({
   library = {
-    plugins = false
-  }
-}
+    plugins = false,
+  },
+})
 
-local lsp_signature = require('lsp_signature')
+local lsp_signature = require("lsp_signature")
 
 local function make_on_attach(config)
   return function(client, bufnr)
@@ -24,7 +24,7 @@ local function make_on_attach(config)
     local server_capabilities = client.server_capabilities
 
     -- omni completion source
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
     lsp_signature.on_attach({
       floating_window_above_first = true,
@@ -33,9 +33,9 @@ local function make_on_attach(config)
     }, bufnr)
 
     if server_capabilities.code_lens then
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
         buffer = bufnr,
-        callback = vim.lsp.codelens.refresh
+        callback = vim.lsp.codelens.refresh,
       })
       vim.lsp.codelens.refresh()
     end
@@ -57,7 +57,6 @@ local function make_on_attach(config)
     end
   end
 end
-
 
 local servers = {
   -- VSCode Servers
@@ -94,25 +93,29 @@ local servers = {
 
   clangd = {
     cmd = {
-      'clangd', '--offset-encoding=utf-32',
-      '--clang-tidy', '--completion-style=bundled', '--header-insertion=iwyu',
-      '--suggest-missing-includes', '--cross-file-rename'
+      "clangd",
+      "--offset-encoding=utf-32",
+      "--clang-tidy",
+      "--completion-style=bundled",
+      "--header-insertion=iwyu",
+      "--suggest-missing-includes",
+      "--cross-file-rename",
     },
     init_options = {
       clangdFileStatus = true,
       usePlaceholders = true,
-      completeUnimported = true
+      completeUnimported = true,
     },
-    capabilities = vim.tbl_deep_extend("force", capabilities, { offsetEncoding = { 'utf-32' } })
+    capabilities = vim.tbl_deep_extend("force", capabilities, { offsetEncoding = { "utf-32" } }),
   },
 
   texlab = {
     cmd = { "texlab" },
     latex = {
       build = {
-        onSave = true;
-      }
-    }
+        onSave = true,
+      },
+    },
   },
 
   pyright = {},
@@ -126,23 +129,23 @@ local servers = {
           runBuildScripts = true,
         },
         checkOnSave = {
-          command = "clippy"
+          command = "clippy",
         },
-      }
+      },
     },
   },
 
   wgsl_analyzer = {
-    cmd = { "wgsl_analyzer" }
+    cmd = { "wgsl_analyzer" },
   },
 
   sumneko_lua = {
     Lua = {
       completion = {
-        callSnippet = "Replace"
-      }
-    }
-  }
+        callSnippet = "Replace",
+      },
+    },
+  },
 }
 
 for server, config in pairs(servers) do

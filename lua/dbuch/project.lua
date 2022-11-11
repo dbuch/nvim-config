@@ -1,4 +1,4 @@
-require("project_nvim").setup {
+require("project_nvim").setup({
   manual_mode = false,
   detection_methods = { "lsp", "patterns" },
   patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "Cargo.toml" },
@@ -7,4 +7,4 @@ require("project_nvim").setup {
   show_hidden = false,
   silent_chdir = true,
   datapath = vim.fn.stdpath("data"),
-}
+})

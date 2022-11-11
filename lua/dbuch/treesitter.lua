@@ -1,30 +1,30 @@
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
-require 'nvim-treesitter'.define_modules {
+require("nvim-treesitter").define_modules({
   fold = {
     attach = function()
-      vim.opt_local.foldexpr = 'nvim_treesitter#foldexpr()'
-      vim.opt_local.foldmethod = 'expr'
+      vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+      vim.opt_local.foldmethod = "expr"
       vim.opt_local.foldenable = false
     end,
     detach = function() end,
-  }
-}
+  },
+})
 
 parser_config.wgsl = {
   install_info = {
     url = "https://github.com/szebniok/tree-sitter-wgsl",
-    files = { "src/parser.c" }
+    files = { "src/parser.c" },
   },
 }
 
-require 'treesitter-context'.setup {
+require("treesitter-context").setup({
   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
   max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
-  trim_scope = 'outer',
-}
+  trim_scope = "outer",
+})
 
-require('nvim-treesitter.configs').setup {
+require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "c",
     "rust",
@@ -50,11 +50,11 @@ require('nvim-treesitter.configs').setup {
 
   textobjects = {
     enable = true,
-    lookahead = true
+    lookahead = true,
   },
 
   indent = {
-    'enabled'
+    "enabled",
   },
 
   incremental_selection = {
@@ -73,7 +73,7 @@ require('nvim-treesitter.configs').setup {
 
   fold = {
     enable = true,
-    disable = { 'rst', 'make' }
+    disable = { "rst", "make" },
   },
 
   context_commentstring = { enable = true, enable_autocmd = false },
@@ -85,5 +85,5 @@ require('nvim-treesitter.configs').setup {
       vim.notify("Treesitter is disabled due to huge filesize (100KB)", vim.log.levels.WARN)
       return true
     end
-  end
-}
+  end,
+})

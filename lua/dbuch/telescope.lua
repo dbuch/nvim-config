@@ -1,8 +1,8 @@
-local telescope = require('telescope')
-local telescope_actions = require('telescope.actions')
+local telescope = require("telescope")
+local telescope_actions = require("telescope.actions")
 local sorters = require("telescope.sorters")
 
-telescope.setup {
+telescope.setup({
   defaults = {
     mappings = {
       i = {
@@ -18,13 +18,12 @@ telescope.setup {
     fzy_native = {
       override_generic_sorter = false,
       override_file_sorter = true,
-
     },
 
     ["ui-select"] = {
-      require("telescope.themes").get_cursor {
+      require("telescope.themes").get_cursor({
         -- even more opts
-      }
+      }),
     },
 
     frecency = {
@@ -33,18 +32,18 @@ telescope.setup {
       ignore_patterns = { "*.git/*", "*/tmp/*" },
       disable_devicons = false,
       workspaces = {
-        ["conf"]    = "/home/$USER/.config",
-        ["data"]    = "/home/$USER/.local/share",
+        ["conf"] = "/home/$USER/.config",
+        ["data"] = "/home/$USER/.local/share",
         ["project"] = "/home/$USER/projects",
-        ["wiki"]    = "/home/$USER/wiki"
-      }
-    }
+        ["wiki"] = "/home/$USER/wiki",
+      },
+    },
   },
-}
+})
 
-telescope.load_extension('fzy_native')
-telescope.load_extension('projects')
-telescope.load_extension('ui-select')
+telescope.load_extension("fzy_native")
+telescope.load_extension("projects")
+telescope.load_extension("ui-select")
 
 --TODO:
 --telescope.load_extension('dap')

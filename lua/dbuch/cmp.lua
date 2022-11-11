@@ -1,26 +1,26 @@
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-local lspkind = require('lspkind')
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+local lspkind = require("lspkind")
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-luasnip.config.set_config {
+luasnip.config.set_config({
   history = false,
   updateevents = "TextChanged,TextChangedI",
   delete_check_events = "TextChanged",
   region_check_events = "InsertEnter",
   enable_autosnippets = true,
-}
+})
 require("luasnip.loaders.from_vscode").lazy_load()
 
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
-    end
+    end,
   },
 
   window = {
@@ -32,7 +32,7 @@ cmp.setup {
   },
 
   view = {
-    entries = {name = 'custom', selection_order = 'near_cursor' }
+    entries = { name = "custom", selection_order = "near_cursor" },
   },
 
   formatting = {
@@ -41,25 +41,25 @@ cmp.setup {
       local kind = lspkind.cmp_format({
         mode = "symbol_text",
         maxwidth = 50,
-        ellipsis_char = '…',
+        ellipsis_char = "…",
       })(entry, item)
 
       local tokens = {}
       for token in vim.gsplit(kind.kind, "%s") do
-        if token ~= '' then
+        if token ~= "" then
           table.insert(tokens, token)
         end
       end
 
-      kind.kind = (' %s '):format(tokens[1])
+      kind.kind = (" %s "):format(tokens[1])
       kind.menu = ("    (%s)"):format(tokens[2])
 
       return kind
-    end
+    end,
   },
 
   completion = {
-    completeopt = 'menu,menuone,noinsert',
+    completeopt = "menu,menuone,noinsert",
   },
 
   mapping = cmp.mapping.preset.insert({
@@ -107,21 +107,21 @@ cmp.setup {
       end
     end, { "i", "s" }),
 
-    ['<CR>'] = cmp.mapping.confirm({
+    ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
-    })
+    }),
   }),
 
   sources = {
-    { name = 'nvim_lua' },
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'path' },
-    { name = 'calc' },
-    { name = 'crates' },
-    { name = 'buffer' },
-    { name = 'nvim_lsp_signature_help' }
+    { name = "nvim_lua" },
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "path" },
+    { name = "calc" },
+    { name = "crates" },
+    { name = "buffer" },
+    { name = "nvim_lsp_signature_help" },
   },
 
   compare = {
@@ -137,23 +137,23 @@ cmp.setup {
 
   experimental = {
     ghost_text = true,
-  }
-}
-
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  })
+  },
 })
 
-for _, v in pairs({ '/', '?' }) do
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline" },
+  }),
+})
+
+for _, v in pairs({ "/", "?" }) do
   cmp.setup.cmdline(v, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
-      { name = 'buffer' }
-    }
+      { name = "buffer" },
+    },
   })
 end
