@@ -79,7 +79,7 @@ require("nvim-treesitter.configs").setup({
   context_commentstring = { enable = true, enable_autocmd = false },
 
   disable = function(_, buf)
-    local max_filesize = 100 * 1024 -- 100 KB
+    local max_filesize = 1024 * 1024 -- MiB
     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
     if ok and stats and stats.size > max_filesize then
       vim.notify("Treesitter is disabled due to huge filesize (100KB)", vim.log.levels.WARN)
