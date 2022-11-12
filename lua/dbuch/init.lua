@@ -5,6 +5,7 @@ require("dbuch.diagnostic")
 require("dbuch.plugins")
 require("dbuch.theme")
 require("dbuch.jumps")
+require("dbuch.quit")
 
 local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 
