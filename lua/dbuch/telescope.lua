@@ -25,19 +25,6 @@ telescope.setup({
         -- even more opts
       }),
     },
-
-    frecency = {
-      show_scores = false,
-      show_unindexed = true,
-      ignore_patterns = { "*.git/*", "*/tmp/*" },
-      disable_devicons = false,
-      workspaces = {
-        ["conf"] = "/home/$USER/.config",
-        ["data"] = "/home/$USER/.local/share",
-        ["project"] = "/home/$USER/projects",
-        ["wiki"] = "/home/$USER/wiki",
-      },
-    },
   },
 })
 

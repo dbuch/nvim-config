@@ -1,5 +1,7 @@
 require("dbuch.filetype")
 require("dbuch.autocmds")
+
+--TODO(Perhaps plugin use): rebelot/heirline.nvim
 require("dbuch.status")
 require("dbuch.diagnostic")
 require("dbuch.plugins")
@@ -115,6 +117,7 @@ if "Mappings" then
 
   set("n", "<leader>T", ":Telescope<CR>", { nowait = true, silent = true })
   set("n", "<leader>t", ":ToggleTerm<CR>", { nowait = true, silent = true })
+  set("n", "<leader>s", ":SymbolsOutline<CR>", { nowait = true, silent = true })
   set("n", "<leader>f", require("telescope.builtin").find_files)
   set("n", "<leader>b", require("telescope.builtin").buffers)
   set("n", "<leader>g", require("telescope.builtin").live_grep)
