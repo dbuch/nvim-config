@@ -119,7 +119,7 @@ if "Mappings" then
   set("n", "<leader>b", require("telescope.builtin").buffers)
   set("n", "<leader>g", require("telescope.builtin").live_grep)
 
-  set("n", "<c-q>", ":bd<CR>", { silent = true })
+  set("n", "<c-q>", ":SmartQuit<CR>", { silent = true })
 
   set("n", "ga", vim.lsp.buf.code_action, { silent = true })
   set("n", "gD", require("telescope.builtin").lsp_definitions, { silent = true })
