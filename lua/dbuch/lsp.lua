@@ -106,7 +106,6 @@ local servers = {
       usePlaceholders = true,
       completeUnimported = true,
     },
-    capabilities = vim.tbl_deep_extend("force", capabilities, { offsetEncoding = { "utf-32" } }),
   },
 
   texlab = {

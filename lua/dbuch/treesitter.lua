@@ -3,6 +3,7 @@ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 require("nvim-treesitter").define_modules({
   fold = {
     attach = function()
+      vim.opt_local.spell = true
       vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
       vim.opt_local.foldmethod = "expr"
       vim.opt_local.foldenable = false
@@ -51,6 +52,9 @@ require("nvim-treesitter.configs").setup({
   textobjects = {
     enable = true,
     lookahead = true,
+    lsp_interop = {
+      enable = true,
+    },
   },
 
   indent = {
@@ -82,7 +86,7 @@ require("nvim-treesitter.configs").setup({
     local max_filesize = 1024 * 1024 -- MiB
     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
     if ok and stats and stats.size > max_filesize then
-      vim.notify("Treesitter is disabled due to huge filesize (100KB)", vim.log.levels.WARN)
+      vim.notify("Treesitter is disabled due to huge filesize (1MiB)", vim.log.levels.WARN)
       return true
     end
   end,

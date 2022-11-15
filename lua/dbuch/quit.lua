@@ -1,10 +1,10 @@
 local api = vim.api
 
 local function buf_is_modified(buf)
-    return api.nvim_buf_get_option(buf, "modified")
+  return api.nvim_buf_get_option(buf, "modified")
 end
 
-local function windows_contains_current(current_buf)
+local function wins_contain_current(current_buf)
   local current_win = api.nvim_get_current_win()
   local wins = api.nvim_list_wins()
   for _, win in ipairs(wins) do
@@ -15,19 +15,17 @@ local function windows_contains_current(current_buf)
   return false
 end
 
-local smart_quit = function ()
+local smart_quit = function()
   local current_win = api.nvim_get_current_win()
   local current_buf = api.nvim_win_get_buf(current_win)
 
-  local win_should_quit = windows_contains_current(current_buf)
+  local win_should_quit = wins_contain_current(current_buf)
   if win_should_quit then
     api.nvim_win_close(current_win, false)
+  elseif buf_is_modified(current_buf) then
+    api.nvim_win_close(current_win, false)
   else
-    if not buf_is_modified(current_buf) then
-      api.nvim_buf_delete(current_buf, {})
-    else
-      api.nvim_win_close(current_win, false)
-    end
+    api.nvim_buf_delete(current_buf, {})
   end
 end
 

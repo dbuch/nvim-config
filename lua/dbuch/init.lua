@@ -1,7 +1,7 @@
 require("dbuch.filetype")
 require("dbuch.autocmds")
 
---TODO(Perhaps plugin use): rebelot/heirline.nvim
+--TODO(Perhaps use plugin): rebelot/heirline.nvim
 require("dbuch.status")
 require("dbuch.diagnostic")
 require("dbuch.plugins")
@@ -42,6 +42,7 @@ if "Options" then
   o.relativenumber = true
   o.scrolloff = 6
   o.shiftwidth = 2
+  o.tabstop = 2
   o.sidescroll = 6
   o.sidescrolloff = 6
   o.signcolumn = "yes"
@@ -49,7 +50,6 @@ if "Options" then
   o.softtabstop = 4
   o.startofline = false
   o.swapfile = false
-  o.tabstop = 2
   o.termguicolors = true
   o.textwidth = 80
   o.virtualedit = "block"
@@ -79,7 +79,7 @@ if "Options" then
   o.undodir = expand("~/.cache/nvim")
   o.splitright = true
   o.splitbelow = true
-  o.spell = true
+  -- o.spell = true
 
   local xdg_cfg = os.getenv("XDG_CONFIG_HOME")
   if xdg_cfg then
