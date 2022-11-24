@@ -33,6 +33,7 @@ if "Options" then
   o.backupdir:remove(".")
   o.breakindent = true
   --TODO  o.clipboard      = 'unnamedplus' Fix this when wl-copy behaves
+  --OR https://github.com/neovim/neovim/pull/21091
   o.expandtab = true
   o.fillchars = { eob = " ", diff = " " }
   o.hidden = true

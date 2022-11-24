@@ -106,7 +106,7 @@ cmp.setup({
         fallback()
       end
     end, { "i", "s" }),
-
+    ['<C-Space>'] = cmp.mapping.complete(),
     ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,

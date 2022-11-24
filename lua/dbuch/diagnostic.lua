@@ -4,16 +4,20 @@ vim.diagnostic.config({
   update_in_insert = true,
 })
 
-local function set_lsp_sign(name, text)
-  vim.fn.sign_define(name, { text = text, texthl = name })
+local function set_lsp_sign(t)
+  for name, text in pairs(t) do
+    vim.fn.sign_define(name, { text = text, texthl = name })
+  end
 end
 
 vim.api.nvim_set_hl(0, "LspCodeLens", { link = "WarningMsg" })
 
-set_lsp_sign("DiagnosticSignError", "●")
-set_lsp_sign("DiagnosticSignWarn", "●")
-set_lsp_sign("DiagnosticSignInfo", "●")
-set_lsp_sign("DiagnosticSignHint", "○")
+set_lsp_sign {
+  DiagnosticSignError = "●",
+  DiagnosticSignWarn  = "●",
+  DiagnosticSignInfo  = "●",
+  DiagnosticSignHint  = "○",
+}
 
 local orig_signs_handler = vim.diagnostic.handlers.signs
 

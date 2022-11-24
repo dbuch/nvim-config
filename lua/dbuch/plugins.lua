@@ -53,6 +53,12 @@ require("dbuch.packer").setup({
     end,
   },
   {
+    'lewis6991/satellite.nvim',
+    config = function()
+      require('satellite').setup()
+    end
+  },
+  {
     "numToStr/Comment.nvim",
     requires = { "JoosepAlviste/nvim-treesitter" },
     config = function()

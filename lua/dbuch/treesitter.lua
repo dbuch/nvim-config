@@ -28,6 +28,7 @@ require("treesitter-context").setup({
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "c",
+    "c_sharp",
     "rust",
     "cpp",
     "lua",
