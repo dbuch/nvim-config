@@ -53,10 +53,10 @@ require("dbuch.packer").setup({
     end,
   },
   {
-    'lewis6991/satellite.nvim',
+    "lewis6991/satellite.nvim",
     config = function()
-      require('satellite').setup()
-    end
+      require("satellite").setup()
+    end,
   },
   {
     "numToStr/Comment.nvim",

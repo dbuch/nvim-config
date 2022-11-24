@@ -9,9 +9,7 @@ local function bootstap()
     end
 
     print("Downloading packer.nvim...")
-    print(
-      vim.fn.system(string.format("git clone %s %s", "https://github.com/wbthomason/packer.nvim", install_path))
-    )
+    print(vim.fn.system(string.format("git clone %s %s", "https://github.com/wbthomason/packer.nvim", install_path)))
   end
 end
 

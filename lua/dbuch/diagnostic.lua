@@ -12,12 +12,12 @@ end
 
 vim.api.nvim_set_hl(0, "LspCodeLens", { link = "WarningMsg" })
 
-set_lsp_sign {
+set_lsp_sign({
   DiagnosticSignError = "●",
-  DiagnosticSignWarn  = "●",
-  DiagnosticSignInfo  = "●",
-  DiagnosticSignHint  = "○",
-}
+  DiagnosticSignWarn = "●",
+  DiagnosticSignInfo = "●",
+  DiagnosticSignHint = "○",
+})
 
 local orig_signs_handler = vim.diagnostic.handlers.signs
 
