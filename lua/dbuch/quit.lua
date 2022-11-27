@@ -1,7 +1,7 @@
 local api = vim.api
 
 local function buf_is_modified(buf)
-  return api.nvim_buf_get_option(buf, "modified")
+  return api.nvim_buf_get_option(buf, 'modified')
 end
 
 local function wins_contain_current(current_buf)
@@ -29,4 +29,4 @@ local smart_quit = function()
   end
 end
 
-vim.api.nvim_create_user_command("SmartQuit", smart_quit, {})
+vim.api.nvim_create_user_command('SmartQuit', smart_quit, {})

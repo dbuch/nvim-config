@@ -1,4 +1,4 @@
-local ns = vim.api.nvim_create_namespace("jumper")
+local ns = vim.api.nvim_create_namespace 'jumper'
 
 local win_timer
 local key_timer
@@ -10,7 +10,7 @@ local buf = vim.api.nvim_create_buf(false, true)
 do
   local blank = {}
   for i = 1, 100 do
-    blank[i] = ""
+    blank[i] = ''
   end
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, blank)
 end
@@ -23,7 +23,7 @@ local CONTEXT = 8
 local cmoved_au
 
 local function enable_cmoved_au()
-  cmoved_au = vim.api.nvim_create_autocmd("CursorMoved,CursorMovedI", {
+  cmoved_au = vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI', {
     once = true,
     callback = function()
       if win then
@@ -54,14 +54,14 @@ local function refresh_win(height, width)
     })
   else
     win = vim.api.nvim_open_win(buf, false, {
-      relative = "win",
-      anchor = "ne",
+      relative = 'win',
+      anchor = 'ne',
       col = vim.api.nvim_win_get_width(0),
       row = 0,
       zindex = 200,
       width = width,
       height = height,
-      style = "minimal",
+      style = 'minimal',
       -- border = 'single',
     })
     vim.wo[win].winblend = 15
@@ -91,8 +91,8 @@ local function render_buf(lines, current_line)
   for i, l in ipairs(lines) do
     vim.api.nvim_buf_set_extmark(buf, ns, i - 1, 0, {
       virt_text = l,
-      hl_mode = "combine",
-      line_hl_group = i == current_line and "Visual" or nil,
+      hl_mode = 'combine',
+      line_hl_group = i == current_line and 'Visual' or nil,
     })
   end
 end
@@ -104,14 +104,15 @@ local function get_text(jumplist, current)
   for i = current - 3, current + 10 do
     local j = jumplist[i]
     if j then
-      local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(j.bufnr), ":~:.")
-      local line = string.format("%s:%d:%d", bufname, j.lnum, j.col)
+      local bufname =
+        vim.fn.fnamemodify(vim.api.nvim_buf_get_name(j.bufnr), ':~:.')
+      local line = string.format('%s:%d:%d', bufname, j.lnum, j.col)
       if #line > width then
         width = #line
       end
       lines[#lines + 1] = {
         { bufname },
-        { string.format(":%d:%d", j.lnum, j.col), "Directory" },
+        { string.format(':%d:%d', j.lnum, j.col), 'Directory' },
       }
       if current == i then
         current_line = #lines
@@ -170,20 +171,20 @@ local function show_jumps(forward)
   end)
 end
 
-vim.keymap.set("n", "<C-o>", function()
+vim.keymap.set('n', '<C-o>', function()
   show_jumps()
-  return "<C-o>"
-end, { expr = true, desc = "show jumps" })
+  return '<C-o>'
+end, { expr = true, desc = 'show jumps' })
 
-vim.keymap.set("n", "<C-i>", function()
+vim.keymap.set('n', '<C-i>', function()
   show_jumps(true)
-  return "<C-i>"
-end, { expr = true, desc = "show jumps" })
+  return '<C-i>'
+end, { expr = true, desc = 'show jumps' })
 
-local jumplist_enter_group = vim.api.nvim_create_augroup("JumpListEnterVim", {})
-vim.api.nvim_create_autocmd("VimEnter", {
+local jumplist_enter_group = vim.api.nvim_create_augroup('JumpListEnterVim', {})
+vim.api.nvim_create_autocmd('VimEnter', {
   group = jumplist_enter_group,
   callback = function()
-    vim.cmd("clearjumps")
+    vim.cmd 'clearjumps'
   end,
 })

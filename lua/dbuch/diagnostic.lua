@@ -1,8 +1,8 @@
-vim.diagnostic.config({
+vim.diagnostic.config {
   virtual_text = { source = true },
   severity_sort = true,
   update_in_insert = true,
-})
+}
 
 local function set_lsp_sign(t)
   for name, text in pairs(t) do
@@ -10,14 +10,14 @@ local function set_lsp_sign(t)
   end
 end
 
-vim.api.nvim_set_hl(0, "LspCodeLens", { link = "WarningMsg" })
+vim.api.nvim_set_hl(0, 'LspCodeLens', { link = 'WarningMsg' })
 
-set_lsp_sign({
-  DiagnosticSignError = "●",
-  DiagnosticSignWarn = "●",
-  DiagnosticSignInfo = "●",
-  DiagnosticSignHint = "○",
-})
+set_lsp_sign {
+  DiagnosticSignError = '●',
+  DiagnosticSignWarn = '●',
+  DiagnosticSignInfo = '●',
+  DiagnosticSignHint = '○',
+}
 
 local orig_signs_handler = vim.diagnostic.handlers.signs
 
