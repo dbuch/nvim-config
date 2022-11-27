@@ -24,6 +24,7 @@ require("dbuch.packer").setup({
   { "folke/trouble.nvim", config = [[require'dbuch.trouble']] },
   { "ahmedkhalf/project.nvim", config = [[require'dbuch.project']] },
   { "akinsho/toggleterm.nvim", tag = "*", config = [[require'dbuch.terminal']] },
+  "stevearc/dressing.nvim",
   -- Dap
   {
     "mfussenegger/nvim-dap",
