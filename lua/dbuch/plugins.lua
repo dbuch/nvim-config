@@ -29,6 +29,7 @@ require('dbuch.packer').setup {
     config = [[require'dbuch.terminal']],
   },
   'stevearc/dressing.nvim',
+  'Vonr/align.nvim',
   -- Dap
   {
     'mfussenegger/nvim-dap',
@@ -73,9 +74,7 @@ require('dbuch.packer').setup {
     requires = { 'JoosepAlviste/nvim-treesitter' },
     config = function()
       require('Comment').setup {
-        pre_hook = require(
-          'ts_context_commentstring.integrations.comment_nvim'
-        ).create_pre_hook(),
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
       }
     end,
   },
@@ -135,8 +134,7 @@ require('dbuch.packer').setup {
         fmt = {
           stack_upwards = false,
           task = function(task_name, message, percentage)
-            local pct = percentage and string.format(' (%s%%)', percentage)
-              or ''
+            local pct = percentage and string.format(' (%s%%)', percentage) or ''
             if task_name then
               return string.format('%s%s [%s]', message, pct, task_name)
             else

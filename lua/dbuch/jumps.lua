@@ -104,8 +104,7 @@ local function get_text(jumplist, current)
   for i = current - 3, current + 10 do
     local j = jumplist[i]
     if j then
-      local bufname =
-        vim.fn.fnamemodify(vim.api.nvim_buf_get_name(j.bufnr), ':~:.')
+      local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(j.bufnr), ':~:.')
       local line = string.format('%s:%d:%d', bufname, j.lnum, j.col)
       if #line > width then
         width = #line

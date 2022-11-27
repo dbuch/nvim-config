@@ -1,8 +1,7 @@
 local M = {}
 
 local function bootstap()
-  local install_path = vim.fn.stdpath 'data'
-    .. '/site/pack/packer/start/packer.nvim'
+  local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 
   if not vim.loop.fs_stat(install_path) then
     if vim.fn.input { 'Download Packer? (y for yes): ' } ~= 'y' then

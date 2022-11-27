@@ -38,10 +38,7 @@ function M.lsp_status(active)
     if #n > 0 then
       local icon = icons[ty]
       if active == 1 then
-        table.insert(
-          status,
-          ('%%#Diagnostic%sStatus#%s %s'):format(ty, icon, #n)
-        )
+        table.insert(status, ('%%#Diagnostic%sStatus#%s %s'):format(ty, icon, #n))
       else
         table.insert(status, ('%s %s'):format(icon, #n))
       end
@@ -77,17 +74,12 @@ function M.blame()
 end
 
 local function filetype_symbol()
-  local ok, res =
-    pcall(api.nvim_call_function, 'WebDevIconsGetFileTypeSymbol', {})
+  local ok, res = pcall(api.nvim_call_function, 'WebDevIconsGetFileTypeSymbol', {})
   if ok then
     return res
   end
   local name = api.nvim_buf_get_name(0)
-  res = require('nvim-web-devicons').get_icon(
-    name,
-    vim.bo.filetype,
-    { default = true }
-  )
+  res = require('nvim-web-devicons').get_icon(name, vim.bo.filetype, { default = true })
   return res
 end
 
@@ -117,8 +109,7 @@ function M.encodingAndFormat()
   local f = vim.bo.fileformat
   if f ~= 'unix' then
     r[#r + 1] = '[' .. f .. ']'
-    local ok, res =
-      pcall(api.nvim_call_function, 'WebDevIconsGetFileFormatSymbol')
+    local ok, res = pcall(api.nvim_call_function, 'WebDevIconsGetFileFormatSymbol')
     if ok then
       r[#r + 1] = res
     end
@@ -131,8 +122,7 @@ function M.bufname()
   local name = vim.api.nvim_eval_statusline('%f', {}).str
   local buf_name = vim.api.nvim_buf_get_name(0)
   if vim.startswith(buf_name, 'gitsigns://') then
-    local _, _, revision, relpath =
-      buf_name:find [[^gitsigns://.*/%.git.*/(.*):(.*)]]
+    local _, _, revision, relpath = buf_name:find [[^gitsigns://.*/%.git.*/(.*):(.*)]]
     name = relpath .. '@' .. revision:sub(1, 7)
   end
 

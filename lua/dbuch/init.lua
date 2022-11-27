@@ -114,18 +114,8 @@ if 'Mappings' then
 
   set('n', 'j', 'v:count ? "j" : "gj"', { expr = true })
   set('n', 'k', 'v:count ? "k" : "gk"', { expr = true })
-  set(
-    'n',
-    '|',
-    [[!v:count ? "<C-W>v<C-W><Right>" : '|']],
-    { expr = true, silent = true }
-  )
-  set(
-    'n',
-    '_',
-    [[!v:count ? "<C-W>s<C-W><Down>"  : '_']],
-    { expr = true, silent = true }
-  )
+  set('n', '|', [[!v:count ? "<C-W>v<C-W><Right>" : '|']], { expr = true, silent = true })
+  set('n', '_', [[!v:count ? "<C-W>s<C-W><Down>"  : '_']], { expr = true, silent = true })
 
   set('n', '<leader>T', ':Telescope<CR>', { nowait = true, silent = true })
   set('n', '<leader>t', ':ToggleTerm<CR>', { nowait = true, silent = true })
@@ -137,18 +127,8 @@ if 'Mappings' then
   set('n', '<c-q>', ':SmartQuit<CR>', { silent = true })
 
   set('n', 'ga', vim.lsp.buf.code_action, { silent = true })
-  set(
-    'n',
-    'gD',
-    require('telescope.builtin').lsp_definitions,
-    { silent = true }
-  )
-  set(
-    'n',
-    'gp',
-    require('goto-preview').goto_preview_definition,
-    { silent = true }
-  )
+  set('n', 'gD', require('telescope.builtin').lsp_definitions, { silent = true })
+  set('n', 'gp', require('goto-preview').goto_preview_definition, { silent = true })
   set('n', 'gd', vim.lsp.buf.definition, { silent = true })
   set('n', 'gn', vim.lsp.buf.rename, { silent = true })
   set('n', 'gt', ':TroubleToggle<CR>', { silent = true })
@@ -168,4 +148,18 @@ if 'Mappings' then
   set('t', '<esc>', '<C-\\><C-n>', { silent = true })
 
   set('n', '<leader><leader>', '<c-^>')
+
+  local NS = { noremap = true, silent = true }
+  set('x', 'aa', function()
+    require('align').align_to_char(1, true)
+  end, NS) -- Aligns to 1 character, looking left
+  set('x', 'as', function()
+    require('align').align_to_char(2, true, true)
+  end, NS) -- Aligns to 2 characters, looking left and with previews
+  set('x', 'aw', function()
+    require('align').align_to_string(false, true, true)
+  end, NS) -- Aligns to a string, looking left and with previews
+  set('x', 'ar', function()
+    require('align').align_to_string(true, true, true)
+  end, NS) -- Aligns to a Lua pattern, looking left and with previews
 end
