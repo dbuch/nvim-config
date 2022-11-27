@@ -97,19 +97,6 @@ local purple = {
   [9] = '#eddeff',
 }
 
-local pink = {
-  [0] = '#42062a',
-  [1] = '#5e103e',
-  [2] = '#7d2457',
-  [3] = '#9e3670',
-  [4] = '#bf4b8a',
-  [5] = '#db61a2',
-  [6] = '#f778ba',
-  [7] = '#ff9bce',
-  [8] = '#ffbedd',
-  [9] = '#ffdaec',
-}
-
 local white = gray[9]
 local selection_bg = '#29384B'
 
@@ -153,7 +140,7 @@ hi {
   MoreMsg      = { fg = green[6] },
   Question     = { fg = green[6] },
   SpecialKey   = { fg = gray[6] },
-  SpellBad     = { undercurl = true, sp = pink[4] },
+  SpellBad     = { undercurl = true, sp = red[3] },
   TabLine      = { bg = gray[2] },
   TabLineFill  = { fg = gray[6], bg = gray[1] },
   TabLineSel   = { bg = gray[3], bold = true },
@@ -199,6 +186,8 @@ hi {
   GitSignsAddSec    = { fg = green[1] },
   GitSignsChangeSec = { fg = purple[3] },
   GitSignsDeleteSec = { fg = red[1] },
+
+  GitSignsVirtLnum = { bg = red[0], fg = red[2] },
 }
 
 -- stylua: ignore
@@ -223,12 +212,6 @@ hi {
 -- stylua: ignore
 hi {
   TSVariable = { fg = gray[8] },
-  -- TSField           = { fg = blue[7]   },
-  -- TSProperty        = { fg = gray[7]   },
-  -- TSParameter       = { fg = orange[7] },
-  -- TSNamespace       = { link = 'Function' },
-  -- TSConstructor     = { link = 'String' },
-
   TSAnnotation         = { link = 'PreProc' },
   TSAttribute          = { link = 'PreProc' },
   TSBoolean            = { link = 'Boolean' },
@@ -262,8 +245,6 @@ hi {
   TSNumber             = { link = 'Number' },
   TSOperator           = { link = 'Operator' },
   TSParameter          = { link = 'Identifier' },
-  -- TSParameter          = { fg = orange[7] },
-  -- TSParameterReference = { link = 'Identifier'     },
   TSParameterReference = { fg = orange[7] },
   TSPlaygroundFocus    = { link = 'Visual' },
   TSPlaygroundLang     = { link = 'String' },

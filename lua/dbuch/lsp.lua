@@ -40,9 +40,8 @@ local function make_on_attach(config)
       vim.lsp.codelens.refresh()
     end
 
-    if
-      server_capabilities.semanticTokensProvider
-      and server_capabilities.semanticTokensProvider.full
+    if server_capabilities.semanticTokensProvider
+        and server_capabilities.semanticTokensProvider.full
     then
       vim.api.nvim_create_autocmd('TextChanged', {
         group = semanticTokensGroup,
@@ -145,6 +144,17 @@ local servers = {
     Lua = {
       completion = {
         callSnippet = 'Replace',
+      },
+      format = {
+        enable = true,
+        defaultConfig = {
+          indent_type = 'Spaces',
+          indent_width = '2',
+          column_width = '90',
+          quote_style = 'AutoPreferSingle',
+          no_call_parentheses = 'true',
+          line_endings = 'Unix',
+        },
       },
     },
   },
