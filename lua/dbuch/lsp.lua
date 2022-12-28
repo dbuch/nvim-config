@@ -24,7 +24,7 @@ local function make_on_attach(config)
     local server_capabilities = client.server_capabilities
 
     -- omni completion source
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = bufnr })
 
     lsp_signature.on_attach({
       floating_window_above_first = true,
@@ -40,9 +40,7 @@ local function make_on_attach(config)
       vim.lsp.codelens.refresh()
     end
 
-    if server_capabilities.semanticTokensProvider
-        and server_capabilities.semanticTokensProvider.full
-    then
+    if server_capabilities.semanticTokensProvider and server_capabilities.semanticTokensProvider.full then
       vim.api.nvim_create_autocmd('TextChanged', {
         group = semanticTokensGroup,
         buffer = bufnr,

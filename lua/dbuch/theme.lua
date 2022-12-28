@@ -284,6 +284,16 @@ hi {
   LspStatic         = { underdotted = true, sp = yellow[2] },
 }
 
+-- hi {
+--   ['@defaultLibrary'] = { italic = true },
+--   ['@deprecated'] = { bg = orange[0] },
+--   ['@macro'] = { bg = gray[1], bold = true },
+--   ['@modification'] = { bg = red[0] },
+--   ['@parameter'] = { italic = true },
+--   ['@readonly'] = { bg = blue[0] },
+--   ['@static'] = { underdotted = true, sp = yellow[2] },
+-- }
+
 -- stylua: ignore
 for kind, colors in pairs {
   Error = { fg = red[5], bg = red[0] },

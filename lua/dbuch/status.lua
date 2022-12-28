@@ -66,21 +66,26 @@ end
 function M.blame()
   if vim.b.gitsigns_blame_line_dict then
     local info = vim.b.gitsigns_blame_line_dict
-    local date_time =
-      require('gitsigns.util').get_relative_time(tonumber(info.author_time))
+    local date_time = require('gitsigns.util').get_relative_time(tonumber(info.author_time))
     return string.format('%s - %s', info.author, date_time)
   end
   return ''
 end
 
 local function filetype_symbol()
-  local ok, res = pcall(api.nvim_call_function, 'WebDevIconsGetFileTypeSymbol', {})
-  if ok then
+  do
+    return ''
+  end
+  local res = vim.F.npcall(api.nvim_call_function, 'WebDevIconsGetFileTypeSymbol', {})
+  if res then
     return res
   end
-  local name = api.nvim_buf_get_name(0)
-  res = require('nvim-web-devicons').get_icon(name, vim.bo.filetype, { default = true })
-  return res
+  local devicons = vim.F.npcall(require, 'nvim-web-devicons')
+  if devicons then
+    local name = api.nvim_buf_get_name(0)
+    return devicons.get_icon(name, vim.bo.filetype, { default = true })
+  end
+  return ''
 end
 
 local function is_treesitter()
@@ -140,13 +145,7 @@ end
 
 local function func(name, active, mods)
   active = active or 1
-  return '%'
-    .. (mods or '')
-    .. '{%v:lua.statusline.'
-    .. name
-    .. '('
-    .. tostring(active)
-    .. ')%}'
+  return '%' .. (mods or '') .. '{%v:lua.statusline.' .. name .. '(' .. tostring(active) .. ')%}'
 end
 
 local function parse_sections(sections)

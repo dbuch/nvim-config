@@ -10,6 +10,11 @@ require 'dbuch.jumps'
 require 'dbuch.quit'
 require 'dbuch.rt-tools'
 
+-- local uv = vim.loop
+-- local is_windows = uv.os_uname().version:match 'Windows'
+-- local fname = uv.fs_realpath(fname)
+-- local sep = is_windows and '\\' or '/'
+
 local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 
 if 'Plugins' then
@@ -108,6 +113,14 @@ if 'Mappings' then
   set('', 'H', '^')
   set('', 'L', '$')
 
+  set('n', '<C-d>', '<C-d>zz', { remap = false })
+  set('n', '<C-u>', '<C-u>zz', { remap = false })
+
+  -- set('n', 'n', 'nzz', { remap = false })
+  -- set('n', 'N', 'Nzz', { remap = false })
+
+  set('n', 'L', '$')
+
   set('n', 'Y', 'y$')
 
   set('n', 'q', '<nop>')
@@ -162,4 +175,13 @@ if 'Mappings' then
   set('x', 'ar', function()
     require('align').align_to_string(true, true, true)
   end, NS) -- Aligns to a Lua pattern, looking left and with previews
+end
+
+if 'Folding' then
+  vim.g.sh_fold_enabled = 1
+
+  o.foldmethod = 'syntax'
+  o.foldcolumn = '0'
+  o.foldnestmax = 3
+  o.foldopen:append 'jump'
 end

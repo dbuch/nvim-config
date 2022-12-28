@@ -11,15 +11,10 @@ telescope.setup {
       },
     },
     layout_strategy = 'flex',
-    file_sorter = sorters.get_fzy_sorter,
+    -- file_sorter = sorters.get_fzy_sorter,
   },
 
   extensions = {
-    fzy_native = {
-      override_generic_sorter = false,
-      override_file_sorter = true,
-    },
-
     ['ui-select'] = {
       require('telescope.themes').get_cursor {
         -- even more opts
@@ -28,5 +23,5 @@ telescope.setup {
   },
 }
 
-telescope.load_extension 'fzy_native'
+telescope.load_extension 'fzf'
 telescope.load_extension 'projects'

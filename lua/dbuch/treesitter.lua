@@ -38,6 +38,7 @@ require('nvim-treesitter.configs').setup {
     'bash',
     'glsl',
     'wgsl',
+    'sql',
     'nu',
   },
 
@@ -87,10 +88,7 @@ require('nvim-treesitter.configs').setup {
     local max_filesize = 1024 * 1024 -- MiB
     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
     if ok and stats and stats.size > max_filesize then
-      vim.notify(
-        'Treesitter is disabled due to huge filesize (1MiB)',
-        vim.log.levels.WARN
-      )
+      vim.notify('Treesitter is disabled due to huge filesize (1MiB)', vim.log.levels.WARN)
       return true
     end
   end,

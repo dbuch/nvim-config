@@ -55,12 +55,7 @@ require('dbuch.packer').setup {
         end,
       }
       vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
-      vim.keymap.set(
-        'n',
-        'gK',
-        require('hover').hover_select,
-        { desc = 'hover.nvim (select)' }
-      )
+      vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
     end,
   },
   {
@@ -111,14 +106,6 @@ require('dbuch.packer').setup {
     end,
   },
   {
-    'kevinhwang91/nvim-hlslens',
-    config = function()
-      require('hlslens').setup {
-        calm_down = true,
-      }
-    end,
-  },
-  {
     'rcarriga/nvim-notify',
     config = function()
       vim.notify = require 'notify'
@@ -154,8 +141,8 @@ require('dbuch.packer').setup {
   'folke/lsp-colors.nvim',
   { 'lewis6991/nvim-colorizer.lua', config = [[require('colorizer').setup()]] },
   -- Icons
-  'kyazdani42/nvim-web-devicons',
-  'ryanoasis/vim-devicons',
+  'nvim-tree/nvim-web-devicons',
+  -- 'ryanoasis/vim-devicons',
   -- LSP
   {
     'neovim/nvim-lspconfig',
@@ -195,7 +182,7 @@ require('dbuch.packer').setup {
   {
     'nvim-lua/telescope.nvim',
     requires = {
-      { 'nvim-telescope/telescope-fzy-native.nvim', run = 'make' },
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
       'nvim-lua/plenary.nvim',
     },
     config = [[require('dbuch.telescope')]],
