@@ -1,9 +1,13 @@
-require('dbuch.packer').setup {
+return {
   -- Core
   'lewis6991/impatient.nvim',
-  'wbthomason/packer.nvim',
   -- Editor
-  { 'lewis6991/cleanfold.nvim', config = [[require('cleanfold').setup()]] },
+  {
+    'lewis6991/cleanfold.nvim',
+    config = function()
+      require('cleanfold').setup()
+    end,
+  },
   {
     'lewis6991/foldsigns.nvim',
     config = function()
@@ -14,33 +18,44 @@ require('dbuch.packer').setup {
   },
   {
     'nvim-tree/nvim-tree.lua',
-    requires = {
+    dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
-    config = [[require'dbuch.tree']],
+    config = function()
+      require 'dbuch.tree'
+    end,
   },
   { 'gpanders/editorconfig.nvim' },
-  { 'sindrets/diffview.nvim', requires = { 'nvim-lua/plenary.nvim' } },
-  { 'folke/trouble.nvim', config = [[require'dbuch.trouble']] },
-  { 'ahmedkhalf/project.nvim', config = [[require'dbuch.project']] },
+  { 'sindrets/diffview.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
+  {
+    'folke/trouble.nvim',
+    config = function()
+      require 'dbuch.trouble'
+    end,
+  },
+  {
+    'ahmedkhalf/project.nvim',
+    config = function()
+      require 'dbuch.project'
+    end,
+  },
   {
     'akinsho/toggleterm.nvim',
-    tag = '*',
-    config = [[require'dbuch.terminal']],
+    version = '*',
+    config = function()
+      require 'dbuch.terminal'
+    end,
   },
-  'stevearc/dressing.nvim',
-  'Vonr/align.nvim',
+  { 'stevearc/dressing.nvim' },
+  { 'Vonr/align.nvim'},
   -- Dap
   {
     'mfussenegger/nvim-dap',
-    requires = {
+    dependencies = {
       'mfussenegger/nvim-dap-python',
-      { 'theHamsta/nvim-dap-virtual-text', after = 'nvim-treesitter' },
     },
-    --  setup = function() require 'dap-setup'.setup() end,
-    --  config = function() require 'dap-setup'.config() end,
   },
-  { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } },
+  { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap' } },
   -- Buffer
   {
     'dbuch/hover.nvim',
@@ -66,16 +81,15 @@ require('dbuch.packer').setup {
   },
   {
     'numToStr/Comment.nvim',
-    requires = { 'JoosepAlviste/nvim-treesitter' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('Comment').setup {
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
       }
     end,
   },
-  -- { 'rmagatti/goto-preview', config = [[require'dbuch.preview']] },
-  { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
-  { 'simrat39/symbols-outline.nvim', config = [[require'dbuch.symbs']] },
+  { 'lewis6991/gitsigns.nvim', config = function () require'dbuch.gitsigns' end },
+  { 'simrat39/symbols-outline.nvim', config = function () require'dbuch.symbs' end },
   {
     'windwp/nvim-autopairs',
     config = function()
@@ -86,7 +100,7 @@ require('dbuch.packer').setup {
       local cmp = require 'cmp'
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
-    requires = {
+    dependencies = {
       'hrsh7th/nvim-cmp',
       'nvim-treesitter/nvim-treesitter',
     },
@@ -139,32 +153,44 @@ require('dbuch.packer').setup {
   },
   -- Coloring
   'folke/lsp-colors.nvim',
-  { 'lewis6991/nvim-colorizer.lua', config = [[require('colorizer').setup()]] },
+  {
+    'lewis6991/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup()
+    end,
+  },
   -- Icons
   'nvim-tree/nvim-web-devicons',
   -- 'ryanoasis/vim-devicons',
   -- LSP
   {
     'neovim/nvim-lspconfig',
-    requires = {
+    dependencies = {
       'folke/neodev.nvim',
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind-nvim',
     },
-    config = "require'dbuch.lsp'",
+    config = function()
+      require 'dbuch.lsp'
+    end,
   },
-  { 'jose-elias-alvarez/null-ls.nvim', config = [[require('dbuch.null-ls')]] },
+  {
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function()
+      require 'dbuch.null-ls'
+    end,
+  },
   'rafamadriz/friendly-snippets',
   {
     'saecki/crates.nvim',
-    requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
     config = function()
       require('crates').setup {}
     end,
   },
   {
     'hrsh7th/nvim-cmp',
-    requires = {
+    dependencies = {
       'L3MON4D3/LuaSnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
@@ -175,32 +201,39 @@ require('dbuch.packer').setup {
       'hrsh7th/cmp-nvim-lua',
       'f3fora/cmp-spell',
     },
-    config = [[require('dbuch.cmp')]],
+    config = function()
+      require 'dbuch.cmp'
+    end,
   },
   -- Treesitter
   {
     'nvim-lua/telescope.nvim',
-    requires = {
-      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+    dependencies = {
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
       'nvim-lua/plenary.nvim',
     },
-    config = [[require('dbuch.telescope')]],
+    config = function()
+      require 'dbuch.telescope'
+    end,
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    requires = {
+    dependencies = {
       'nvim-treesitter/nvim-treesitter-context',
       'nvim-treesitter/nvim-treesitter-refactor',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'JoosepAlviste/nvim-ts-context-commentstring',
+      'theHamsta/nvim-dap-virtual-text',
     },
-    run = ':TSUpdate',
-    config = [[require('dbuch.treesitter')]],
+    build = ':TSUpdate',
+    config = function()
+      require 'dbuch.treesitter'
+    end,
   },
   -- Other
   {
     'LhKipp/nvim-nu',
-    requires = {
+    dependencies = {
       'jose-elias-alvarez/null-ls.nvim',
       'nvim-treesitter/nvim-treesitter',
     },

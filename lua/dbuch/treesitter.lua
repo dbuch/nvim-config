@@ -1,4 +1,3 @@
-local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
 
 require('nvim-treesitter').define_modules {
   fold = {
@@ -9,13 +8,6 @@ require('nvim-treesitter').define_modules {
       vim.opt_local.foldenable = false
     end,
     detach = function() end,
-  },
-}
-
-parser_config.wgsl = {
-  install_info = {
-    url = 'https://github.com/szebniok/tree-sitter-wgsl',
-    files = { 'src/parser.c' },
   },
 }
 
@@ -37,9 +29,7 @@ require('nvim-treesitter.configs').setup {
     'javascript',
     'bash',
     'glsl',
-    'wgsl',
     'sql',
-    'nu',
   },
 
   highlight = {

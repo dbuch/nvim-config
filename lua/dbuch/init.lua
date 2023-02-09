@@ -1,21 +1,8 @@
-require 'dbuch.filetype'
-require 'dbuch.autocmds'
-
---TODO(Perhaps use plugin): rebelot/heirline.nvim
-require 'dbuch.status'
-require 'dbuch.diagnostic'
-require 'dbuch.plugins'
-require 'dbuch.theme'
-require 'dbuch.jumps'
-require 'dbuch.quit'
-require 'dbuch.rt-tools'
-
--- local uv = vim.loop
--- local is_windows = uv.os_uname().version:match 'Windows'
--- local fname = uv.fs_realpath(fname)
--- local sep = is_windows and '\\' or '/'
-
 local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
+
+require 'dbuch.filetype'
+require 'dbuch.theme'
+require 'dbuch.status'
 
 if 'Plugins' then
   -- Stop loading built in plugins
@@ -111,6 +98,7 @@ end
 
 if 'Mappings' then
   vim.g.mapleader = ' '
+  vim.g.maplocalleader = ' '
 
   set('', 'H', '^')
   set('', 'L', '$')
@@ -135,14 +123,14 @@ if 'Mappings' then
   set('n', '<leader>T', ':Telescope<CR>', { nowait = true, silent = true })
   set('n', '<leader>t', ':ToggleTerm<CR>', { nowait = true, silent = true })
   set('n', '<leader>s', ':SymbolsOutline<CR>', { nowait = true, silent = true })
-  set('n', '<leader>f', require('telescope.builtin').find_files)
-  set('n', '<leader>b', require('telescope.builtin').buffers)
-  set('n', '<leader>g', require('telescope.builtin').live_grep)
+  set('n', '<leader>f', ':Telescope find_files<CR>')
+  set('n', '<leader>b', ':Telescope buffers<CR>')
+  set('n', '<leader>g', ':Telescope live_grep<CR>')
 
   set('n', '<c-q>', ':SmartQuit<CR>', { silent = true })
 
   set('n', 'ga', vim.lsp.buf.code_action, { silent = true })
-  set('n', 'gD', require('telescope.builtin').lsp_definitions, { silent = true })
+  set('n', 'gD', ':Telescope lsp_definitions<CR>', { silent = true })
   -- set('n', 'gp', require('goto-preview').goto_preview_definition, { silent = true })
   set('n', 'gd', vim.lsp.buf.definition, { silent = true })
   set('n', 'gn', vim.lsp.buf.rename, { silent = true })
@@ -187,3 +175,13 @@ if 'Folding' then
   o.foldnestmax = 3
   o.foldopen:append 'jump'
 end
+
+require 'dbuch.lazy'
+
+
+--TODO(Perhaps use plugin): rebelot/heirline.nvim
+require 'dbuch.diagnostic'
+require 'dbuch.plugins'
+require 'dbuch.jumps'
+require 'dbuch.quit'
+require 'dbuch.rt-tools'
