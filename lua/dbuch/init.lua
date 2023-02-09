@@ -105,6 +105,8 @@ if 'Options' then
   o.laststatus = 3
   o.showmode = false
   o.showcmd = false
+  o.numberwidth = 3
+  -- o.statuscolumn = "%=%{v:virtnum < 1 ? (v:relnum ? v:relnum : v:lnum < 10 ? v:lnum . '  ' : v:lnum) : ''} %=%s"
 end
 
 if 'Mappings' then
@@ -141,7 +143,7 @@ if 'Mappings' then
 
   set('n', 'ga', vim.lsp.buf.code_action, { silent = true })
   set('n', 'gD', require('telescope.builtin').lsp_definitions, { silent = true })
-  set('n', 'gp', require('goto-preview').goto_preview_definition, { silent = true })
+  -- set('n', 'gp', require('goto-preview').goto_preview_definition, { silent = true })
   set('n', 'gd', vim.lsp.buf.definition, { silent = true })
   set('n', 'gn', vim.lsp.buf.rename, { silent = true })
   set('n', 'gt', ':TroubleToggle<CR>', { silent = true })

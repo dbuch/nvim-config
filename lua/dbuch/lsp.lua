@@ -1,11 +1,5 @@
 local lspconfig = require 'lspconfig'
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local semanticTokensGroup = vim.api.nvim_create_augroup('SemanticTokens', {})
-
-require('nvim-semantic-tokens').setup {
-  preset = 'default',
-  highlighters = { require 'nvim-semantic-tokens.table-highlighter' },
-}
 
 require('neodev').setup {
   library = {
@@ -38,18 +32,6 @@ local function make_on_attach(config)
         callback = vim.lsp.codelens.refresh,
       })
       vim.lsp.codelens.refresh()
-    end
-
-    if server_capabilities.semanticTokensProvider and server_capabilities.semanticTokensProvider.full then
-      vim.api.nvim_create_autocmd('TextChanged', {
-        group = semanticTokensGroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.semantic_tokens_full()
-        end,
-      })
-      -- fire it first time on load as well
-      vim.lsp.buf.semantic_tokens_full()
     end
 
     if config.after then

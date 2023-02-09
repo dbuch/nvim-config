@@ -73,7 +73,7 @@ require('dbuch.packer').setup {
       }
     end,
   },
-  { 'rmagatti/goto-preview', config = [[require'dbuch.preview']] },
+  -- { 'rmagatti/goto-preview', config = [[require'dbuch.preview']] },
   { 'lewis6991/gitsigns.nvim', config = [[require'dbuch.gitsigns']] },
   { 'simrat39/symbols-outline.nvim', config = [[require'dbuch.symbs']] },
   {
@@ -150,7 +150,6 @@ require('dbuch.packer').setup {
       'folke/neodev.nvim',
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind-nvim',
-      'theHamsta/nvim-semantic-tokens',
     },
     config = "require'dbuch.lsp'",
   },
