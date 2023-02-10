@@ -54,7 +54,22 @@ return {
       require 'dbuch.terminal'
     end,
   },
-  { 'stevearc/dressing.nvim', lazy = true },
+  {
+    "stevearc/dressing.nvim",
+    lazy = true,
+    init = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.select = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.select(...)
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.input = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.input(...)
+      end
+    end,
+  },
   { 'Vonr/align.nvim', lazy = true },
   -- Dap
   {
@@ -89,7 +104,7 @@ return {
   },
   {
     'numToStr/Comment.nvim',
-    lazy = true,
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('Comment').setup {
@@ -146,33 +161,6 @@ return {
       vim.notify = require 'notify'
     end,
   },
-  {
-    'j-hui/fidget.nvim',
-    lazy = true,
-    config = function()
-      require('fidget').setup {
-        text = {
-          spinner = 'dots',
-        },
-        fmt = {
-          stack_upwards = false,
-          task = function(task_name, message, percentage)
-            local pct = percentage and string.format(' (%s%%)', percentage) or ''
-            if task_name then
-              return string.format('%s%s [%s]', message, pct, task_name)
-            else
-              return string.format('%s%s', message, pct)
-            end
-          end,
-        },
-        sources = {
-          ['null-ls'] = {
-            ignore = true,
-          },
-        },
-      }
-    end,
-  },
   -- Coloring
   'folke/lsp-colors.nvim',
   {
@@ -193,6 +181,33 @@ return {
       'folke/neodev.nvim',
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind-nvim',
+      {
+        'j-hui/fidget.nvim',
+        lazy = true,
+        config = function()
+          require('fidget').setup {
+            text = {
+              spinner = 'dots',
+            },
+            fmt = {
+              stack_upwards = false,
+              task = function(task_name, message, percentage)
+                local pct = percentage and string.format(' (%s%%)', percentage) or ''
+                if task_name then
+                  return string.format('%s%s [%s]', message, pct, task_name)
+                else
+                  return string.format('%s%s', message, pct)
+                end
+              end,
+            },
+            sources = {
+              ['null-ls'] = {
+                ignore = true,
+              },
+            },
+          }
+        end,
+      },
     },
     config = function()
       require 'dbuch.lsp'
@@ -258,18 +273,18 @@ return {
     end,
   },
   -- Other
-  {
-    'LhKipp/nvim-nu',
-    ft = 'nu',
-    lazy = true,
-    dependencies = {
-      'jose-elias-alvarez/null-ls.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    config = function()
-      require('nu').setup {
-        complete_cmd_names = true,
-      }
-    end,
-  },
+--  {
+--    'LhKipp/nvim-nu',
+--    ft = 'nu',
+--    lazy = true,
+--    dependencies = {
+--      'jose-elias-alvarez/null-ls.nvim',
+--      'nvim-treesitter/nvim-treesitter',
+--    },
+--    config = function()
+--      require('nu').setup {
+--        complete_cmd_names = true,
+--      }
+--    end,
+--  },
 }

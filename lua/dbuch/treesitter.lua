@@ -40,7 +40,6 @@ require('nvim-treesitter.configs').setup {
     'toml',
     'yaml',
     'json',
-    'nu',
   },
 
   highlight = {
