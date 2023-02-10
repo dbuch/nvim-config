@@ -61,6 +61,7 @@ if 'Options' then
 
   o.showbreak = '↳ '
   o.mouse = 'a'
+  o.mousemodel = 'extend'
 
   o.diffopt:append {
     'vertical',
@@ -93,12 +94,9 @@ if 'Options' then
   o.showmode = false
   o.showcmd = false
   o.numberwidth = 3
-  -- o.statuscolumn = "%=%{v:virtnum < 1 ? (v:relnum ? v:relnum : v:lnum < 10 ? v:lnum . '  ' : v:lnum) : ''} %=%s"
 end
 
 if 'Mappings' then
-  vim.g.mapleader = ' '
-  vim.g.maplocalleader = ' '
 
   set('', 'H', '^')
   set('', 'L', '$')

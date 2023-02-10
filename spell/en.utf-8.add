@@ -11,3 +11,5 @@ ui
 hover_select
 egui
 lang
+pointer_state.set(PointerButton::Extra2, PointerClicks::Triple);
+pointer_state.set(PointerButton::Extra2, PointerClicks::Triple);

@@ -1,6 +1,4 @@
-local ok, impatient = pcall(require, 'impatient')
-if ok then
-  impatient.enable_profile()
-end
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 require 'dbuch'

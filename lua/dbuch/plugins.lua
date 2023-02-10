@@ -1,6 +1,6 @@
 return {
   -- Core
-  'lewis6991/impatient.nvim',
+  { 'folke/lazy.nvim', version = '*' },
   -- Editor
   {
     'lewis6991/cleanfold.nvim',
@@ -18,6 +18,7 @@ return {
   },
   {
     'nvim-tree/nvim-tree.lua',
+    lazy = true,
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
@@ -29,8 +30,15 @@ return {
   { 'sindrets/diffview.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
   {
     'folke/trouble.nvim',
+    version = '*',
     config = function()
       require 'dbuch.trouble'
+    end,
+  },
+  {
+    'luukvbaal/statuscol.nvim',
+    config = function()
+      require('statuscol').setup { setopt = true }
     end,
   },
   {
@@ -46,8 +54,8 @@ return {
       require 'dbuch.terminal'
     end,
   },
-  { 'stevearc/dressing.nvim' },
-  { 'Vonr/align.nvim'},
+  { 'stevearc/dressing.nvim', lazy = true },
+  { 'Vonr/align.nvim', lazy = true },
   -- Dap
   {
     'mfussenegger/nvim-dap',
@@ -81,6 +89,7 @@ return {
   },
   {
     'numToStr/Comment.nvim',
+    lazy = true,
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('Comment').setup {
@@ -88,10 +97,22 @@ return {
       }
     end,
   },
-  { 'lewis6991/gitsigns.nvim', config = function () require'dbuch.gitsigns' end },
-  { 'simrat39/symbols-outline.nvim', config = function () require'dbuch.symbs' end },
+  {
+    'lewis6991/gitsigns.nvim',
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require 'dbuch.gitsigns'
+    end,
+  },
+  {
+    'simrat39/symbols-outline.nvim',
+    config = function()
+      require 'dbuch.symbs'
+    end,
+  },
   {
     'windwp/nvim-autopairs',
+    event = 'InsertEnter',
     config = function()
       require('nvim-autopairs').setup {
         check_ts = true,
@@ -127,6 +148,7 @@ return {
   },
   {
     'j-hui/fidget.nvim',
+    lazy = true,
     config = function()
       require('fidget').setup {
         text = {
@@ -155,6 +177,7 @@ return {
   'folke/lsp-colors.nvim',
   {
     'lewis6991/nvim-colorizer.lua',
+    lazy = true,
     config = function()
       require('colorizer').setup()
     end,
@@ -165,6 +188,7 @@ return {
   -- LSP
   {
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       'folke/neodev.nvim',
       'ray-x/lsp_signature.nvim',
@@ -176,20 +200,16 @@ return {
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require 'dbuch.null-ls'
     end,
   },
   'rafamadriz/friendly-snippets',
   {
-    'saecki/crates.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
-    config = function()
-      require('crates').setup {}
-    end,
-  },
-  {
     'hrsh7th/nvim-cmp',
+    version = false,
+    event = 'InsertEnter',
     dependencies = {
       'L3MON4D3/LuaSnip',
       'hrsh7th/cmp-nvim-lsp',
@@ -200,6 +220,11 @@ return {
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lua',
       'f3fora/cmp-spell',
+      {
+        'saecki/crates.nvim',
+        event = 'BufRead Cargo.toml',
+        config = true,
+      },
     },
     config = function()
       require 'dbuch.cmp'
@@ -218,6 +243,9 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter',
+    version = false,
+    build = ':TSUpdate',
+    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
       'nvim-treesitter/nvim-treesitter-context',
       'nvim-treesitter/nvim-treesitter-refactor',
@@ -225,7 +253,6 @@ return {
       'JoosepAlviste/nvim-ts-context-commentstring',
       'theHamsta/nvim-dap-virtual-text',
     },
-    build = ':TSUpdate',
     config = function()
       require 'dbuch.treesitter'
     end,
@@ -233,6 +260,8 @@ return {
   -- Other
   {
     'LhKipp/nvim-nu',
+    ft = 'nu',
+    lazy = true,
     dependencies = {
       'jose-elias-alvarez/null-ls.nvim',
       'nvim-treesitter/nvim-treesitter',
