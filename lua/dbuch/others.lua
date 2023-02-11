@@ -132,25 +132,6 @@ return {
       })
     end,
   },
-  -- Coloring
-  {
-    'lewis6991/nvim-colorizer.lua',
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = {
-      RGB = true,
-      RRGGBB = true,
-      names = true,
-      RRGGBBAA = false,
-      rgb_fn = false,
-      hsl_fn = false,
-      css = false,
-      css_fn = false,
-      mode = 'background', -- Set the display mode.
-    },
-    -- config = function()
-    --   require('colorizer').setup()
-    -- end,
-  },
   -- LSP
   {
     'neovim/nvim-lspconfig',
