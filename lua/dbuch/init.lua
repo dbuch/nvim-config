@@ -1,6 +1,5 @@
 local o, api, set, expand = vim.opt, vim.api, vim.keymap.set, vim.fn.expand
 
-require 'dbuch.filetype'
 require 'dbuch.theme'
 require 'dbuch.status'
 
