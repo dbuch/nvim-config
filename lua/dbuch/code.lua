@@ -19,4 +19,6 @@ return {
       }
     end,
   },
+
+  { import = 'dbuch.code.lsp' },
 }

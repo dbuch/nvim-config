@@ -72,3 +72,13 @@ o.laststatus = 3
 o.showmode = false
 o.showcmd = false
 o.numberwidth = 3
+
+
+
+-- Folding
+vim.g.sh_fold_enabled = 1
+
+o.foldmethod = 'syntax'
+o.foldcolumn = '0'
+o.foldnestmax = 3
+o.foldopen:append 'jump'

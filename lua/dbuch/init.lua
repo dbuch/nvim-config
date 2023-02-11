@@ -99,15 +99,6 @@ if 'Mappings' then
   end, NS) -- Aligns to a Lua pattern, looking left and with previews
 end
 
-if 'Folding' then
-  vim.g.sh_fold_enabled = 1
-
-  o.foldmethod = 'syntax'
-  o.foldcolumn = '0'
-  o.foldnestmax = 3
-  o.foldopen:append 'jump'
-end
-
 require 'dbuch.diagnostic'
 require 'dbuch.jumps'
 require 'dbuch.quit'
