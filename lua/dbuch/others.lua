@@ -61,17 +61,6 @@ return {
         end,
     },
     -- Editor
-    {
-        'lewis6991/cleanfold.nvim',
-        config = true,
-    },
-    {
-        'lewis6991/foldsigns.nvim',
-        opts = {
-            exclude = { 'GitSigns.*' },
-        },
-    },
-    { 'Vonr/align.nvim' },
     -- Dap
     {
         'mfussenegger/nvim-dap',
@@ -184,13 +173,6 @@ return {
         },
         config = function()
           require 'dbuch.lsp'
-        end,
-    },
-    {
-        'jose-elias-alvarez/null-ls.nvim',
-        event = { 'BufReadPre', 'BufNewFile' },
-        config = function()
-          require 'dbuch.null-ls'
         end,
     },
     -- 'rafamadriz/friendly-snippets',
