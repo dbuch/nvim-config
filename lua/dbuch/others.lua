@@ -1,7 +1,4 @@
 return {
-  -- Core
-  { 'folke/lazy.nvim' },
-
   -- Init
   {
     'stevearc/dressing.nvim',
@@ -20,7 +17,7 @@ return {
   },
   {
     'ahmedkhalf/project.nvim',
-    init = function ()
+    init = function()
       require('lazy').load { plugins = { 'project.nvim' } }
     end,
     cmd = 'Telescope projects',
@@ -55,7 +52,7 @@ return {
   },
   {
     'rcarriga/nvim-notify',
-    init = function ()
+    init = function()
       require('lazy').load { plugins = { 'nvim-notify' } }
     end,
     config = function()
@@ -154,12 +151,6 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       require 'dbuch.gitsigns'
-    end,
-  },
-  {
-    'simrat39/symbols-outline.nvim',
-    config = function()
-      require 'dbuch.symbs'
     end,
   },
   {
@@ -276,18 +267,6 @@ return {
   },
   -- Treesitter
   {
-    'nvim-lua/telescope.nvim',
-    cmd = 'Telescope',
-    version = false,
-    dependencies = {
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-      'nvim-lua/plenary.nvim',
-    },
-    config = function()
-      require 'dbuch.telescope'
-    end,
-  },
-  {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
@@ -303,19 +282,4 @@ return {
       require 'dbuch.treesitter'
     end,
   },
-  -- Other
-  --  {
-  --    'LhKipp/nvim-nu',
-  --    ft = 'nu',
-  --    lazy = true,
-  --    dependencies = {
-  --      'jose-elias-alvarez/null-ls.nvim',
-  --      'nvim-treesitter/nvim-treesitter',
-  --    },
-  --    config = function()
-  --      require('nu').setup {
-  --        complete_cmd_names = true,
-  --      }
-  --    end,
-  --  },
 }
