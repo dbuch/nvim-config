@@ -1,7 +1,80 @@
 return {
   -- Core
-  { 'folke/lazy.nvim', version = '*' },
+  { 'folke/lazy.nvim' },
+
+  -- Init
+  {
+    'stevearc/dressing.nvim',
+    init = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.select = function(...)
+        require('lazy').load { plugins = { 'dressing.nvim' } }
+        return vim.ui.select(...)
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.input = function(...)
+        require('lazy').load { plugins = { 'dressing.nvim' } }
+        return vim.ui.input(...)
+      end
+    end,
+  },
+  {
+    'ahmedkhalf/project.nvim',
+    init = function ()
+      require('lazy').load { plugins = { 'project.nvim' } }
+    end,
+    cmd = 'Telescope projects',
+    opts = {
+      manual_mode = false,
+      detection_methods = { 'lsp', 'patterns' },
+      patterns = {
+        '.git',
+        '_darcs',
+        '.hg',
+        '.bzr',
+        '.svn',
+        'Makefile',
+        'package.json',
+        'Cargo.toml',
+      },
+      ignore_lsp = {},
+      exclude_dirs = {
+        '~/.local/share/*',
+        '~/.rustup/toolchains/*',
+        '~/.cargo/*',
+        '/',
+        '~/',
+      },
+      show_hidden = false,
+      silent_chdir = true,
+      datapath = vim.fn.stdpath 'data',
+    },
+    config = function(_, opts)
+      require('project_nvim').setup(opts)
+    end,
+  },
+  {
+    'rcarriga/nvim-notify',
+    init = function ()
+      require('lazy').load { plugins = { 'nvim-notify' } }
+    end,
+    config = function()
+      vim.notify = require 'notify'
+    end,
+  },
   -- Editor
+  {
+    'lewis6991/satellite.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    config = true,
+  },
+  {
+    'luukvbaal/statuscol.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    config = function()
+      require('statuscol').setup { setopt = true }
+    end,
+  },
   {
     'lewis6991/cleanfold.nvim',
     config = function()
@@ -18,7 +91,7 @@ return {
   },
   {
     'nvim-tree/nvim-tree.lua',
-    lazy = true,
+    cmd = 'NvimTreeFindFileToggle',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
@@ -26,51 +99,21 @@ return {
       require 'dbuch.tree'
     end,
   },
-  { 'gpanders/editorconfig.nvim' },
-  { 'sindrets/diffview.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
   {
     'folke/trouble.nvim',
-    version = '*',
+    cmd = { 'TroubleToggle', 'Trouble' },
     config = function()
       require 'dbuch.trouble'
     end,
   },
   {
-    'luukvbaal/statuscol.nvim',
-    config = function()
-      require('statuscol').setup { setopt = true }
-    end,
-  },
-  {
-    'ahmedkhalf/project.nvim',
-    config = function()
-      require 'dbuch.project'
-    end,
-  },
-  {
     'akinsho/toggleterm.nvim',
-    version = '*',
+    cmd = 'ToggleTerm',
     config = function()
       require 'dbuch.terminal'
     end,
   },
-  {
-    "stevearc/dressing.nvim",
-    lazy = true,
-    init = function()
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.select = function(...)
-        require("lazy").load({ plugins = { "dressing.nvim" } })
-        return vim.ui.select(...)
-      end
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.input = function(...)
-        require("lazy").load({ plugins = { "dressing.nvim" } })
-        return vim.ui.input(...)
-      end
-    end,
-  },
-  { 'Vonr/align.nvim', lazy = true },
+  { 'Vonr/align.nvim' },
   -- Dap
   {
     'mfussenegger/nvim-dap',
@@ -97,14 +140,8 @@ return {
     end,
   },
   {
-    'lewis6991/satellite.nvim',
-    config = function()
-      require('satellite').setup()
-    end,
-  },
-  {
     'numToStr/Comment.nvim',
-    event = { "BufReadPre", "BufNewFile" },
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('Comment').setup {
@@ -114,7 +151,7 @@ return {
   },
   {
     'lewis6991/gitsigns.nvim',
-    event = { "BufReadPre", "BufNewFile" },
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       require 'dbuch.gitsigns'
     end,
@@ -155,17 +192,10 @@ return {
       })
     end,
   },
-  {
-    'rcarriga/nvim-notify',
-    config = function()
-      vim.notify = require 'notify'
-    end,
-  },
   -- Coloring
   'folke/lsp-colors.nvim',
   {
     'lewis6991/nvim-colorizer.lua',
-    lazy = true,
     config = function()
       require('colorizer').setup()
     end,
@@ -183,7 +213,6 @@ return {
       'onsails/lspkind-nvim',
       {
         'j-hui/fidget.nvim',
-        lazy = true,
         config = function()
           require('fidget').setup {
             text = {
@@ -215,12 +244,12 @@ return {
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
-    event = { "BufReadPre", "BufNewFile" },
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       require 'dbuch.null-ls'
     end,
   },
-  'rafamadriz/friendly-snippets',
+  -- 'rafamadriz/friendly-snippets',
   {
     'hrsh7th/nvim-cmp',
     version = false,
@@ -248,6 +277,8 @@ return {
   -- Treesitter
   {
     'nvim-lua/telescope.nvim',
+    cmd = 'Telescope',
+    version = false,
     dependencies = {
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
       'nvim-lua/plenary.nvim',
@@ -273,18 +304,18 @@ return {
     end,
   },
   -- Other
---  {
---    'LhKipp/nvim-nu',
---    ft = 'nu',
---    lazy = true,
---    dependencies = {
---      'jose-elias-alvarez/null-ls.nvim',
---      'nvim-treesitter/nvim-treesitter',
---    },
---    config = function()
---      require('nu').setup {
---        complete_cmd_names = true,
---      }
---    end,
---  },
+  --  {
+  --    'LhKipp/nvim-nu',
+  --    ft = 'nu',
+  --    lazy = true,
+  --    dependencies = {
+  --      'jose-elias-alvarez/null-ls.nvim',
+  --      'nvim-treesitter/nvim-treesitter',
+  --    },
+  --    config = function()
+  --      require('nu').setup {
+  --        complete_cmd_names = true,
+  --      }
+  --    end,
+  --  },
 }
