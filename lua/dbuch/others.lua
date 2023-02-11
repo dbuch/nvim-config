@@ -71,8 +71,14 @@ return {
     { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap' } },
     -- Buffer
     {
-        'dbuch/hover.nvim',
+        dir = '~/dev/nvim/hover.nvim/',
+        keys = {
+          { 'K', '<Cmd>Hover<cr>' },
+          { 'gK', '<Cmd>HoverSelect<cr>' },
+        },
         config = function()
+          vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
+          vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
           require('hover').setup {
               init = function()
                 require 'hover.providers.lsp'
@@ -82,8 +88,6 @@ return {
                 require 'hover.providers.man'
               end,
           }
-          vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
-          vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
         end,
     },
     {
