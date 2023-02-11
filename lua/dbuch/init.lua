@@ -14,7 +14,7 @@ require('lazy').setup {
     lazy = true,
     version = '*',
   },
-  checker = { enabled = true },
+--  checker = { enabled = true },
   performance = {
     rtp = {
       disabled_plugins = {
