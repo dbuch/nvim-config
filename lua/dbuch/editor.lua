@@ -135,4 +135,38 @@ return {
       setopt = true,
     },
   },
+  {
+    'AndrewRadev/bufferize.vim',
+    cmd = 'Bufferize',
+    config = function()
+      vim.g.bufferize_command = 'enew'
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'bufferize',
+        group = 'vimrc',
+        callback = function()
+          vim.opt_local.wrap = true
+        end,
+      })
+    end,
+  },
+  {
+    dir = '~/dev/nvim/hover.nvim/',
+    keys = {
+      { 'K', '<Cmd>Hover<cr>' },
+      { 'gK', '<Cmd>HoverSelect<cr>' },
+    },
+    config = function()
+      vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
+      vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
+      require('hover').setup {
+        init = function()
+          require 'hover.providers.lsp'
+          --require('hover.providers.gh')
+          require 'hover.providers.dictionary'
+          --require('hover.providers.diagnostic')
+          require 'hover.providers.man'
+        end,
+      }
+    end,
+  },
 }

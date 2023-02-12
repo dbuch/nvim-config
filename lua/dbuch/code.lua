@@ -396,4 +396,30 @@ return {
       cmp.setup(opts)
     end,
   },
+  {
+    'numToStr/Comment.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('Comment').setup {
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      }
+    end,
+  },
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    opts = {
+      check_ts = true,
+    },
+    config = function(plug, opts)
+      require('nvim-autopairs').setup(opts)
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+      local cmp = require 'cmp'
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end,
+    dependencies = {
+      'hrsh7th/nvim-cmp',
+    },
+  },
 }
