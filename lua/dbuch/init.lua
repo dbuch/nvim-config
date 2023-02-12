@@ -15,7 +15,7 @@ require('lazy').setup {
   },
   defaults = {
     lazy = true,
-    version = '*',
+    -- version = '*',
   },
   --  checker = { enabled = true },
   performance = {

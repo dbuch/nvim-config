@@ -134,43 +134,6 @@ return {
   },
   -- LSP
   {
-    'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      'ray-x/lsp_signature.nvim',
-      'onsails/lspkind-nvim',
-      {
-        'j-hui/fidget.nvim',
-        config = function()
-          require('fidget').setup {
-            text = {
-              spinner = 'dots',
-            },
-            fmt = {
-              stack_upwards = false,
-              task = function(task_name, message, percentage)
-                local pct = percentage and string.format(' (%s%%)', percentage) or ''
-                if task_name then
-                  return string.format('%s%s [%s]', message, pct, task_name)
-                else
-                  return string.format('%s%s', message, pct)
-                end
-              end,
-            },
-            sources = {
-              ['null-ls'] = {
-                ignore = true,
-              },
-            },
-          }
-        end,
-      },
-    },
-    config = function()
-      require 'dbuch.lsp'
-    end,
-  },
-  {
     'hrsh7th/nvim-cmp',
     version = false,
     event = 'InsertEnter',
