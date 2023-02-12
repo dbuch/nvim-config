@@ -105,17 +105,17 @@ return {
   {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
-    config = function()
-      require('nvim-autopairs').setup {
+    opts = {
         check_ts = true,
-      }
+    },
+    config = function(plug, opts)
+      require('nvim-autopairs').setup(opts)
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local cmp = require 'cmp'
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
     dependencies = {
       'hrsh7th/nvim-cmp',
-      'nvim-treesitter/nvim-treesitter',
     },
   },
   {
@@ -135,7 +135,6 @@ return {
   -- LSP
   {
     'hrsh7th/nvim-cmp',
-    version = false,
     event = 'InsertEnter',
     dependencies = {
       'L3MON4D3/LuaSnip',
