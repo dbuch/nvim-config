@@ -53,4 +53,10 @@ M.has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
 end
 
+function M.DefineSigns(t)
+  for name, text in pairs(t) do
+    vim.fn.sign_define(name, { text = text, texthl = name })
+  end
+end
+
 return M

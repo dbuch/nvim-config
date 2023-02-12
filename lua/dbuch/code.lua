@@ -43,9 +43,14 @@ return {
         },
       },
     },
-    opts = function(_, opts)
+    opts = function(_, _)
       local lspconfig = require 'lspconfig'
       return {
+        diagnostics = {
+          virtual_text = { source = true },
+          severity_sort = true,
+          update_in_insert = true,
+        },
         servers = {
           -- VSCode Servers
           html = {
@@ -128,6 +133,9 @@ return {
 
           lua_ls = {
             Lua = {
+              runtime = {
+                pathStrict = 'true',
+              },
               completion = {
                 callSnippet = 'Replace',
               },
@@ -148,6 +156,8 @@ return {
       }
     end,
     config = function(_, opts)
+
+      -- Register LspAttach
       require('dbuch.traits.nvim').on_attach(function(client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -158,6 +168,7 @@ return {
         }, buffer)
 
         if client.server_capabilities.code_lens then
+          vim.api.nvim_set_hl(0, 'LspCodeLens', { link = 'WarningMsg' })
           vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
             buffer = buffer,
             callback = vim.lsp.codelens.refresh,
@@ -165,6 +176,38 @@ return {
           vim.lsp.codelens.refresh()
         end
       end)
+
+      -- Set Signs
+      require('dbuch.traits.nvim').DefineSigns {
+        DiagnosticSignError = '●',
+        DiagnosticSignWarn = '●',
+        DiagnosticSignInfo = '●',
+        DiagnosticSignHint = '○',
+      }
+      vim.diagnostic.config(opts.diagnostics)
+
+      local orig_signs_handler = vim.diagnostic.handlers.signs
+      -- Override the built-in signs handler to aggregate signs
+      vim.diagnostic.handlers.signs = {
+        show = function(ns, bufnr, _, opts)
+          local diagnostics = vim.diagnostic.get(bufnr)
+
+          -- Find the "worst" diagnostic per line
+          local max_severity_per_line = {}
+          for _, d in pairs(diagnostics) do
+            local m = max_severity_per_line[d.lnum]
+            if not m or d.severity < m.severity then
+              max_severity_per_line[d.lnum] = d
+            end
+          end
+
+          -- Pass the filtered diagnostics (with our custom namespace) to
+          -- the original handler
+          local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
+          orig_signs_handler.show(ns, bufnr, filtered_diagnostics, opts)
+        end,
+        hide = orig_signs_handler.hide,
+}
 
       local servers = opts.servers
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
