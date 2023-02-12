@@ -31,10 +31,10 @@ o.wrap = false
 
 o.shortmess:append 'c'
 o.completeopt:append {
-    'noinsert',
-    'menuone',
-    'noselect',
-    'preview',
+  'noinsert',
+  'menuone',
+  'noselect',
+  'preview',
 }
 
 o.showbreak = '↳ '
@@ -42,9 +42,9 @@ o.mouse = 'a'
 o.mousemodel = 'extend'
 
 o.diffopt:append {
-    'vertical',
-    'foldcolumn:0',
-    'indent-heuristic',
+  'vertical',
+  'foldcolumn:0',
+  'indent-heuristic',
 }
 
 o.undolevels = 10000
@@ -60,11 +60,11 @@ if xdg_cfg then
 end
 
 o.formatoptions:append {
-    r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
-    o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
-    l = true, -- Long lines are not broken in insert mode.
-    t = true, -- Do not auto wrap text
-    n = true, -- Recognise lists
+  r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
+  o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
+  l = true, -- Long lines are not broken in insert mode.
+  t = true, -- Do not auto wrap text
+  n = true, -- Recognise lists
 }
 
 o.cmdheight = 0
@@ -72,8 +72,6 @@ o.laststatus = 3
 o.showmode = false
 o.showcmd = false
 o.numberwidth = 3
-
-
 
 -- Folding
 vim.g.sh_fold_enabled = 1

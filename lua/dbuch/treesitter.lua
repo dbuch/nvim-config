@@ -1,4 +1,3 @@
-
 require('nvim-treesitter').define_modules {
   fold = {
     attach = function()

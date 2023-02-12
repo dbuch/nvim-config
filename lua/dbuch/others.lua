@@ -37,40 +37,6 @@
 -- },
 
 return {
-  -- Init
-  {
-    'stevearc/dressing.nvim',
-    init = function()
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.select = function(...)
-        require('lazy').load { plugins = { 'dressing.nvim' } }
-        return vim.ui.select(...)
-      end
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.input = function(...)
-        require('lazy').load { plugins = { 'dressing.nvim' } }
-        return vim.ui.input(...)
-      end
-    end,
-  },
-  {
-    'rcarriga/nvim-notify',
-    init = function()
-      require('lazy').load { plugins = { 'nvim-notify' } }
-    end,
-    config = function()
-      vim.notify = require 'notify'
-    end,
-  },
-  -- Editor
-  -- Dap
-  {
-    'mfussenegger/nvim-dap',
-    dependencies = {
-      'mfussenegger/nvim-dap-python',
-    },
-  },
-  { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap' } },
   -- Buffer
   {
     dir = '~/dev/nvim/hover.nvim/',
@@ -106,7 +72,7 @@ return {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
     opts = {
-        check_ts = true,
+      check_ts = true,
     },
     config = function(plug, opts)
       require('nvim-autopairs').setup(opts)
@@ -130,30 +96,6 @@ return {
           vim.opt_local.wrap = true
         end,
       })
-    end,
-  },
-  -- LSP
-  {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
-    dependencies = {
-      'L3MON4D3/LuaSnip',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-calc',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-nvim-lua',
-      'f3fora/cmp-spell',
-      {
-        'saecki/crates.nvim',
-        event = 'BufRead Cargo.toml',
-        config = true,
-      },
-    },
-    config = function()
-      require 'dbuch.cmp'
     end,
   },
   -- Treesitter
