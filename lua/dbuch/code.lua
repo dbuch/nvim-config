@@ -6,7 +6,6 @@ return {
     opts = function(_, opts)
       local null_ls = require 'null-ls'
       opts.sources = {
-        null_ls.builtins.formatting.stylua,
         null_ls.builtins.completion.spell,
       }
     end,
@@ -143,8 +142,8 @@ return {
                 enable = false,
                 defaultConfig = {
                   indent_style = 'Spaces',
-                  indent_size = '2',
-                  column_width = '90',
+                  indent_size = 2,
+                  column_width = 120,
                   quote_style = 'AutoPreferSingle',
                   no_call_parentheses = 'true',
                   line_endings = 'Unix',
@@ -278,10 +277,10 @@ return {
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, item)
             local kind = lspkind.cmp_format {
-              mode = 'symbol_text',
-              maxwidth = 50,
-              ellipsis_char = '…',
-            }(entry, item)
+                  mode = 'symbol_text',
+                  maxwidth = 50,
+                  ellipsis_char = '…',
+                } (entry, item)
 
             local tokens = {}
             for token in vim.gsplit(kind.kind, '%s') do
@@ -315,8 +314,8 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            elseif luasnip.jumpable( -1) then
+              luasnip.jump( -1)
             else
               fallback()
             end
@@ -337,8 +336,8 @@ return {
           ['<A-k>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            elseif luasnip.jumpable( -1) then
+              luasnip.jump( -1)
             else
               fallback()
             end
@@ -525,7 +524,8 @@ return {
             vim.opt_local.foldmethod = 'expr'
             vim.opt_local.foldenable = false
           end,
-          detach = function() end,
+          detach = function()
+          end,
         },
       }
 
