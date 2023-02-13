@@ -156,7 +156,6 @@ return {
       }
     end,
     config = function(_, opts)
-
       -- Register LspAttach
       require('dbuch.traits.nvim').on_attach(function(client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
@@ -189,7 +188,7 @@ return {
       local orig_signs_handler = vim.diagnostic.handlers.signs
       -- Override the built-in signs handler to aggregate signs
       vim.diagnostic.handlers.signs = {
-        show = function(ns, bufnr, _, opts)
+        show = function(ns, bufnr, _, show_opts)
           local diagnostics = vim.diagnostic.get(bufnr)
 
           -- Find the "worst" diagnostic per line
@@ -204,10 +203,10 @@ return {
           -- Pass the filtered diagnostics (with our custom namespace) to
           -- the original handler
           local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
-          orig_signs_handler.show(ns, bufnr, filtered_diagnostics, opts)
+          orig_signs_handler.show(ns, bufnr, filtered_diagnostics, show_opts)
         end,
         hide = orig_signs_handler.hide,
-}
+      }
 
       local servers = opts.servers
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -399,7 +398,7 @@ return {
   {
     'numToStr/Comment.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
     config = function()
       require('Comment').setup {
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
@@ -412,7 +411,7 @@ return {
     opts = {
       check_ts = true,
     },
-    config = function(plug, opts)
+    config = function(_, opts)
       require('nvim-autopairs').setup(opts)
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local cmp = require 'cmp'
@@ -422,4 +421,153 @@ return {
       'hrsh7th/nvim-cmp',
     },
   },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    version = false,
+    build = ':TSUpdate',
+    event = { 'BufReadPost', 'BufNewFile' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-refactor',
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      'theHamsta/nvim-dap-virtual-text',
+      {
+        'nvim-treesitter/nvim-treesitter-context',
+        opts = {
+          enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+          max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
+          trim_scope = 'outer',
+        },
+      },
+    },
+    opts = {
+      ensure_installed = {
+        'c',
+        'css',
+        'c_sharp',
+        'cpp',
+        'lua',
+        'rust',
+        'html',
+        'javascript',
+        'typescript',
+        'bash',
+        'glsl',
+        'sql',
+        'markdown',
+        'markdown_inline',
+        'python',
+        'regex',
+        'query',
+        'help',
+        'toml',
+        'yaml',
+        'json',
+      },
+
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      },
+
+      refactor = {
+        highlight_current_scope = { enable = true },
+      },
+
+      textobjects = {
+        enable = true,
+        lookahead = true,
+        lsp_interop = {
+          enable = true,
+        },
+      },
+
+      indent = {
+        'enabled',
+      },
+
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = 'gnn',
+          node_incremental = 'grn',
+          scope_incremental = 'grc',
+          node_decremental = 'grm',
+        },
+      },
+
+      matchup = {
+        enable = true,
+      },
+
+      fold = {
+        enable = true,
+        disable = { 'rst', 'make' },
+      },
+
+      context_commentstring = { enable = true, enable_autocmd = false },
+
+      disable = function(_, buf)
+        local max_filesize = 1024 * 1024 -- MiB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+          vim.notify('Treesitter is disabled due to huge filesize (1MiB)', vim.log.levels.WARN)
+          return true
+        end
+      end,
+    },
+    config = function(_, opts)
+      require('nvim-treesitter').define_modules {
+        fold = {
+          attach = function()
+            vim.opt_local.spell = true
+            vim.opt_local.foldexpr = 'nvim_treesitter#foldexpr()'
+            vim.opt_local.foldmethod = 'expr'
+            vim.opt_local.foldenable = false
+          end,
+          detach = function() end,
+        },
+      }
+
+      require('nvim-treesitter.configs').setup(opts)
+    end,
+  },
 }
+
+-- TODO:
+-- 'rafamadriz/friendly-snippets',
+-- {
+--   'ahmedkhalf/project.nvim',
+--   init = function()
+--     require('lazy').load { plugins = { 'project.nvim' } }
+--   end,
+--   cmd = 'Telescope projects',
+--   opts = {
+--     manual_mode = false,
+--     detection_methods = { 'lsp', 'patterns' },
+--     patterns = {
+--       '.git',
+--       '_darcs',
+--       '.hg',
+--       '.bzr',
+--       '.svn',
+--       'Makefile',
+--       'package.json',
+--       'Cargo.toml',
+--     },
+--     ignore_lsp = {},
+--     exclude_dirs = {
+--       '~/.local/share/*',
+--       '~/.rustup/toolchains/*',
+--       '~/.cargo/*',
+--       '/',
+--       '~/',
+--     },
+--     show_hidden = false,
+--     silent_chdir = true,
+--     datapath = vim.fn.stdpath 'data',
+--   },
+--   config = function(_, opts)
+--     require('project_nvim').setup(opts)
+--   end,
+-- },

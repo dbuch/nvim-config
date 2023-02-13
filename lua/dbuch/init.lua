@@ -10,11 +10,9 @@ require('lazy').setup {
     { import = 'dbuch.core' },
     { import = 'dbuch.editor' },
     { import = 'dbuch.code' },
-    { import = 'dbuch.others' },
   },
   defaults = {
     lazy = true,
-    -- version = '*',
   },
   --  checker = { enabled = true },
   performance = {
