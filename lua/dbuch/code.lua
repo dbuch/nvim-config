@@ -14,7 +14,8 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      'ray-x/lsp_signature.nvim',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
       'onsails/lspkind-nvim',
       { 'folke/neodev.nvim', opts = { experimental = { pathStrict = true } } },
       {
@@ -138,6 +139,28 @@ return {
               completion = {
                 callSnippet = 'Replace',
               },
+              diagnostics = {
+                groupFileStatus = {
+                  ["ambiguity"]  = "Opened",
+                  ["await"]      = "Opened",
+                  ["codestyle"]  = "None",
+                  ["duplicate"]  = "Opened",
+                  ["global"]     = "Opened",
+                  ["luadoc"]     = "Opened",
+                  ["redefined"]  = "Opened",
+                  ["type-check"] = "Opened",
+                  ["unbalanced"] = "Opened",
+                  ["unused"]     = "Opened",
+                },
+                unusedLocalExclude = { '_*' },
+                globals = {
+                  'it',
+                  'describe',
+                  'before_each',
+                  'after_each',
+                  'pending'
+                }
+              },
               format = {
                 enable = false,
                 defaultConfig = {
@@ -158,12 +181,6 @@ return {
       -- Register LspAttach
       require('dbuch.traits.nvim').on_attach(function(client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-        require('lsp_signature').on_attach({
-          floating_window_above_first = true,
-          hi_parameter = 'Visual',
-          bind = false,
-        }, buffer)
 
         if client.server_capabilities.code_lens then
           vim.api.nvim_set_hl(0, 'LspCodeLens', { link = 'WarningMsg' })
@@ -237,8 +254,6 @@ return {
     event = 'InsertEnter',
     dependencies = {
       'L3MON4D3/LuaSnip',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-calc',
@@ -436,6 +451,9 @@ return {
           max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
           trim_scope = 'outer',
         },
+        config = function(_, opts)
+          require'treesitter-context'.setup(opts)
+        end
       },
     },
     opts = {
