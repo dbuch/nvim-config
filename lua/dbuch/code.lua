@@ -132,52 +132,54 @@ return {
           },
 
           lua_ls = {
-            Lua = {
-              runtime = {
-                pathStrict = 'true',
-              },
-              completion = {
-                callSnippet = 'Replace',
-              },
-              diagnostics = {
-                groupFileStatus = {
-                  ["ambiguity"]  = "Opened",
-                  ["await"]      = "Opened",
-                  ["codestyle"]  = "None",
-                  ["duplicate"]  = "Opened",
-                  ["global"]     = "Opened",
-                  ["luadoc"]     = "Opened",
-                  ["redefined"]  = "Opened",
-                  ["type-check"] = "Opened",
-                  ["unbalanced"] = "Opened",
-                  ["unused"]     = "Opened",
+            settings = {
+              Lua = {
+                runtime = {
+                  pathStrict = 'true',
                 },
-                unusedLocalExclude = { '_*' },
-                globals = {
-                  'it',
-                  'describe',
-                  'before_each',
-                  'after_each',
-                  'pending'
-                }
-              },
-              format = {
-                enable = false,
-                defaultConfig = {
-                  indent_style = 'Spaces',
-                  indent_size = 2,
-                  column_width = 120,
-                  quote_style = 'AutoPreferSingle',
-                  no_call_parentheses = 'true',
-                  line_endings = 'Unix',
+                completion = {
+                  callSnippet = 'Replace',
+                },
+                diagnostics = {
+                  groupFileStatus = {
+                    ['ambiguity']  = 'Opened',
+                    ['await']      = 'Opened',
+                    ['codestyle']  = 'None',
+                    ['duplicate']  = 'Opened',
+                    ['global']     = 'Opened',
+                    ['luadoc']     = 'Opened',
+                    ['redefined']  = 'Opened',
+                    ['type-check'] = 'Opened',
+                    ['unbalanced'] = 'Opened',
+                    ['unused']     = 'Opened',
+                  },
+                  unusedLocalExclude = { '_*' },
+                  globals = {
+                    'it',
+                    'describe',
+                    'before_each',
+                    'after_each',
+                    'pending'
+                  }
+                },
+                format = {
+                  enable = false,
+                  defaultConfig = {
+                    indent_style = 'space',
+                    indent_size = '2',
+                    column_width = '120',
+                    quote_style = 'AutoPreferSingle',
+                    no_call_parentheses = 'true',
+                    line_endings = 'Unix',
+                  },
                 },
               },
-            },
+            }
           },
         },
       }
     end,
-    config = function(_, opts)
+    config = function(_plugin, opts)
       -- Register LspAttach
       require('dbuch.traits.nvim').on_attach(function(client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
@@ -234,10 +236,8 @@ return {
         require('lspconfig')[server].setup(server_opts)
       end
 
-      for server, server_opts in pairs(servers) do
-        if server_opts then
-          setup(server)
-        end
+      for server, _server_opts in pairs(servers) do
+        setup(server)
       end
     end,
   },
@@ -452,7 +452,7 @@ return {
           trim_scope = 'outer',
         },
         config = function(_, opts)
-          require'treesitter-context'.setup(opts)
+          require 'treesitter-context'.setup(opts)
         end
       },
     },
