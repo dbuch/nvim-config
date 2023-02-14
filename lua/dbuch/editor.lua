@@ -92,12 +92,12 @@ return {
   },
   {
     'nvim-tree/nvim-tree.lua',
+    commit = '8b8d457',
     cmd = 'NvimTreeFindFileToggle',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
     opts = {
-      open_on_setup = false,
       sync_root_with_cwd = true,
       respect_buf_cwd = true,
       update_focused_file = {

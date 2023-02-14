@@ -55,3 +55,15 @@ api.nvim_create_autocmd('TermOpen', {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = augroup 'nvim-tree-startup',
+  callback = function(args)
+    local directory = vim.fn.isdirectory(args.file) == 1
+    if not directory then
+      return
+    end
+    -- change to the directory
+    vim.cmd.cd(args.file)
+    vim.cmd [[NvimTreeFindFileToggle]]
+end})
