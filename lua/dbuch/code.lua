@@ -184,8 +184,8 @@ return {
       }
       vim.diagnostic.config(opts.diagnostics)
 
-      local orig_signs_handler = vim.diagnostic.handlers.signs
       -- Override the built-in signs handler to aggregate signs
+      local orig_signs_handler = vim.diagnostic.handlers.signs
       vim.diagnostic.handlers.signs = {
         show = function(ns, bufnr, _, show_opts)
           local diagnostics = vim.diagnostic.get(bufnr)
@@ -426,7 +426,6 @@ return {
     build = ':TSUpdate',
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-refactor',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'JoosepAlviste/nvim-ts-context-commentstring',
       'theHamsta/nvim-dap-virtual-text',

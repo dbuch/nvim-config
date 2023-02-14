@@ -1,6 +1,9 @@
 return {
   -- Core
-  { 'folke/lazy.nvim', version = '*' },
+  {
+    'folke/lazy.nvim',
+    version = false,
+  },
   {
     'stevearc/dressing.nvim',
     init = function()
