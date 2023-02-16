@@ -7,6 +7,10 @@ return {
       local null_ls = require 'null-ls'
       opts.sources = {
         null_ls.builtins.completion.spell,
+        null_ls.builtins.formatting.isort,
+        null_ls.builtins.formatting.black,
+        null_ls.builtins.formatting.ruff,
+        null_ls.builtins.diagnostics.pylint,
       }
     end,
   },
@@ -229,10 +233,9 @@ return {
       local servers = opts.servers
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       for server, server_opts in pairs(servers) do
-        local opts = vim.tbl_deep_extend('force', {
+        require('lspconfig')[server].setup(vim.tbl_deep_extend('force', {
           capabilities = vim.deepcopy(capabilities),
-        }, server_opts or {})
-        require('lspconfig')[server].setup(opts)
+        }, server_opts or {}))
       end
     end,
   },
@@ -352,7 +355,7 @@ return {
               fallback()
             end
           end, { 'i', 's' }),
-          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-Space>'] = cmp.mapping.complete({}),
           ['<CR>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Insert,
             select = true,
@@ -366,7 +369,6 @@ return {
           { name = 'calc' },
           { name = 'crates' },
           { name = 'buffer' },
-          { name = 'nvim_lsp_signature_help' },
         },
         compare = {
           cmp.config.compare.offset,
@@ -474,6 +476,8 @@ return {
         'toml',
         'yaml',
         'json',
+        'vim',
+        'bash',
       },
 
       highlight = {

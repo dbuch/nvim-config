@@ -117,6 +117,7 @@ return {
   },
   {
     'folke/trouble.nvim',
+    version = "*",
     cmd = { 'TroubleToggle', 'Trouble' },
   },
   {
