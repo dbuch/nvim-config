@@ -10,7 +10,9 @@ return {
         null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.ruff,
-        null_ls.builtins.diagnostics.pylint,
+        null_ls.builtins.formatting.taplo,
+        null_ls.builtins.formatting.just,
+        -- null_ls.builtins.diagnostics.pylint,
       }
     end,
   },
