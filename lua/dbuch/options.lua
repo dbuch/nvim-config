@@ -1,4 +1,4 @@
-local o, expand = vim.opt, vim.fn.expand
+local o = vim.opt
 
 o.backup = true
 o.backupdir:remove '.'
@@ -49,14 +49,14 @@ o.diffopt:append {
 
 o.undolevels = 10000
 o.undofile = true
-o.undodir = expand '~/.cache/nvim'
+vim.opt.undodir = vim.fn.expand('~/.cache/nvim')
 o.splitright = true
 o.splitbelow = true
 -- o.spell = true
 
 local xdg_cfg = os.getenv 'XDG_CONFIG_HOME'
 if xdg_cfg then
-  o.spellfile = xdg_cfg .. '/nvim/spell/en.utf-8.add'
+  vim.opt.spellfile = xdg_cfg .. '/nvim/spell/en.utf-8.add'
 end
 
 o.formatoptions:append {
