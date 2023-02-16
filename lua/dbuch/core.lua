@@ -2,7 +2,7 @@ return {
   -- Core
   {
     'folke/lazy.nvim',
-    version = false,
+    version = '*',
   },
   {
     'stevearc/dressing.nvim',
