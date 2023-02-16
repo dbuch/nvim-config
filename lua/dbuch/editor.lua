@@ -104,6 +104,10 @@ return {
         enable = true,
         update_root = false,
       },
+      view = {
+        number = false,
+        signcolumn = "no"
+      }
     },
   },
   {
