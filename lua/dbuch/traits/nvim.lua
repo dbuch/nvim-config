@@ -1,5 +1,10 @@
 local M = {}
 
+M.root_patterns = { ".git", "lua" }
+
+---@type string?
+M.current_root = nil
+
 ---@param on_attach fun(client, buffer)
 function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd('LspAttach', {
@@ -9,6 +14,50 @@ function M.on_attach(on_attach)
       on_attach(client, buffer)
     end,
   })
+end
+
+-- returns the root directory based on:
+-- * lsp workspace folders
+-- * lsp root_dir
+-- * root pattern of filename of the current buffer
+-- * root pattern of cwd
+---@param path string?
+---@return string
+function M.get_root(path)
+  ---@type string?
+  path = path ~= "" and vim.loop.fs_realpath(path) or nil
+  ---@type string[]
+  local roots = {}
+  if path then
+    for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+      local workspace = client.config.workspace_folders
+      local paths = workspace and vim.tbl_map(function(ws)
+        return vim.uri_to_fname(ws.uri)
+      end, workspace) or client.config.root_dir and { client.config.root_dir } or {}
+      for _, p in ipairs(paths) do
+        ---@type string?
+        local r = vim.loop.fs_realpath(p)
+        if r ~= nil then
+          if path:find(r, 1, true) then
+            roots[#roots + 1] = r
+          end
+        end
+      end
+    end
+  end
+  table.sort(roots, function(a, b)
+    return #a > #b
+  end)
+  ---@type string?
+  local root = roots[1]
+  if not root then
+    path = path and vim.fs.dirname(path) or vim.loop.cwd()
+    ---@type string?
+    root = vim.fs.find(M.root_patterns, { path = path, upward = true })[1]
+    root = root and vim.fs.dirname(root) or vim.loop.cwd()
+  end
+  ---@cast root string
+  return root
 end
 
 -- delay notifications till vim.notify was replaced or after 500ms
@@ -25,7 +74,9 @@ function M.lazy_notify()
   local check = vim.loop.new_check()
 
   local replay = function()
+    ---@diagnostic disable-next-line: need-check-nil
     timer:stop()
+    ---@diagnostic disable-next-line: need-check-nil
     check:stop()
     if vim.notify == temp then
       vim.notify = orig -- put back the original notify if needed
@@ -39,12 +90,14 @@ function M.lazy_notify()
   end
 
   -- wait till vim.notify has been replaced
+  ---@diagnostic disable-next-line: need-check-nil
   check:start(function()
     if vim.notify ~= temp then
       replay()
     end
   end)
   -- or if it took more than 500ms, then something went wrong
+  ---@diagnostic disable-next-line: need-check-nil
   timer:start(500, 0, replay)
 end
 
