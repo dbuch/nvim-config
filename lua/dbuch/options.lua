@@ -10,8 +10,10 @@ o.fillchars = { eob = ' ', diff = ' ' }
 o.hidden = true
 o.ignorecase = true
 o.inccommand = 'split'
+
 o.number = true
 o.relativenumber = true
+o.numberwidth = 3
 o.shiftwidth = 2
 o.tabstop = 2
 o.scrolloff = 6
@@ -27,9 +29,10 @@ o.textwidth = 80
 o.virtualedit = 'block'
 o.winblend = 6
 o.pumblend = 6
+o.pumheight = 10
 o.wrap = false
 
-o.shortmess:append 'c'
+o.shortmess:append { W = true, I = true,  c = true, C = true}
 o.completeopt:append {
   'noinsert',
   'menuone',
@@ -47,12 +50,15 @@ o.diffopt:append {
   'indent-heuristic',
 }
 
+o.timeoutlen = 300
+o.updatetime = 200
+
 o.undolevels = 10000
 o.undofile = true
 vim.opt.undodir = vim.fn.expand('~/.cache/nvim')
 o.splitright = true
 o.splitbelow = true
--- o.spell = true
+o.splitkeep = "screen"
 
 local xdg_cfg = os.getenv 'XDG_CONFIG_HOME'
 if xdg_cfg then
@@ -71,7 +77,6 @@ o.cmdheight = 0
 o.laststatus = 3
 o.showmode = false
 o.showcmd = false
-o.numberwidth = 3
 
 -- Folding
 vim.g.sh_fold_enabled = 1
