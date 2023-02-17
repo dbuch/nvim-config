@@ -1,6 +1,6 @@
 local M = {}
 
-M.root_patterns = { ".git", "lua" }
+M.root_patterns = { ".git", "Cargo.toml" }
 
 ---@type string?
 M.current_root = nil

@@ -16,7 +16,14 @@ require('lazy').setup {
   defaults = {
     lazy = true,
   },
-  --  checker = { enabled = true },
+  checker = {
+    enabled = true,
+    notify = true,
+    frequency = 14400, -- Every fourth hour
+  },
+  change_detection = {
+    notify = false,
+  },
   performance = {
     rtp = {
       disabled_plugins = {

@@ -76,6 +76,11 @@ vim.api.nvim_create_autocmd({"VimEnter", "BufEnter"}, {
     end
     local nvim_trait = require('dbuch.traits.nvim')
     local root = nvim_trait.get_root(args.file)
-    vim.api.nvim_set_current_dir(root)
+
+    if nvim_trait.current_root == nil then
+      nvim_trait.current_root = root
+      vim.notify("Rooted: "..root)
+      vim.api.nvim_set_current_dir(root)
+    end
   end
 })
