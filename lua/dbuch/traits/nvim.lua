@@ -61,7 +61,7 @@ function M.get_root(path)
 end
 
 -- delay notifications till vim.notify was replaced or after 500ms
-function M.lazy_notify()
+function M.defer_notify()
   local notifs = {}
   local function temp(...)
     table.insert(notifs, vim.F.pack_len(...))

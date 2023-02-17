@@ -5,6 +5,8 @@ require 'dbuch.jumps'
 require 'dbuch.quit'
 require 'dbuch.options'
 
+require 'dbuch.traits.nvim'.defer_notify()
+
 require('lazy').setup {
   spec = {
     { import = 'dbuch.core' },
