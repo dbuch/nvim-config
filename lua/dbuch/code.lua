@@ -422,7 +422,7 @@ return {
   },
   {
     'windwp/nvim-autopairs',
-    event = 'InsertEnter',
+    event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       check_ts = true,
     },
