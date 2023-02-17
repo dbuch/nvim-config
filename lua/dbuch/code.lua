@@ -1,5 +1,9 @@
 return {
   { 'Vonr/align.nvim' },
+  { 'monkoose/matchparen.nvim',
+    event = { 'BufReadPost' },
+    config = true,
+  },
   {
     'jose-elias-alvarez/null-ls.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
