@@ -66,21 +66,28 @@ vim.api.nvim_create_autocmd("VimEnter", {
     -- change to the directory
     vim.cmd.cd(args.file)
     vim.cmd [[NvimTreeFindFileToggle]]
-end})
+  end
+})
 
-vim.api.nvim_create_autocmd({"VimEnter", "BufEnter"}, {
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
   group = augroup 'rooter',
-  callback = function (args)
-    if args.file == "" then
+  callback = function(args)
+    if args.file == "" or vim.api.nvim_buf_get_option(args.buf, "buftype") == "nofile" then
       return
     end
-    local nvim_trait = require('dbuch.traits.nvim')
-    local root = nvim_trait.get_root(args.file)
 
-    if nvim_trait.current_root == nil then
-      nvim_trait.current_root = root
-      vim.notify("Rooted: "..root)
-      vim.api.nvim_set_current_dir(root)
+    local cwd = vim.loop.cwd()
+    local nvim_trait = require('dbuch.traits.nvim')
+    local function set_root(path)
+      local root = nvim_trait.get_root(path)
+      if cwd ~= root then
+        vim.notify("Rooted: " .. root)
+        vim.api.nvim_set_current_dir(root)
+      end
+    end
+
+    if not nvim_trait.is_ancestor(cwd, args.file) then
+      set_root(args.file)
     end
   end
 })
