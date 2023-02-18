@@ -16,6 +16,31 @@ function M.on_attach(on_attach)
   })
 end
 
+---comment
+---@param base string?
+---@param file string?
+---@return boolean
+function M.is_ancestor(base, file)
+  if base == nil or file == nil then
+    return false
+  end
+
+  local base_tokens = vim.split(base, '/')
+  local file_tokens = vim.split(file, '/')
+
+  if #base_tokens < #file_tokens then
+    return false
+  end
+
+  for i, token in ipairs(base_tokens) do
+    if file_tokens[i] ~= token then
+      return false
+    end
+  end
+
+  return true
+end
+
 -- returns the root directory based on:
 -- * lsp workspace folders
 -- * lsp root_dir
