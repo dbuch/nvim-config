@@ -1,8 +1,11 @@
 return {
   { 'Vonr/align.nvim' },
-  { 'monkoose/matchparen.nvim',
-    event = { 'BufReadPost' },
-    config = true,
+  {
+    'andymass/vim-matchup',
+    event = 'BufReadPost',
+    config = function ()
+      vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
+    end
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
@@ -413,12 +416,7 @@ return {
   {
     'numToStr/Comment.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-    config = function()
-      require('Comment').setup {
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-      }
-    end,
+    config = true,
   },
   {
     'windwp/nvim-autopairs',
@@ -437,25 +435,24 @@ return {
     },
   },
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = "BufReadPre",
+    opts = {
+      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
+      trim_scope = 'outer',
+    },
+    config = true
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
-      'JoosepAlviste/nvim-ts-context-commentstring',
+      -- 'JoosepAlviste/nvim-ts-context-commentstring',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
-      {
-        'nvim-treesitter/nvim-treesitter-context',
-        opts = {
-          enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-          max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
-          trim_scope = 'outer',
-        },
-        config = function(_, opts)
-          require 'treesitter-context'.setup(opts)
-        end
-      },
     },
     opts = {
       ensure_installed = {
@@ -524,7 +521,7 @@ return {
         disable = { 'rst', 'make' },
       },
 
-      context_commentstring = { enable = true, enable_autocmd = false },
+      -- context_commentstring = { enable = true, enable_autocmd = false },
 
       disable = function(_, buf)
         local max_filesize = 1024 * 1024 -- MiB

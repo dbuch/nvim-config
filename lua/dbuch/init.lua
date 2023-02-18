@@ -29,6 +29,7 @@ require('lazy').setup {
       disabled_plugins = {
         'netrw',
         'netrwPlugin',
+        'matchit',
         'matchparen',
         'tutor',
         'tohtml',
