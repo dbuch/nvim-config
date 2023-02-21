@@ -128,9 +128,13 @@ return {
             cmd = { 'rust-analyzer' },
             settings = {
               ['rust-analyzer'] = {
-                ['cargo'] = {
-                  features = 'all',
-                  runBuildScripts = true,
+                cargo = {
+                    buildScripts = {
+                        enable = false,
+                    },
+                },
+                procMacro = {
+                    enable = true
                 },
                 checkOnSave = {
                   command = 'clippy',
