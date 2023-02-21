@@ -35,6 +35,10 @@ return {
         },
       }
     end,
+    config = function (_, opts)
+      require("telescope").setup(opts)
+      require("telescope").load_extension("notify")
+    end
   },
   {
     'lewis6991/gitsigns.nvim',
