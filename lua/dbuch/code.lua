@@ -3,7 +3,7 @@ return {
   {
     'andymass/vim-matchup',
     event = 'BufReadPost',
-    config = function ()
+    config = function()
       vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
     end
   },
@@ -129,12 +129,12 @@ return {
             settings = {
               ['rust-analyzer'] = {
                 cargo = {
-                    buildScripts = {
-                        enable = false,
-                    },
+                  buildScripts = {
+                    enable = false,
+                  },
                 },
                 procMacro = {
-                    enable = true
+                  enable = true
                 },
                 checkOnSave = {
                   command = 'clippy',

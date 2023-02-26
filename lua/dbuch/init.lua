@@ -17,7 +17,7 @@ require('lazy').setup {
     lazy = true,
   },
   checker = {
-    enabled = true,
+    enabled = false,
     notify = true,
     frequency = 14400, -- Every fourth hour
   },
