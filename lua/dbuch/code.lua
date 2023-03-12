@@ -156,17 +156,23 @@ return {
                   callSnippet = 'Replace',
                 },
                 diagnostics = {
+                  groupSeverity = {
+                    strong = 'Warning',
+                    strict = 'Warning',
+                  },
                   groupFileStatus = {
-                    ['ambiguity']  = 'Opened',
-                    ['await']      = 'Opened',
-                    ['codestyle']  = 'None',
-                    ['duplicate']  = 'Opened',
-                    ['global']     = 'Opened',
-                    ['luadoc']     = 'Opened',
-                    ['redefined']  = 'Opened',
-                    ['type-check'] = 'Opened',
-                    ['unbalanced'] = 'Opened',
-                    ['unused']     = 'Opened',
+                    ["ambiguity"]  = "Opened",
+                    ["await"]      = "Opened",
+                    ["codestyle"]  = "None",
+                    ["duplicate"]  = "Opened",
+                    ["global"]     = "Opened",
+                    ["luadoc"]     = "Opened",
+                    ["redefined"]  = "Opened",
+                    ["strict"]     = "Opened",
+                    ["strong"]     = "Opened",
+                    ["type-check"] = "Opened",
+                    ["unbalanced"] = "Opened",
+                    ["unused"]     = "Opened",
                   },
                   unusedLocalExclude = { '_*' },
                   globals = {
@@ -525,7 +531,7 @@ return {
         disable = { 'rst', 'make' },
       },
 
-      -- context_commentstring = { enable = true, enable_autocmd = false },
+      context_commentstring = { enable = true, enable_autocmd = false },
 
       disable = function(_, buf)
         local max_filesize = 1024 * 1024 -- MiB
@@ -541,7 +547,7 @@ return {
         fold = {
           attach = function()
             vim.opt_local.spell = true
-            vim.opt_local.foldexpr = 'nvim_treesitter#foldexpr()'
+            vim.opt_local.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
             vim.opt_local.foldmethod = 'expr'
             vim.opt_local.foldenable = false
           end,
