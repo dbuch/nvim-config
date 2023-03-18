@@ -455,6 +455,23 @@ return {
     config = true
   },
   {
+    'LhKipp/nvim-nu',
+    build = ':TSInstall nu',
+    ft = 'nu',
+    init = function ()
+      vim.filetype.add({
+        extension = {
+          nu = 'nu'
+        }
+      })
+    end,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'jose-elias-alvarez/null-ls.nvim',
+    },
+    config = true
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
