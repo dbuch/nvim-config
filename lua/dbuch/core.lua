@@ -21,6 +21,7 @@ return {
   },
   {
     'rcarriga/nvim-notify',
+    event = 'VeryLazy',
     opts = {
       render = "compact",
       timeout = 3000,
