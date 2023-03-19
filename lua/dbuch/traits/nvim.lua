@@ -1,6 +1,6 @@
 local M = {}
 
-M.root_patterns = { ".git", "Cargo.toml" }
+M.root_patterns = { '.git', 'Cargo.toml', 'stylua.toml' }
 
 ---@type string?
 M.current_root = nil
@@ -55,10 +55,10 @@ function M.get_root(path)
   local roots = {}
   if path then
     for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
-      local workspace = client.config.workspace_folders
-      local paths = workspace and vim.tbl_map(function(ws)
-        return vim.uri_to_fname(ws.uri)
-      end, workspace) or client.config.root_dir and { client.config.root_dir } or {}
+      local wsf = client.config.workspace_folders
+      local paths = wsf and vim.tbl_map(function(ws)
+            return vim.uri_to_fname(ws.uri)
+          end, wsf) or client.config.root_dir and { client.config.root_dir } or {}
       for _, p in ipairs(paths) do
         ---@type string?
         local r = vim.loop.fs_realpath(p)
