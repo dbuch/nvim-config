@@ -28,7 +28,7 @@ api.nvim_create_autocmd('FileType', {
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf --[[@as table]], silent = true })
   end,
 })
 
@@ -44,8 +44,8 @@ api.nvim_create_autocmd('FileType', {
 api.nvim_create_autocmd('TermOpen', {
   group = augroup 'terminal',
   callback = function(args)
-    if string.match(args.match, '#toggleterm') then
-      local opts = { buffer = args.buf }
+    if ('#toggleterm'):match(args.match) then
+      local opts = { buffer = args.buf --[[@as table]] }
       vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
       vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
       vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
@@ -69,10 +69,23 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end
 })
 
+
+local function is_invalid_buftype(buf --[[@as integer]]) --[[@as boolean]]
+  local buftype = vim.api.nvim_buf_get_option(buf, "buftype")
+  return vim.tbl_contains({
+    'nofile',
+    'help',
+    'prompt',
+    'terminal',
+    'quickfix',
+    'swapfile',
+  }, buftype)
+end
+
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   group = augroup 'rooter',
   callback = function(args)
-    if args.file == "" or vim.api.nvim_buf_get_option(args.buf, "buftype") == "nofile" then
+    if args.file == "" or is_invalid_buftype(args.buf) then
       return
     end
 
@@ -81,7 +94,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
     local function set_root(path)
       local root = nvim_trait.get_root(path)
       if cwd ~= root then
-        vim.notify("Rooted: " .. root)
+        vim.notify("Rooted: " .. root:gsub(vim.env.HOME, '~'))
         vim.api.nvim_set_current_dir(root)
       end
     end

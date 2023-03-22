@@ -222,13 +222,16 @@ return {
         DiagnosticSignInfo = '●',
         DiagnosticSignHint = '○',
       }
+
       vim.diagnostic.config(opts.diagnostics)
 
+      local handlers = vim.diagnostic.handlers
+
+      local orig_signs_handler = handlers.signs
+
       -- Override the built-in signs handler to aggregate signs
-      local orig_signs_handler = vim.diagnostic.handlers.signs
-      vim.diagnostic.handlers.signs = {
-        show = function(ns, bufnr, _, show_opts)
-          local diagnostics = vim.diagnostic.get(bufnr)
+      handlers.signs = {
+        show = function(ns, bufnr, diagnostics, show_opts)
 
           -- Find the "worst" diagnostic per line
           local max_severity_per_line = {}
@@ -244,7 +247,8 @@ return {
           local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
           orig_signs_handler.show(ns, bufnr, filtered_diagnostics, show_opts)
         end,
-        hide = orig_signs_handler.hide,
+
+        hide = orig_signs_handler.hide
       }
 
       local servers = opts.servers
@@ -448,8 +452,8 @@ return {
     'nvim-treesitter/nvim-treesitter-context',
     event = "BufReadPre",
     opts = {
-      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-      max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
+      enable = true,
+      max_lines = 5,
       trim_scope = 'outer',
     },
     config = true
