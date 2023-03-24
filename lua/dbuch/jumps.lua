@@ -1,13 +1,17 @@
 local ns = vim.api.nvim_create_namespace 'jumper'
 
+---@type uv_timer_t|nil
 local win_timer
+---@type uv_timer_t|nil
 local key_timer
 
+---@type integer|nil
 local win
 local show = 0
 
 local buf = vim.api.nvim_create_buf(false, true)
 do
+  ---@type string[]
   local blank = {}
   for i = 1, 100 do
     blank[i] = ''
@@ -20,6 +24,7 @@ local KEY_TIMEOUT = 2000
 local CONTEXT = 8
 
 -- Autocmd ID for cursor moved
+---@type number|nil
 local cmoved_au
 
 local function enable_cmoved_au()
@@ -73,7 +78,9 @@ local function refresh_win_timer()
     win_timer = vim.loop.new_timer()
   end
 
+  ---@diagnostic disable-next-line: need-check-nil
   win_timer:start(WIN_TIMEOUT, 0, function()
+    ---@diagnostic disable-next-line: need-check-nil
     win_timer:close()
     win_timer = nil
     if win then
@@ -86,6 +93,9 @@ local function refresh_win_timer()
   end)
 end
 
+---comment
+---@param lines string[]
+---@param current_line integer
 local function render_buf(lines, current_line)
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
   for i, l in ipairs(lines) do
@@ -97,9 +107,16 @@ local function render_buf(lines, current_line)
   end
 end
 
+---@param jumplist table[]
+---@param current integer
+---@return table
+---@return integer
+---@return integer
 local function get_text(jumplist, current)
   local width = 0
+  ---@type table[]
   local lines = {}
+  ---@type integer
   local current_line
   for i = current - 3, current + 10 do
     local j = jumplist[i]
@@ -129,7 +146,9 @@ local function do_show()
   if not key_timer then
     key_timer = vim.loop.new_timer()
   end
+  ---@diagnostic disable-next-line: need-check-nil
   key_timer:start(KEY_TIMEOUT, 0, function()
+    ---@diagnostic disable-next-line: need-check-nil
     key_timer:close()
     key_timer = nil
     show = 0
@@ -149,8 +168,8 @@ local function show_jumps(forward)
 
   disable_cmoved_au()
 
+  ---@type integer[], integer
   local jumplist, last_jump_pos = unpack(vim.fn.getjumplist())
-
   local current = last_jump_pos + 1 + (forward and 1 or -1)
   if current == 0 then
     current = 1
