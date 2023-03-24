@@ -28,7 +28,10 @@ api.nvim_create_autocmd('FileType', {
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf --[[@as table]], silent = true })
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', {
+      buffer = event.buf,--[[@as table]]
+      silent = true,
+    })
   end,
 })
 
@@ -45,7 +48,9 @@ api.nvim_create_autocmd('TermOpen', {
   group = augroup 'terminal',
   callback = function(args)
     if ('#toggleterm'):match(args.match) then
-      local opts = { buffer = args.buf --[[@as table]] }
+      local opts = {
+        buffer = args.buf,--[[@as table]]
+      }
       vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
       vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
       vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
@@ -56,7 +61,7 @@ api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
+vim.api.nvim_create_autocmd('VimEnter', {
   group = augroup 'nvim-tree-startup',
   callback = function(args)
     local directory = vim.fn.isdirectory(args.file) == 1
@@ -66,12 +71,13 @@ vim.api.nvim_create_autocmd("VimEnter", {
     -- change to the directory
     vim.cmd.cd(args.file)
     vim.cmd [[NvimTreeFindFileToggle]]
-  end
+  end,
 })
 
-
-local function is_invalid_buftype(buf --[[@as integer]]) --[[@as boolean]]
-  local buftype = vim.api.nvim_buf_get_option(buf, "buftype")
+local function is_invalid_buftype(
+  buf --[[@as integer]]
+) --[[@as boolean]]
+  local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
   return vim.tbl_contains({
     'nofile',
     'help',
@@ -82,19 +88,19 @@ local function is_invalid_buftype(buf --[[@as integer]]) --[[@as boolean]]
   }, buftype)
 end
 
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
+vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   group = augroup 'rooter',
   callback = function(args)
-    if args.file == "" or is_invalid_buftype(args.buf) then
+    if args.file == '' or is_invalid_buftype(args.buf) then
       return
     end
 
     local cwd = vim.loop.cwd()
-    local nvim_trait = require('dbuch.traits.nvim')
+    local nvim_trait = require 'dbuch.traits.nvim'
     local function set_root(path)
       local root = nvim_trait.get_root(path)
       if cwd ~= root then
-        vim.notify("Rooted: " .. root:gsub(vim.env.HOME, '~'))
+        vim.notify('Rooted: ' .. root:gsub(vim.env.HOME, '~'))
         vim.api.nvim_set_current_dir(root)
       end
     end
@@ -102,5 +108,5 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
     if not nvim_trait.is_ancestor(cwd, args.file) then
       set_root(args.file)
     end
-  end
+  end,
 })

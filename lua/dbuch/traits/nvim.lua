@@ -50,15 +50,15 @@ end
 ---@return string
 function M.get_root(path)
   ---@type string?
-  path = path ~= "" and vim.loop.fs_realpath(path) or nil
+  path = path ~= '' and vim.loop.fs_realpath(path) or nil
   ---@type string[]
   local roots = {}
   if path then
-    for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+    for _, client in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
       local wsf = client.config.workspace_folders
       local paths = wsf and vim.tbl_map(function(ws)
-            return vim.uri_to_fname(ws.uri)
-          end, wsf) or client.config.root_dir and { client.config.root_dir } or {}
+        return vim.uri_to_fname(ws.uri)
+      end, wsf) or client.config.root_dir and { client.config.root_dir } or {}
       for _, p in ipairs(paths) do
         ---@type string?
         local r = vim.loop.fs_realpath(p)

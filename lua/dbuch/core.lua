@@ -23,7 +23,7 @@ return {
     'rcarriga/nvim-notify',
     event = 'VeryLazy',
     opts = {
-      render = "compact",
+      render = 'compact',
       timeout = 3000,
       max_height = function()
         return math.floor(vim.o.lines * 0.75)
@@ -33,9 +33,9 @@ return {
       end,
     },
     init = function()
-      require 'dbuch.traits.nvim'.defer_notify()
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "VeryLazy",
+      require('dbuch.traits.nvim').defer_notify()
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'VeryLazy',
         callback = function()
           vim.notify = require 'notify'
         end,

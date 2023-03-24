@@ -35,10 +35,10 @@ return {
         },
       }
     end,
-    config = function (_, opts)
-      require("telescope").setup(opts)
-      require("telescope").load_extension("notify")
-    end
+    config = function(_, opts)
+      require('telescope').setup(opts)
+      require('telescope').load_extension 'notify'
+    end,
   },
   {
     'lewis6991/gitsigns.nvim',
@@ -110,8 +110,8 @@ return {
       },
       view = {
         number = false,
-        signcolumn = "no"
-      }
+        signcolumn = 'no',
+      },
     },
   },
   {
@@ -121,7 +121,7 @@ return {
   },
   {
     'folke/trouble.nvim',
-    version = "*",
+    version = '*',
     cmd = { 'TroubleToggle', 'Trouble' },
   },
   {

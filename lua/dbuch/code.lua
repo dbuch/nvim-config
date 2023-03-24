@@ -4,8 +4,8 @@ return {
     'andymass/vim-matchup',
     event = 'BufReadPost',
     config = function()
-      vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
-    end
+      vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
+    end,
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
@@ -134,7 +134,7 @@ return {
                   },
                 },
                 procMacro = {
-                  enable = true
+                  enable = true,
                 },
                 checkOnSave = {
                   command = 'clippy',
@@ -161,18 +161,18 @@ return {
                     strict = 'Warning',
                   },
                   groupFileStatus = {
-                    ["ambiguity"]  = "Opened",
-                    ["await"]      = "Opened",
-                    ["codestyle"]  = "None",
-                    ["duplicate"]  = "Opened",
-                    ["global"]     = "Opened",
-                    ["luadoc"]     = "Opened",
-                    ["redefined"]  = "Opened",
-                    ["strict"]     = "Opened",
-                    ["strong"]     = "Opened",
-                    ["type-check"] = "Opened",
-                    ["unbalanced"] = "Opened",
-                    ["unused"]     = "Opened",
+                    ['ambiguity'] = 'Opened',
+                    ['await'] = 'Opened',
+                    ['codestyle'] = 'None',
+                    ['duplicate'] = 'Opened',
+                    ['global'] = 'Opened',
+                    ['luadoc'] = 'Opened',
+                    ['redefined'] = 'Opened',
+                    ['strict'] = 'Opened',
+                    ['strong'] = 'Opened',
+                    ['type-check'] = 'Opened',
+                    ['unbalanced'] = 'Opened',
+                    ['unused'] = 'Opened',
                   },
                   unusedLocalExclude = { '_*' },
                   globals = {
@@ -180,8 +180,8 @@ return {
                     'describe',
                     'before_each',
                     'after_each',
-                    'pending'
-                  }
+                    'pending',
+                  },
                 },
                 format = {
                   enable = true,
@@ -195,7 +195,7 @@ return {
                   },
                 },
               },
-            }
+            },
           },
         },
       }
@@ -232,7 +232,6 @@ return {
       -- Override the built-in signs handler to aggregate signs
       handlers.signs = {
         show = function(ns, bufnr, diagnostics, show_opts)
-
           -- Find the "worst" diagnostic per line
           local max_severity_per_line = {}
           for _, d in pairs(diagnostics) do
@@ -248,7 +247,7 @@ return {
           orig_signs_handler.show(ns, bufnr, filtered_diagnostics, show_opts)
         end,
 
-        hide = orig_signs_handler.hide
+        hide = orig_signs_handler.hide,
       }
 
       local servers = opts.servers
@@ -311,10 +310,10 @@ return {
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, item)
             local kind = lspkind.cmp_format {
-                  mode = 'symbol_text',
-                  maxwidth = 50,
-                  ellipsis_char = '…',
-                } (entry, item)
+              mode = 'symbol_text',
+              maxwidth = 50,
+              ellipsis_char = '…',
+            }(entry, item)
 
             local tokens = {}
             for token in vim.gsplit(kind.kind, '%s') do
@@ -348,8 +347,8 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable( -1) then
-              luasnip.jump( -1)
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
             else
               fallback()
             end
@@ -370,13 +369,13 @@ return {
           ['<A-k>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable( -1) then
-              luasnip.jump( -1)
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
             else
               fallback()
             end
           end, { 'i', 's' }),
-          ['<C-Space>'] = cmp.mapping.complete({}),
+          ['<C-Space>'] = cmp.mapping.complete {},
           ['<CR>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Insert,
             select = true,
@@ -450,30 +449,30 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
-    event = "BufReadPre",
+    event = 'BufReadPre',
     opts = {
       enable = true,
       max_lines = 5,
       trim_scope = 'outer',
     },
-    config = true
+    config = true,
   },
   {
     'LhKipp/nvim-nu',
     build = ':TSInstall nu',
     ft = 'nu',
-    init = function ()
-      vim.filetype.add({
+    init = function()
+      vim.filetype.add {
         extension = {
-          nu = 'nu'
-        }
-      })
+          nu = 'nu',
+        },
+      }
     end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'jose-elias-alvarez/null-ls.nvim',
     },
-    config = true
+    config = true,
   },
   {
     'nvim-treesitter/nvim-treesitter',
@@ -572,8 +571,7 @@ return {
             vim.opt_local.foldmethod = 'expr'
             vim.opt_local.foldenable = false
           end,
-          detach = function()
-          end,
+          detach = function() end,
         },
       }
 
