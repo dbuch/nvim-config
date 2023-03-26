@@ -8,7 +8,7 @@ return {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
     dependencies = {
-      'L3MON4D3/LuaSnip',
+      'dcampos/cmp-snippy',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-calc',
@@ -18,13 +18,13 @@ return {
     },
     opts = function()
       local cmp = require 'cmp'
-      local luasnip = require 'luasnip'
+      -- local luasnip = require 'luasnip'
       local lspkind = require 'lspkind'
       local has_words_before = require('dbuch.traits.nvim').has_words_before
       return {
         snippet = {
           expand = function(args)
-            luasnip.lsp_expand(args.body)
+            require('snippy').expand_snippet(args.body) -- For `snippy` users.
           end,
         },
         window = {
@@ -67,8 +67,6 @@ return {
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expand_or_locally_jumpable() then
-              luasnip.expand_or_jump()
             elseif has_words_before() then
               cmp.complete()
             else
@@ -79,8 +77,6 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
             else
               fallback()
             end
@@ -89,8 +85,6 @@ return {
           ['<A-j>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
             elseif has_words_before() then
               cmp.select_prev_item()
             else
@@ -101,8 +95,6 @@ return {
           ['<A-k>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
             else
               fallback()
             end
@@ -116,7 +108,7 @@ return {
         sources = {
           { name = 'nvim_lua' },
           { name = 'nvim_lsp' },
-          { name = 'luasnip' },
+          { name = 'snippy' },
           { name = 'path' },
           { name = 'calc' },
           { name = 'crates' },

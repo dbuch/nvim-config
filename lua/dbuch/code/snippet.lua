@@ -1,9 +1,19 @@
 return {
   {
-    'L3MON4D3/LuaSnip',
+    'dcampos/nvim-snippy',
     event = 'InsertEnter',
-    dependencies = {
-      'rafamadriz/friendly-snippets',
-    },
-  }
+    config = function()
+      require('snippy').setup({
+        mappings = {
+          is = {
+            ['<Tab>'] = 'expand_or_advance',
+            ['<S-Tab>'] = 'previous',
+          },
+          nx = {
+            ['<leader>x'] = 'cut_text',
+          },
+        },
+      })
+    end
+  },
 }
