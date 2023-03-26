@@ -7,17 +7,9 @@ return {
       vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
     end,
   },
-  -- Dap
-  {
-    'mfussenegger/nvim-dap',
-    dependencies = {
-      'mfussenegger/nvim-dap-python',
-      'rcarriga/nvim-dap-ui',
-    },
-  },
   {
     'numToStr/Comment.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     config = true,
   },
   {
