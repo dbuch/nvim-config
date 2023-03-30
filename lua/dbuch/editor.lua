@@ -95,25 +95,40 @@ return {
     },
   },
   {
-    'nvim-tree/nvim-tree.lua',
-    commit = '8b8d457',
-    cmd = 'NvimTreeFindFileToggle',
+    'nvim-neo-tree/neo-tree.nvim',
+    cmd = 'Neotree',
     dependencies = {
+      'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
+      'MunifTanjim/nui.nvim',
     },
-    opts = {
-      sync_root_with_cwd = true,
-      respect_buf_cwd = true,
-      update_focused_file = {
-        enable = true,
-        update_root = false,
-      },
-      view = {
-        number = false,
-        signcolumn = 'no',
-      },
-    },
+    config = true,
   },
+  -- {
+  --   'stevearc/oil.nvim',
+  --   event = "BufEnter",
+  --   config = true,
+  -- },
+  -- {
+  --   'nvim-tree/nvim-tree.lua',
+  --   commit = '8b8d457',
+  --   cmd = 'NvimTreeFindFileToggle',
+  --   dependencies = {
+  --     'nvim-tree/nvim-web-devicons',
+  --   },
+  --   opts = {
+  --     sync_root_with_cwd = true,
+  --     respect_buf_cwd = true,
+  --     update_focused_file = {
+  --       enable = true,
+  --       update_root = false,
+  --     },
+  --     view = {
+  --       number = false,
+  --       signcolumn = 'no',
+  --     },
+  --   },
+  -- },
   {
     'simrat39/symbols-outline.nvim',
     cmd = 'SymbolsOutline',
@@ -159,9 +174,10 @@ return {
     end,
   },
   {
-    dir = '~/dev/nvim/hover.nvim/',
+    dir = '~/dev/nvim/plugins/dbuch/hover.nvim',
+    dev = true,
     keys = {
-      { 'K', '<Cmd>Hover<cr>' },
+      { 'K',  '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },
     },
     config = function()

@@ -18,7 +18,6 @@ return {
     },
     opts = function()
       local cmp = require 'cmp'
-      -- local luasnip = require 'luasnip'
       local lspkind = require 'lspkind'
       local has_words_before = require('dbuch.traits.nvim').has_words_before
       return {
@@ -41,6 +40,7 @@ return {
         formatting = {
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, item)
+            ---@type table
             local kind = lspkind.cmp_format {
               mode = 'symbol_text',
               maxwidth = 50,

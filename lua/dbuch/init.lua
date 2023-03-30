@@ -5,6 +5,7 @@ require 'dbuch.autocmds'
 require 'dbuch.jumps'
 require 'dbuch.quit'
 
+
 require('lazy').setup {
   spec = {
     { import = 'dbuch.core' },
@@ -22,6 +23,13 @@ require('lazy').setup {
   change_detection = {
     notify = false,
   },
+
+
+  -- dev = {
+  --   path = '~/dev/nvim/plugins',
+  --   patterns = { 'dbuch' },
+  --   fallback = false,
+  -- },
   performance = {
     rtp = {
       disabled_plugins = {

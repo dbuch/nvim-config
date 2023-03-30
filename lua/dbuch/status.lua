@@ -2,6 +2,7 @@ local M = {}
 
 local api = vim.api
 
+
 local function highlight(num, active)
   if active == 1 then
     if num == 1 then
@@ -11,15 +12,6 @@ local function highlight(num, active)
     end
   else
     return '%#StatusLineNC#'
-  end
-end
-
-local function hldefs()
-  local bg = api.nvim_get_hl_by_name('StatusLine', true).background
-  for _, ty in ipairs { 'Warn', 'Error', 'Info', 'Hint' } do
-    local hl = api.nvim_get_hl_by_name('Diagnostic' .. ty, true)
-    local name = ('Diagnostic%sStatus'):format(ty)
-    api.nvim_set_hl(0, name, { fg = hl.foreground, bg = bg })
   end
 end
 
@@ -34,7 +26,7 @@ function M.lsp_status(active)
   local status = {}
 
   for _, ty in ipairs { 'Error', 'Warn', 'Info', 'Hint' } do
-    local n = vim.diagnostic.get(0, { severity = ty })
+    local n = vim.diagnostic.get(0, { severity = ty }) --[=[@as table[]]=]
     if #n > 0 then
       local icon = icons[ty]
       if active == 1 then
@@ -50,13 +42,19 @@ function M.lsp_status(active)
   return r == '' and 'LSP' or r
 end
 
+---@return string
 function M.hunks()
-  if vim.b.gitsigns_status then
-    local status = vim.b.gitsigns_head
-    if vim.b.gitsigns_status ~= '' then
-      status = status .. ' ' .. vim.b.gitsigns_status
+  ---@type string|nil
+  ---@diagnostic disable-next-line: undefined-field
+  local status  = vim.b.gitsigns_status
+  if status then
+    ---@type string
+    ---@diagnostic disable-next-line: undefined-field
+    local head = vim.b.gitsigns_head
+    if status ~= '' then
+      return head .. ' ' .. status
     end
-    return status
+    return head
   elseif vim.g.gitsigns_head then
     return vim.g.gitsigns_head
   end
@@ -204,11 +202,6 @@ api.nvim_create_autocmd('VimEnter', {
   callback = function()
     M.set(1, true)
   end,
-})
-
-api.nvim_create_autocmd('ColorScheme', {
-  group = 'statusline',
-  callback = hldefs,
 })
 
 _G.statusline = M

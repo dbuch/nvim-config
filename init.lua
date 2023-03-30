@@ -1,12 +1,16 @@
 -- Bootstrap And Config
 
+vim.loader.enable()
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_ruby_provider = 0
+vim.g.neo_tree_remove_legacy_commands = 1
 
+---@type string
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {

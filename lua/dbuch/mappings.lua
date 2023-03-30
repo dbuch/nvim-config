@@ -1,3 +1,4 @@
+---@type function
 local map = vim.keymap.set
 
 map('', 'H', '^')
@@ -38,7 +39,7 @@ map('n', 'gt', ':TroubleToggle<CR>', { silent = true })
 map('n', 'gr', ':TroubleToggle lsp_references<CR>', { silent = true })
 
 map('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
-map('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', { silent = true })
+map('n', '<leader>e', ':Neotree toggle reveal<CR>', { silent = true })
 
 map('n', '<leader>=', function()
   vim.lsp.buf.format { async = true }
