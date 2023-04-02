@@ -5,6 +5,7 @@ return {
     version = false,
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'rcarriga/nvim-notify',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
@@ -36,8 +37,8 @@ return {
       }
     end,
     config = function(_, opts)
-      require('telescope').setup(opts)
       require('telescope').load_extension 'notify'
+      require('telescope').setup(opts)
     end,
   },
   {
@@ -81,7 +82,8 @@ return {
       update_debounce = 50,
       _extmark_signs = true,
       _threaded_diff = true,
-      word_diff = false,
+      word_diff = true,
+      trouble = true,
     },
   },
   {
@@ -174,10 +176,7 @@ return {
     end,
   },
   {
-    'dbuch/hover.nvim',
-    -- dir = '~/dev/nvim/plugins/dbuch/hover.nvim',
-    -- dir = '~/dev/nvim/plugins/dbuch/hover.nvim',
-    dev = true,
+    'lewis6991/hover.nvim',
     keys = {
       { 'K', '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },

@@ -39,7 +39,7 @@ return {
         'python',
         'regex',
         'query',
-        'help',
+        -- 'help',
         'toml',
         'yaml',
         'json',

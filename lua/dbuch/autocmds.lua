@@ -1,5 +1,6 @@
 local api = vim.api
 
+
 local function augroup(name)
   return api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
@@ -89,10 +90,9 @@ local function is_invalid_buftype(buf)
   }, buftype)
 end
 
-local function emit_rooted()
+local function emit_rooted(root)
   ---@type string|nil
-  local cwd = vim.loop.cwd()
-  vim.api.nvim_exec_autocmds('User', { pattern = 'Rooted', data = cwd })
+  vim.api.nvim_exec_autocmds('User', { pattern = 'Rooted', data = root })
 end
 
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
@@ -107,10 +107,12 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     local function set_root(path)
       local root = nvim_trait.get_root(path)
       if cwd ~= root then
-        vim.api.nvim_set_current_dir(root)
-        emit_rooted()
+        if vim.fn.chdir(root) ~= '' then
+          emit_rooted(root)
+        end
       end
     end
+
 
     if not nvim_trait.is_ancestor(cwd, args.file) then
       set_root(args.file)
@@ -129,7 +131,6 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
--- vim.api.nvim_create_user_command('Testrooted', cb, {})
-vim.api.nvim_create_user_command('CleanLoaderCache', function()
+vim.api.nvim_create_user_command('VimLoaderReset', function()
   vim.loader.reset()
 end, {})
