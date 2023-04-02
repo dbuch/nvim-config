@@ -29,7 +29,7 @@ api.nvim_create_autocmd('FileType', {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', {
-      buffer = event.buf --[[@as table]],
+      buffer = event.buf,--[[@as table]]
       silent = true,
     })
   end,
@@ -49,7 +49,7 @@ api.nvim_create_autocmd('TermOpen', {
   callback = function(args)
     if ('#toggleterm'):match(args.match) then
       local opts = {
-        buffer = args.buf --[[@as table]],
+        buffer = args.buf,--[[@as table]]
       }
       vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
       vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
@@ -118,8 +118,8 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   end,
 })
 
-vim.api.nvim_create_autocmd("User", {
-  pattern = "Rooted",
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'Rooted',
   callback = function(args)
     ---@type string|nil
     local cwd = args.data
@@ -130,3 +130,6 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 -- vim.api.nvim_create_user_command('Testrooted', cb, {})
+vim.api.nvim_create_user_command('CleanLoaderCache', function()
+  vim.loader.reset()
+end, {})

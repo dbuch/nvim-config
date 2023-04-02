@@ -45,7 +45,7 @@ return {
               mode = 'symbol_text',
               maxwidth = 50,
               ellipsis_char = '…',
-            } (entry, item)
+            }(entry, item)
 
             local tokens = {}
             for token in vim.gsplit(kind.kind, '%s') do
@@ -149,5 +149,5 @@ return {
       end
       cmp.setup(opts)
     end,
-  }
+  },
 }

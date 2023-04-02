@@ -3,7 +3,7 @@ return {
     'dcampos/nvim-snippy',
     event = 'InsertEnter',
     config = function()
-      require('snippy').setup({
+      require('snippy').setup {
         mappings = {
           is = {
             ['<Tab>'] = 'expand_or_advance',
@@ -13,7 +13,7 @@ return {
             ['<leader>x'] = 'cut_text',
           },
         },
-      })
-    end
+      }
+    end,
   },
 }

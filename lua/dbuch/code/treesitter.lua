@@ -98,12 +98,11 @@ return {
             vim.opt_local.foldmethod = 'expr'
             vim.opt_local.foldenable = false
           end,
-          detach = function()
-          end,
+          detach = function() end,
         },
       }
 
       require('nvim-treesitter.configs').setup(opts)
     end,
-  }
+  },
 }

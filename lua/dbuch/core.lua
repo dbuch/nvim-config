@@ -22,7 +22,7 @@ return {
         return math.floor(vim.o.columns * 0.75)
       end,
     },
-    config = function (_spec, _opts)
+    config = function(_spec, _opts)
       vim.notify = require 'notify'
     end,
     init = function()

@@ -2,7 +2,6 @@ local M = {}
 
 local api = vim.api
 
-
 local function highlight(num, active)
   if active == 1 then
     if num == 1 then
@@ -46,7 +45,7 @@ end
 function M.hunks()
   ---@type string|nil
   ---@diagnostic disable-next-line: undefined-field
-  local status  = vim.b.gitsigns_status
+  local status = vim.b.gitsigns_status
   if status then
     ---@type string
     ---@diagnostic disable-next-line: undefined-field

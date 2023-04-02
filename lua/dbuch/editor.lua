@@ -174,10 +174,12 @@ return {
     end,
   },
   {
-    dir = '~/dev/nvim/plugins/dbuch/hover.nvim',
+    'dbuch/hover.nvim',
+    -- dir = '~/dev/nvim/plugins/dbuch/hover.nvim',
+    -- dir = '~/dev/nvim/plugins/dbuch/hover.nvim',
     dev = true,
     keys = {
-      { 'K',  '<Cmd>Hover<cr>' },
+      { 'K', '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },
     },
     config = function()
