@@ -30,7 +30,7 @@ api.nvim_create_autocmd('FileType', {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', {
-      buffer = event.buf,--[[@as table]]
+      buffer = event.buf, --[[@as table]]
       silent = true,
     })
   end,
@@ -50,7 +50,7 @@ api.nvim_create_autocmd('TermOpen', {
   callback = function(args)
     if ('#toggleterm'):match(args.match) then
       local opts = {
-        buffer = args.buf,--[[@as table]]
+        buffer = args.buf, --[[@as table]]
       }
       vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
       vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
@@ -90,12 +90,12 @@ local function is_invalid_buftype(buf)
   }, buftype)
 end
 
-local function emit_rooted(root)
+local function emit_rooted(new_root)
   ---@type string|nil
-  vim.api.nvim_exec_autocmds('User', { pattern = 'Rooted', data = root })
+  vim.api.nvim_exec_autocmds('User', { pattern = 'Rooted', data = new_root })
 end
 
-vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+vim.api.nvim_create_autocmd({ 'BufEnter', 'LspAttach' }, {
   group = augroup 'rooter',
   callback = function(args)
     if args.file == '' or is_invalid_buftype(args.buf) then
@@ -104,6 +104,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
 
     local cwd = vim.loop.cwd()
     local nvim_trait = require 'dbuch.traits.nvim'
+
     local function set_root(path)
       local root = nvim_trait.get_root(path)
       if cwd ~= root then
@@ -113,9 +114,10 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
       end
     end
 
-
-    if not nvim_trait.is_ancestor(cwd, args.file) then
-      set_root(args.file)
+    ---@type string
+    local dir = vim.fs.dirname(args.file)
+    if not nvim_trait.is_ancestor(cwd, dir) then
+      set_root(dir)
     end
   end,
 })

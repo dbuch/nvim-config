@@ -2,9 +2,6 @@ local M = {}
 
 M.root_patterns = { '.git', 'Cargo.toml', 'stylua.toml' }
 
----@type string?
-M.current_root = nil
-
 ---@param on_attach fun(client, buffer)
 function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd('LspAttach', {
@@ -41,6 +38,8 @@ function M.is_ancestor(base, file)
   return true
 end
 
+---@type Map<string, string>
+local root_cache = {}
 -- returns the root directory based on:
 -- * lsp workspace folders
 -- * lsp root_dir
@@ -51,10 +50,17 @@ end
 function M.get_root(path)
   ---@type string?
   path = path ~= '' and vim.loop.fs_realpath(path) or nil
+
+  local cached_root = root_cache[path]
+  if cached_root ~= nil then return cached_root end
+
   ---@type string[]
   local roots = {}
   if path then
-    for _, client in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+    ---@type List[]
+    local active_clients = vim.lsp.get_active_clients { bufnr = 0 }
+    for _, client in pairs(active_clients) do
+      ---@type table
       local wsf = client.config.workspace_folders
       local paths = wsf and vim.tbl_map(function(ws)
         return vim.uri_to_fname(ws.uri)
@@ -81,6 +87,11 @@ function M.get_root(path)
     root = vim.fs.find(M.root_patterns, { path = path, upward = true })[1]
     root = root and vim.fs.dirname(root) or vim.loop.cwd()
   end
+
+  if root_cache ~= nil and root ~= nil then
+    root_cache[path] = root
+  end
+
   ---@cast root string
   return root
 end

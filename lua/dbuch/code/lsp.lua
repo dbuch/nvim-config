@@ -45,6 +45,14 @@ return {
           },
         },
       },
+      {
+          'SmiteshP/nvim-navbuddy',
+          dependencies = {
+            'nvim-lua/plenary.nvim',
+            'SmiteshP/nvim-navic',
+            'MunifTanjim/nui.nvim',
+          },
+      }
     },
     opts = function(_, _)
       local lspconfig = require 'lspconfig'
@@ -196,6 +204,9 @@ return {
       -- Register LspAttach
       require('dbuch.traits.nvim').on_attach(function(client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        if client.server_capabilities.documentSymbolProvider then
+          require('nvim-navbuddy').attach(client, buffer)
+        end
 
         if client.server_capabilities.code_lens then
           vim.api.nvim_set_hl(0, 'LspCodeLens', { link = 'WarningMsg' })
