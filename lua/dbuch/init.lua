@@ -27,7 +27,7 @@ require('lazy').setup {
     patterns = { 'dbuch' },
     fallback = false,
   },
-  lockfile = vim.fn.stdpath 'data' .. '/lazy-lock.json' --[[@type string]],
+  lockfile = vim.fn.stdpath 'data' .. '/lazy-lock.json',--[[@type string]]
   performance = {
     rtp = {
       disabled_plugins = {

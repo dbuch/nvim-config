@@ -19,6 +19,7 @@ return {
     opts = function()
       local cmp = require 'cmp'
       local lspkind = require 'lspkind'
+      local snippy = require 'snippy'
       local has_words_before = require('dbuch.traits.nvim').has_words_before
       return {
         snippet = {
@@ -67,6 +68,8 @@ return {
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
+            elseif snippy.can_expand_or_advance() then
+              snippy.expand_or_advance()
             elseif has_words_before() then
               cmp.complete()
             else
@@ -77,6 +80,8 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
+            elseif snippy.can_jump(-1) then
+              snippy.previous()
             else
               fallback()
             end

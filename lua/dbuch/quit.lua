@@ -5,8 +5,6 @@ local function buf_is_modified(buf)
 end
 
 local function win_is_last()
-  local n_wins = #api.nvim_list_wins()
-  vim.pretty_print(n_wins)
   return #api.nvim_list_wins() == 1
 end
 

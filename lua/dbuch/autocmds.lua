@@ -1,9 +1,13 @@
 local api = vim.api
 
-
 local function augroup(name)
   return api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
+
+api.nvim_create_autocmd('VimResized', {
+  group = augroup 'NvimSize',
+  command = 'wincmd ='
+})
 
 api.nvim_create_autocmd('BufReadPost', {
   group = augroup 'last_loc',
@@ -90,45 +94,40 @@ local function is_invalid_buftype(buf)
   }, buftype)
 end
 
-local function emit_rooted(new_root)
+local function emit(ev, data)
   ---@type string|nil
-  vim.api.nvim_exec_autocmds('User', { pattern = 'Rooted', data = new_root })
+  vim.api.nvim_exec_autocmds('User', { pattern = ev, data = data })
 end
 
-vim.api.nvim_create_autocmd({ 'BufEnter', 'LspAttach' }, {
+vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup 'rooter',
   callback = function(args)
-    if args.file == '' or is_invalid_buftype(args.buf) then
-      return
-    end
-
-    local cwd = vim.loop.cwd()
-    local nvim_trait = require 'dbuch.traits.nvim'
-
-    local function set_root(path)
-      local root = nvim_trait.get_root(path)
-      if cwd ~= root then
-        if vim.fn.chdir(root) ~= '' then
-          emit_rooted(root)
-        end
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local root = client.config.root_dir
+    if root ~= vim.loop.cwd() then
+      if vim.fn.chdir(root) ~= '' then
+        local data = {
+          ---@type string
+          event = 'LSP',
+          ---@type string
+          root = root,
+        }
+        emit('Rooted', data)
       end
     end
-
-    ---@type string
-    local dir = vim.fs.dirname(args.file)
-    if not nvim_trait.is_ancestor(cwd, dir) then
-      set_root(dir)
-    end
-  end,
+  end
 })
 
 vim.api.nvim_create_autocmd('User', {
   pattern = 'Rooted',
   callback = function(args)
-    ---@type string|nil
-    local cwd = args.data
-    if cwd ~= nil then
-      vim.notify('Rooted: ' .. cwd:gsub(vim.env.HOME, '~'))
+    ---@type table
+    local data = args.data
+    if data.root ~= nil then
+      -- local setby = event_to_string(data.event)
+      vim.notify(data.root:gsub(vim.env.HOME, '~'), vim.log.levels.INFO, {
+        title = ('New Working Directory (%s)'):format(data.event)
+      })
     end
   end,
 })

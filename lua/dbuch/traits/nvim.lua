@@ -22,6 +22,10 @@ function M.is_ancestor(base, file)
     return false
   end
 
+  if base == file then
+    return true
+  end
+
   local base_tokens = vim.split(base, '/')
   local file_tokens = vim.split(file, '/')
 
@@ -39,7 +43,9 @@ function M.is_ancestor(base, file)
 end
 
 ---@type Map<string, string>
-local root_cache = {}
+M.root_cache = {}
+M.is_windows_os = jit.os == 'windows'
+
 -- returns the root directory based on:
 -- * lsp workspace folders
 -- * lsp root_dir
@@ -51,8 +57,11 @@ function M.get_root(path)
   ---@type string?
   path = path ~= '' and vim.loop.fs_realpath(path) or nil
 
-  local cached_root = root_cache[path]
-  if cached_root ~= nil then return cached_root end
+  ---@type string
+  local cached_root = M.root_cache[path]
+  if cached_root ~= nil and path ~= nil then
+    return cached_root
+  end
 
   ---@type string[]
   local roots = {}
@@ -88,8 +97,8 @@ function M.get_root(path)
     root = root and vim.fs.dirname(root) or vim.loop.cwd()
   end
 
-  if root_cache ~= nil and root ~= nil then
-    root_cache[path] = root
+  if M.root_cache ~= nil then
+    M.root_cache[path] = root
   end
 
   ---@cast root string

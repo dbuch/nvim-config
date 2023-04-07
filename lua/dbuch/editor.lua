@@ -9,10 +9,6 @@ return {
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
-        config = function(_, _)
-          --TODO: telescope.load_extension 'projects'
-          require('telescope').load_extension 'fzf'
-        end,
       },
     },
     opts = function(_, opts)
@@ -25,10 +21,17 @@ return {
           },
         },
         layout_strategy = 'flex',
+        file_ignore_patterns = { '!cargo-targets' },
         -- file_sorter = sorters.get_fzy_sorter,
       }
 
       opts.extensions = {
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = 'smart_case',
+        },
         ['ui-select'] = {
           require('telescope.themes').get_cursor {
             -- even more opts
@@ -37,6 +40,7 @@ return {
       }
     end,
     config = function(_, opts)
+      require('telescope').load_extension 'fzf'
       require('telescope').load_extension 'notify'
       require('telescope').setup(opts)
     end,
@@ -88,10 +92,11 @@ return {
   },
   {
     'lewis6991/cleanfold.nvim',
-    config = true,
+    event = 'VeryLazy'
   },
   {
     'lewis6991/foldsigns.nvim',
+    event = 'VeryLazy',
     opts = {
       exclude = { 'GitSigns.*' },
     },
@@ -104,7 +109,21 @@ return {
       'nvim-tree/nvim-web-devicons',
       'MunifTanjim/nui.nvim',
     },
-    config = true,
+    opts = {
+      filesystem = {
+        bind_to_cwd = false,
+        follow_current_file = true,
+        hijack_netrw_behavior = 'disabled'
+      },
+      default_component_configs = {
+        indent = {
+          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+          expander_collapsed = "",
+          expander_expanded = "",
+          expander_highlight = "NeoTreeExpander",
+        },
+      },
+    },
   },
   -- {
   --   'stevearc/oil.nvim',

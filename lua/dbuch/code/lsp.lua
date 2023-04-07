@@ -22,6 +22,15 @@ return {
       'onsails/lspkind-nvim',
       { 'folke/neodev.nvim', opts = { experimental = { pathStrict = true } } },
       {
+        'SmiteshP/nvim-navbuddy',
+        cmd = 'Navbuddy',
+        dependencies = {
+          'nvim-lua/plenary.nvim',
+          'SmiteshP/nvim-navic',
+          'MunifTanjim/nui.nvim',
+        },
+      },
+      {
         'j-hui/fidget.nvim',
         opts = {
           text = {
@@ -45,14 +54,6 @@ return {
           },
         },
       },
-      {
-          'SmiteshP/nvim-navbuddy',
-          dependencies = {
-            'nvim-lua/plenary.nvim',
-            'SmiteshP/nvim-navic',
-            'MunifTanjim/nui.nvim',
-          },
-      }
     },
     opts = function(_, _)
       local lspconfig = require 'lspconfig'
