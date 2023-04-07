@@ -4,10 +4,31 @@ local function augroup(name)
   return api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
-api.nvim_create_autocmd('VimResized', {
-  group = augroup 'NvimSize',
-  command = 'wincmd ='
-})
+
+local function autocmd(name)
+  return function(opts)
+    if opts[2] then
+      vim.notify_once(vim.inspect(opts[2]))
+      opts.group = opts[2]
+    end
+    if opts[1] then
+      if type(opts[1]) == 'function' then
+        opts.callback = opts[1]
+      elseif type(opts[1]) == 'string' then
+        opts.command = opts[1]
+      end
+      opts[1] = nil
+    end
+    vim.api.nvim_create_autocmd(name, opts)
+  end
+end
+
+autocmd 'VimResized' { 'wincmd =' } augroup('resize')
+
+-- api.nvim_create_autocmd('VimResized', {
+--   group = augroup 'NvimSize',
+--   command = 'wincmd ='
+-- })
 
 api.nvim_create_autocmd('BufReadPost', {
   group = augroup 'last_loc',
@@ -69,13 +90,17 @@ api.nvim_create_autocmd('TermOpen', {
 vim.api.nvim_create_autocmd('VimEnter', {
   group = augroup 'nvim-tree-startup',
   callback = function(args)
-    local directory = vim.fn.isdirectory(args.file) == 1
-    if not directory then
+    local file_stat = vim.loop.fs_stat(args.file)
+    if file_stat == nil then
       return
     end
-    -- change to the directory
-    vim.cmd.cd(args.file)
-    vim.cmd [[Neotree reveal]]
+
+    if file_stat.type == 'directory' then
+      -- change to the directory
+      vim.cmd.cd(args.file)
+      vim.cmd [[Neotree reveal]]
+    end
+
   end,
 })
 
@@ -102,8 +127,8 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup 'rooter',
   callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    local root = client.config.root_dir
+    local client = vim.lsp.get_client_by_id(args.data.client_id) ---@type table
+    local root = client.config.root_dir  ---@type string
     if root ~= vim.loop.cwd() then
       if vim.fn.chdir(root) ~= '' then
         local data = {
