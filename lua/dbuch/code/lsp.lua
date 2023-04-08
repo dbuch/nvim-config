@@ -20,7 +20,13 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'onsails/lspkind-nvim',
-      { 'folke/neodev.nvim', opts = { experimental = { pathStrict = true } } },
+      {
+        'folke/neodev.nvim',
+        opts = {
+          pathStrict = true,
+          setup_jsonls = false,
+        },
+      },
       {
         'SmiteshP/nvim-navbuddy',
         cmd = 'Navbuddy',
@@ -81,10 +87,8 @@ return {
             filetypes = { 'json' },
             root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
           },
-
           tsserver = {},
           bashls = {},
-
           omnisharp = {
             cmd = { 'omnisharp' },
             enable_editorconfig_support = true,
@@ -95,7 +99,6 @@ return {
             sdk_include_prereleases = true,
             analyze_open_documents_only = false,
           },
-
           clangd = {
             cmd = {
               'clangd',
@@ -112,7 +115,6 @@ return {
               completeUnimported = true,
             },
           },
-
           texlab = {
             cmd = { 'texlab' },
             latex = {
@@ -121,7 +123,6 @@ return {
               },
             },
           },
-
           pyright = {},
           ruff_lsp = {},
           taplo = {},
@@ -146,7 +147,6 @@ return {
           wgsl_analyzer = {
             cmd = { 'wgsl_analyzer' },
           },
-
           lua_ls = {
             settings = {
               Lua = {
@@ -250,7 +250,6 @@ return {
           local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
           orig_signs_handler.show(ns, bufnr, filtered_diagnostics, show_opts)
         end,
-
         hide = orig_signs_handler.hide,
       }
 

@@ -92,7 +92,7 @@ return {
   },
   {
     'lewis6991/cleanfold.nvim',
-    event = 'VeryLazy'
+    event = 'VeryLazy',
   },
   {
     'lewis6991/foldsigns.nvim',
@@ -113,14 +113,14 @@ return {
       filesystem = {
         bind_to_cwd = false,
         follow_current_file = true,
-        hijack_netrw_behavior = 'disabled'
+        hijack_netrw_behavior = 'disabled',
       },
       default_component_configs = {
         indent = {
           with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-          expander_collapsed = "",
-          expander_expanded = "",
-          expander_highlight = "NeoTreeExpander",
+          expander_collapsed = '',
+          expander_expanded = '',
+          expander_highlight = 'NeoTreeExpander',
         },
       },
     },

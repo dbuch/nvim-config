@@ -4,26 +4,32 @@ local function augroup(name)
   return api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
-
 local function autocmd(name)
   return function(opts)
-    if opts[2] then
-      vim.notify_once(vim.inspect(opts[2]))
-      opts.group = opts[2]
-    end
     if opts[1] then
       if type(opts[1]) == 'function' then
+        ---@type function
         opts.callback = opts[1]
       elseif type(opts[1]) == 'string' then
+        ---@type string
         opts.command = opts[1]
       end
+      ---@type number
+      ---@diagnostic disable-next-line: no-unknown
       opts[1] = nil
     end
+
+    if opts[2] then
+      opts.group = opts[2]
+      ---@diagnostic disable-next-line: no-unknown
+      opts[2] = nil
+    end
+
     vim.api.nvim_create_autocmd(name, opts)
   end
 end
 
-autocmd 'VimResized' { 'wincmd =' } augroup('resize')
+autocmd 'VimResized' { 'wincmd =', augroup 'win_resize' }
 
 -- api.nvim_create_autocmd('VimResized', {
 --   group = augroup 'NvimSize',
@@ -100,7 +106,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
       vim.cmd.cd(args.file)
       vim.cmd [[Neotree reveal]]
     end
-
   end,
 })
 
@@ -128,7 +133,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup 'rooter',
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id) ---@type table
-    local root = client.config.root_dir  ---@type string
+    local root = client.config.root_dir ---@type string
     if root ~= vim.loop.cwd() then
       if vim.fn.chdir(root) ~= '' then
         local data = {
@@ -140,7 +145,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         emit('Rooted', data)
       end
     end
-  end
+  end,
 })
 
 vim.api.nvim_create_autocmd('User', {
@@ -151,7 +156,7 @@ vim.api.nvim_create_autocmd('User', {
     if data.root ~= nil then
       -- local setby = event_to_string(data.event)
       vim.notify(data.root:gsub(vim.env.HOME, '~'), vim.log.levels.INFO, {
-        title = ('New Working Directory (%s)'):format(data.event)
+        title = ('New Working Directory (%s)'):format(data.event),
       })
     end
   end,
