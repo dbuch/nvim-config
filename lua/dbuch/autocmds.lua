@@ -4,37 +4,10 @@ local function augroup(name)
   return api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
-local function autocmd(name)
-  return function(opts)
-    if opts[1] then
-      if type(opts[1]) == 'function' then
-        ---@type function
-        opts.callback = opts[1]
-      elseif type(opts[1]) == 'string' then
-        ---@type string
-        opts.command = opts[1]
-      end
-      ---@type number
-      ---@diagnostic disable-next-line: no-unknown
-      opts[1] = nil
-    end
-
-    if opts[2] then
-      opts.group = opts[2]
-      ---@diagnostic disable-next-line: no-unknown
-      opts[2] = nil
-    end
-
-    vim.api.nvim_create_autocmd(name, opts)
-  end
-end
-
-autocmd 'VimResized' { 'wincmd =', augroup 'win_resize' }
-
--- api.nvim_create_autocmd('VimResized', {
---   group = augroup 'NvimSize',
---   command = 'wincmd ='
--- })
+api.nvim_create_autocmd('VimResized', {
+  group = augroup 'wind_resize',
+  command = 'wincmd ='
+})
 
 api.nvim_create_autocmd('BufReadPost', {
   group = augroup 'last_loc',
@@ -61,7 +34,8 @@ api.nvim_create_autocmd('FileType', {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', {
-      buffer = event.buf, --[[@as table]]
+      ---@type number
+      buffer = event.buf,
       silent = true,
     })
   end,
@@ -81,6 +55,7 @@ api.nvim_create_autocmd('TermOpen', {
   callback = function(args)
     if ('#toggleterm'):match(args.match) then
       local opts = {
+        ---@type number
         buffer = args.buf, --[[@as table]]
       }
       vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
@@ -108,21 +83,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
     end
   end,
 })
-
----Valid for rooter
----@param buf integer
----@return boolean
-local function is_invalid_buftype(buf)
-  local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
-  return vim.tbl_contains({
-    'nofile',
-    'help',
-    'prompt',
-    'terminal',
-    'quickfix',
-    'swapfile',
-  }, buftype)
-end
 
 local function emit(ev, data)
   ---@type string|nil

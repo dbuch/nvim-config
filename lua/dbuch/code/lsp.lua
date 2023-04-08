@@ -15,13 +15,14 @@ return {
   },
   {
     'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = 'BufReadPost', 
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'onsails/lspkind-nvim',
       {
         'folke/neodev.nvim',
+        ft = 'lua',
         opts = {
           pathStrict = true,
           setup_jsonls = false,
