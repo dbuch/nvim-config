@@ -32,7 +32,7 @@ return {
         'javascript',
         'typescript',
         'bash',
-        'glsl',
+        'wgsl',
         'sql',
         'markdown',
         'markdown_inline',
@@ -44,7 +44,6 @@ return {
         'yaml',
         'json',
         'vim',
-        'bash',
       },
       highlight = {
         enable = true,
