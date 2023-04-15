@@ -17,15 +17,12 @@ local function ensure()
     'python',
     'regex',
     'query',
-    -- 'help',
     'toml',
     'yaml',
     'json',
     'vim',
   }
-  if vim.loop.os_uname().sysname:match 'Windows' then
-    -- nothing but base
-  else
+  if not vim.loop.os_uname().sysname:match 'Windows' then
     table.insert(base, 'bash')
   end
   return base
