@@ -1,22 +1,8 @@
 @echo off
 
-echo Checking for Rustup...
-
-rustup --version >nul 2>nul
-if %errorlevel% neq 0 (
-    echo Rustup is not installed, installing...
-    start /wait "" "https://win.rustup.rs/x86_64"
-    set "RUSTUP_HOME=%USERPROFILE%\.rustup"
-    set "CARGO_HOME=%USERPROFILE%\.cargo"
-    set "PATH=%PATH%;%CARGO_HOME%\bin"
-) else (
-    echo Already installed rustup
-)
-
 echo Installing or updating winget applications...
 
-set "winget_packages=neovim neovim.nightly git llvm.9 nushell"
-set "cargo_installs=ripgrep fd"
+set "winget_packages=Microsoft.WindowsTerminal Neovim.Neovim Git.Git LLVM.LLVM Nushell.Nushell sharkdp.fd BurntSushi.ripgrep.MSVC"
 
 set "upgradable="
 
@@ -33,20 +19,6 @@ for %%P in (%winget_packages%) do (
     ) else (
         echo Installing %package%...
         winget install %package%
-    )
-)
-
-echo Installing cargo applications...
-
-for %%P in (%cargo_installs%) do (
-    set "package=%%P"
-    echo Checking for %package%...
-    cargo install --list | findstr /i "\<%package%\>" >nul
-    if %errorlevel% equ 0 (
-        echo %package% is already installed, skipping...
-    ) else (
-        echo Installing %package%...
-        cargo install %package%
     )
 )
 
