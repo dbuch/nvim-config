@@ -1,3 +1,36 @@
+---@return table
+local function ensure()
+  local base = {
+    'c',
+    'css',
+    'c_sharp',
+    'cpp',
+    'lua',
+    'rust',
+    'html',
+    'javascript',
+    'typescript',
+    'wgsl',
+    'sql',
+    'markdown',
+    'markdown_inline',
+    'python',
+    'regex',
+    'query',
+    -- 'help',
+    'toml',
+    'yaml',
+    'json',
+    'vim',
+  }
+  if vim.loop.os_uname().sysname:match 'Windows' then
+    -- nothing but base
+  else
+    table.insert(base, 'bash')
+  end
+  return base
+end
+
 return {
   {
     'nvim-treesitter/nvim-treesitter-context',
@@ -21,30 +54,7 @@ return {
       'nvim-treesitter/nvim-treesitter-refactor',
     },
     opts = {
-      ensure_installed = {
-        'c',
-        'css',
-        'c_sharp',
-        'cpp',
-        'lua',
-        'rust',
-        'html',
-        'javascript',
-        'typescript',
-        'bash',
-        'wgsl',
-        'sql',
-        'markdown',
-        'markdown_inline',
-        'python',
-        'regex',
-        'query',
-        -- 'help',
-        'toml',
-        'yaml',
-        'json',
-        'vim',
-      },
+      ensure_installed = ensure(),
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
