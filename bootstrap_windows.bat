@@ -2,7 +2,7 @@
 
 echo Installing or updating winget applications...
 
-set "winget_packages=Microsoft.WindowsTerminal Neovim.Neovim Git.Git LLVM.LLVM Nushell.Nushell sharkdp.fd BurntSushi.ripgrep.MSVC"
+set "winget_packages=Microsoft.WindowsTerminal Neovim.Neovim Git.Git LLVM.LLVM Nushell.Nushell sharkdp.fd BurntSushi.ripgrep.MSVC 7zip.7zip"
 
 set "upgradable="
 
