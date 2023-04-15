@@ -79,7 +79,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
     if file_stat.type == 'directory' then
       -- change to the directory
       vim.cmd.cd(args.file)
-      vim.cmd [[Neotree reveal]]
+      vim.cmd [[Neotree reveal float]]
     end
   end,
 })

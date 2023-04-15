@@ -43,7 +43,7 @@ map('n', 'gt', ':TroubleToggle<CR>', { silent = true })
 map('n', 'gr', ':TroubleToggle lsp_references<CR>', { silent = true })
 
 map('n', '<leader>p', ':Telescope projects<CR>', { silent = true })
-map('n', '<leader>e', ':Neotree toggle reveal<CR>', { silent = true })
+map('n', '<leader>e', ':Neotree toggle reveal right<CR>', { silent = true })
 
 map('n', '<leader>=', function()
   vim.lsp.buf.format { async = true }
