@@ -9,11 +9,11 @@ set "upgradable="
 for %%P in (%winget_packages%) do (
     set "package=%%P"
     echo Checking for %package%...
-    winget show %package% >nul 2>nul
-    if %errorlevel% equ 0 (
+    winget show %package%
+    if %ERRORLEVELS% equ 0 (
         echo %package% is already installed, checking for updates...
-        winget upgrade --no-self-upgrade %package%
-        if %errorlevel% equ 0 (
+        winget upgrade %package%
+        if %ERRORLEVELS% equ 0 (
             set "upgradable=%upgradable% %package%"
         )
     ) else (
