@@ -111,7 +111,7 @@ return {
     },
     opts = {
       filesystem = {
-        bind_to_cwd = false,
+        bind_to_cwd = true,
         follow_current_file = true,
         hijack_netrw_behavior = 'disabled',
       },
@@ -197,7 +197,7 @@ return {
   {
     'lewis6991/hover.nvim',
     keys = {
-      { 'K', '<Cmd>Hover<cr>' },
+      { 'K',  '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },
     },
     config = function()
@@ -213,5 +213,13 @@ return {
         end,
       }
     end,
+  },
+  {
+    'echasnovski/mini.surround',
+    event = { 'BufReadPre', 'BufNewFile' },
+    config = function ()
+      require('mini.surround').setup()
+    end,
+    version = false
   },
 }

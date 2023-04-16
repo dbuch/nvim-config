@@ -29,4 +29,10 @@ return {
       require('dbuch.traits.nvim').defer_notify()
     end,
   },
+  -- {'williamboman/mason.nvim',
+  --   lazy = false,
+  --   config = function()
+  --     require('mason').setup()
+  --   end,
+  -- },
 }
