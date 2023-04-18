@@ -55,7 +55,7 @@ o.updatetime = 200
 
 o.undolevels = 10000
 o.undofile = true
-vim.opt.undodir = vim.fn.expand '~/.cache/nvim'
+vim.opt.undodir = vim.fn.stdpath('cache') .. '/undodir/'
 o.splitright = true
 o.splitbelow = true
 o.splitkeep = 'screen'
