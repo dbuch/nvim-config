@@ -55,15 +55,10 @@ o.updatetime = 200
 
 o.undolevels = 10000
 o.undofile = true
-vim.opt.undodir = vim.fn.stdpath('cache') .. '/undodir/'
+vim.opt.undodir = require 'dbuch.env'.undodir
 o.splitright = true
 o.splitbelow = true
 o.splitkeep = 'screen'
-
-local xdg_cfg = os.getenv 'XDG_CONFIG_HOME'
-if xdg_cfg then
-  vim.opt.spellfile = xdg_cfg .. '/nvim/spell/en.utf-8.add'
-end
 
 o.formatoptions:append {
   r = true, -- Automatically insert comment leader after <Enter> in Insert mode.

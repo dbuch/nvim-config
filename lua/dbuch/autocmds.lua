@@ -78,7 +78,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
 
     if file_stat.type == 'directory' then
       -- change to the directory
-      vim.cmd.cd(args.file)
+      vim.fn.chdir(args.file)
       vim.cmd [[Neotree reveal float]]
     end
   end,
@@ -96,6 +96,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local root = client.config.root_dir ---@type string
     if root ~= vim.loop.cwd() then
       if vim.fn.chdir(root) ~= '' then
+        ---@type table
         local data = {
           ---@type string
           event = 'LSP',
@@ -121,7 +122,3 @@ vim.api.nvim_create_autocmd('User', {
     end
   end,
 })
-
-vim.api.nvim_create_user_command('VimLoaderReset', function()
-  vim.loader.reset()
-end, {})
