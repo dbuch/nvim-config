@@ -1,3 +1,4 @@
+local once = true
 return {
   {
     'saecki/crates.nvim',
@@ -6,7 +7,7 @@ return {
   },
   {
     'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    event = { 'InsertEnter', "CmdlineEnter" },
     dependencies = {
       'dcampos/cmp-snippy',
       'hrsh7th/cmp-buffer',
@@ -46,6 +47,23 @@ return {
               mode = 'symbol_text',
               maxwidth = 50,
               ellipsis_char = '…',
+              -- before = function (_entry, vim_item)
+              --   vim_item.menu = ({
+              --     nvim_lsp = "ﲳ",
+              --     nvim_lua = "",
+              --     treesitter = "",
+              --     path = "ﱮ",
+              --     buffer = "﬘",
+              --     zsh = "",
+              --     vsnip = "",
+              --     spell = "暈",
+              --   })[entry.source.name]
+              --   if once then
+              --     vim.print(vim_item)
+              --     once = false
+              --   end
+              --   return vim_item
+              -- end
             }(entry, item)
 
             local tokens = {}
@@ -54,6 +72,7 @@ return {
                 table.insert(tokens, token)
               end
             end
+
 
             kind.kind = (' %s '):format(tokens[1])
             kind.menu = ('    (%s)'):format(tokens[2])
@@ -111,23 +130,24 @@ return {
           },
         },
         sources = {
-          { name = 'nvim_lua' },
-          { name = 'nvim_lsp' },
-          { name = 'snippy' },
-          { name = 'path' },
-          { name = 'calc' },
-          { name = 'crates' },
-          { name = 'buffer' },
+          { name = 'nvim_lua', priority = 10 },
+          { name = 'nvim_lsp', priority = 9 },
+          { name = 'snippy', priority = 8 },
+          { name = 'path', priority = 7 },
+          { name = 'calc', priority = 6 },
+          { name = 'crates', priority = 5 },
+          { name = 'buffer', priority = 4, keyword_length = 3, max_item_count = 2 },
         },
-        compare = {
-          cmp.config.compare.offset,
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          cmp.config.compare.recently_used,
-          cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
+        sorting = {
+          priority_weight = 1,
+          comparators = {
+            cmp.config.compare.locality,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.score,
+            cmp.config.compare.offset,
+            cmp.config.compare.order,
+          },
+
         },
         experimental = {
           ghost_text = true,

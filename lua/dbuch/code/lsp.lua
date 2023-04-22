@@ -226,6 +226,7 @@ return {
         --   })
         --   vim.lsp.codelens.refresh()
         -- end
+        vim.lsp.semantic_tokens.force_refresh(buffer)
       end)
 
       -- Set Signs

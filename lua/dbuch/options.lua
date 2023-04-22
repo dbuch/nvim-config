@@ -55,7 +55,7 @@ o.updatetime = 200
 
 o.undolevels = 10000
 o.undofile = true
-vim.opt.undodir = require 'dbuch.env'.undodir
+vim.opt.undodir = require 'dbuch.env'.undo_dir
 o.splitright = true
 o.splitbelow = true
 o.splitkeep = 'screen'

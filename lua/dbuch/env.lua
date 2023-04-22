@@ -9,6 +9,6 @@ M.data_dir = vim.fs.normalize (vim.fn.stdpath 'data')
 ---@type string
 M.log_dir = vim.fs.normalize (vim.fn.stdpath 'log')
 ---@type string
-M.undodir = vim.fs.normalize(M.cache_dir .. '/undodir/')
+M.undo_dir = vim.fs.normalize(M.cache_dir .. '/undodir/')
 
 return M
