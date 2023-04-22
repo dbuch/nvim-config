@@ -6,7 +6,7 @@ end
 
 api.nvim_create_autocmd('VimResized', {
   group = augroup 'wind_resize',
-  command = 'wincmd ='
+  command = 'wincmd =',
 })
 
 api.nvim_create_autocmd('BufReadPost', {

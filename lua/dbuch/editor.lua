@@ -185,7 +185,7 @@ return {
     cmd = 'Bufferize',
     config = function()
       vim.g.bufferize_command = 'enew'
-      local grp = vim.api.nvim_create_augroup("vimrc", {})
+      local grp = vim.api.nvim_create_augroup('vimrc', {})
       vim.api.nvim_create_autocmd('FileType', {
         pattern = 'bufferize',
         group = grp,
@@ -198,7 +198,7 @@ return {
   {
     'lewis6991/hover.nvim',
     keys = {
-      { 'K',  '<Cmd>Hover<cr>' },
+      { 'K', '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },
     },
     config = function()
@@ -218,9 +218,9 @@ return {
   {
     'echasnovski/mini.surround',
     event = { 'BufReadPre', 'BufNewFile' },
-    config = function ()
+    config = function()
       require('mini.surround').setup()
     end,
-    version = false
+    version = false,
   },
 }

@@ -7,7 +7,7 @@ return {
   },
   {
     'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter', "CmdlineEnter" },
+    event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'dcampos/cmp-snippy',
       'hrsh7th/cmp-buffer',
@@ -16,7 +16,7 @@ return {
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lua',
       'f3fora/cmp-spell',
-      'ray-x/cmp-treesitter'
+      'ray-x/cmp-treesitter',
     },
     opts = function()
       local cmp = require 'cmp'
@@ -43,9 +43,10 @@ return {
         formatting = {
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, item)
-
-            local strOrEmpty = function (str)
-              if str == nil then return "" end
+            local strOrEmpty = function(str)
+              if str == nil then
+                return ''
+              end
               return str
             end
             ---@type table
@@ -55,18 +56,18 @@ return {
               ellipsis_char = '…',
               before = function(_entry, vim_item)
                 vim_item.menu = ({
-                  nvim_lsp = "ﲳ",
-                  nvim_lua = "",
-                  treesitter = "",
-                  path = "ﱮ",
-                  buffer = "﬘",
-                  zsh = "",
-                  vsnip = "",
-                  spell = "暈",
+                  nvim_lsp = 'ﲳ',
+                  nvim_lua = '',
+                  treesitter = '',
+                  path = 'ﱮ',
+                  buffer = '﬘',
+                  zsh = '',
+                  vsnip = '',
+                  spell = '暈',
                 })[entry.source.name]
                 return vim_item
-              end
-            } (entry, item)
+              end,
+            }(entry, item)
 
             local tokens = {}
             for token in vim.gsplit(kind.kind, '%s') do
@@ -77,10 +78,10 @@ return {
 
             local menu = kind.menu
             if menu ~= nil then
-              menu = ("%s %s"):format(menu, strOrEmpty(tokens[2]))
+              menu = ('%s %s'):format(menu, strOrEmpty(tokens[2]))
             else
               if tokens[2] ~= nil then
-                menu = ("%s"):format(tokens[2])
+                menu = ('%s'):format(tokens[2])
               end
             end
 
@@ -140,16 +141,20 @@ return {
           },
         },
         sources = {
-          { name = 'nvim_lsp',   priority = 9 },
-          { name = 'snippy',     priority = 8 },
+          { name = 'nvim_lsp', priority = 9 },
+          { name = 'snippy', priority = 8 },
           -- { name = 'treesitter', priority = 7 },
-          { name = 'path',       priority = 6 },
-          { name = 'calc',       priority = 5 },
-          { name = 'crates',     priority = 4 },
-          { name = 'spell',      priority = 3,
-            option = { enable_in_context = function ()
-               return require('cmp.config.context').in_treesitter_capture('spell')
-            end }
+          { name = 'path', priority = 6 },
+          { name = 'calc', priority = 5 },
+          { name = 'crates', priority = 4 },
+          {
+            name = 'spell',
+            priority = 3,
+            option = {
+              enable_in_context = function()
+                return require('cmp.config.context').in_treesitter_capture 'spell'
+              end,
+            },
           },
           -- { name = 'buffer',     priority = 2, keyword_length = 3, max_item_count = 2 },
         },
