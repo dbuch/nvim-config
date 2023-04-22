@@ -185,9 +185,10 @@ return {
     cmd = 'Bufferize',
     config = function()
       vim.g.bufferize_command = 'enew'
+      local grp = vim.api.nvim_create_augroup("vimrc", {})
       vim.api.nvim_create_autocmd('FileType', {
         pattern = 'bufferize',
-        group = 'vimrc',
+        group = grp,
         callback = function()
           vim.opt_local.wrap = true
         end,

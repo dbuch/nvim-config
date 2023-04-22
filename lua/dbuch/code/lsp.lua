@@ -5,11 +5,9 @@ return {
     opts = function(_, opts)
       local null_ls = require 'null-ls'
       opts.sources = {
-        null_ls.builtins.completion.spell,
         null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.just,
-        -- null_ls.builtins.diagnostics.pylint,
       }
     end,
   },
