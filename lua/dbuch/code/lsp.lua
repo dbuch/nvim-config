@@ -227,13 +227,7 @@ return {
         vim.lsp.semantic_tokens.force_refresh(buffer)
       end)
 
-      -- Set Signs
-      require('dbuch.traits.nvim').DefineSigns {
-        DiagnosticSignError = '●',
-        DiagnosticSignWarn = '●',
-        DiagnosticSignInfo = '●',
-        DiagnosticSignHint = '○',
-      }
+      require 'dbuch.icons'.define_signs(require 'dbuch.icons'.diagnostics)
 
       vim.diagnostic.config(opts.diagnostics)
 
