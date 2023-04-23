@@ -234,7 +234,21 @@ return {
   {
     -- TODO(Perhaps?): https://github.com/isaksamsten/nvim-config/blob/1500077595ac4848624c25f940f65706b1136813/lua/plugins/tasks.lua
     'stevearc/overseer.nvim',
-    cmd = { 'OverseerRun', 'OverseerToggle' },
+    cmd = {
+      'OverseerOpen',
+      'OverseerClose',
+      'OverseerToggle',
+      'OverseerSaveBundle',
+      'OverseerLoadBundle',
+      'OverseerDeleteBundle',
+      'OverseerRunCmd',
+      'OverseerRun',
+      'OverseerInfo',
+      'OverseerBuild',
+      'OverseerQuickAction',
+      'OverseerTaskAction',
+      'OverseerClearCache',
+    },
     dependencies = {
       'akinsho/toggleterm.nvim',
       'rcarriga/nvim-notify',
@@ -242,6 +256,9 @@ return {
       'nvim-lua/telescope.nvim',
     },
     opts = {
+      task_list = {
+        direction = 'right'
+      },
       strategy = {
         "toggleterm",
         -- load your default shell before starting the task

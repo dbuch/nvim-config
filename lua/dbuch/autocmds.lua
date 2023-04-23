@@ -30,6 +30,7 @@ api.nvim_create_autocmd('FileType', {
     'lspinfo',
     'tsplayground',
     'PlenaryTestPopup',
+    'OverseerList'
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
