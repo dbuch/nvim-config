@@ -198,7 +198,7 @@ return {
   {
     'lewis6991/hover.nvim',
     keys = {
-      { 'K', '<Cmd>Hover<cr>' },
+      { 'K',  '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },
     },
     config = function()
@@ -230,6 +230,40 @@ return {
     config = function()
       require('mini.align').setup()
     end,
+  },
+  {
+    -- TODO(Perhaps?): https://github.com/isaksamsten/nvim-config/blob/1500077595ac4848624c25f940f65706b1136813/lua/plugins/tasks.lua
+    'stevearc/overseer.nvim',
+    cmd = { 'OverseerRun', 'OverseerToggle' },
+    dependencies = {
+      'akinsho/toggleterm.nvim',
+      'rcarriga/nvim-notify',
+      'stevearc/dressing.nvim',
+      'nvim-lua/telescope.nvim',
+    },
+    opts = {
+      strategy = {
+        "toggleterm",
+        -- load your default shell before starting the task
+        use_shell = false,
+        -- overwrite the default toggleterm "direction" parameter
+        direction = nil,
+        -- overwrite the default toggleterm "highlights" parameter
+        highlights = nil,
+        -- overwrite the default toggleterm "auto_scroll" parameter
+        auto_scroll = nil,
+        -- have the toggleterm window close automatically after the task exits
+        close_on_exit = false,
+        -- open the toggleterm window when a task starts
+        open_on_start = true,
+        -- mirrors the toggleterm "hidden" parameter, and keeps the task from
+        -- being rendered in the toggleable window
+        hidden = false,
+        -- command to run when the terminal is created. Combine with `use_shell`
+        -- to run a terminal command before starting the task
+        on_create = nil,
+      }
+    },
+    config = true
   }
 }
-
