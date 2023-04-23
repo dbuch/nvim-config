@@ -1,5 +1,6 @@
 local set_hl = vim.api.nvim_set_hl
 
+---@param def table<string,any>
 local function hi(def)
   for name, v in pairs(def) do
     set_hl(0, name, v)

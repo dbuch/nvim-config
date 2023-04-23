@@ -1,4 +1,3 @@
-local once = true
 return {
   {
     'saecki/crates.nvim',
@@ -140,7 +139,7 @@ return {
             select = true,
           },
         },
-        sources = {
+        sources = cmp.config.sources({
           { name = 'nvim_lsp', priority = 9 },
           { name = 'snippy', priority = 8 },
           -- { name = 'treesitter', priority = 7 },
@@ -156,8 +155,9 @@ return {
               end,
             },
           },
-          -- { name = 'buffer',     priority = 2, keyword_length = 3, max_item_count = 2 },
-        },
+        }, {
+          { name = 'buffer', priority = 2, keyword_length = 3, max_item_count = 2 },
+        }),
         sorting = {
           priority_weight = 1,
           comparators = {
