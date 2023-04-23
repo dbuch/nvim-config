@@ -6,6 +6,7 @@ M.root_patterns = { '.git', 'Cargo.toml', 'stylua.toml' }
 function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
+      ---@type integer
       local buffer = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       on_attach(client, buffer)
@@ -44,7 +45,6 @@ end
 
 ---@type Map<string, string>
 M.root_cache = {}
-M.is_windows_os = jit.os == 'windows'
 
 -- returns the root directory based on:
 -- * lsp workspace folders
