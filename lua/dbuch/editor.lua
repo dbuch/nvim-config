@@ -217,10 +217,19 @@ return {
   },
   {
     'echasnovski/mini.surround',
+    version = false,
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       require('mini.surround').setup()
     end,
-    version = false,
   },
+  {
+    'echasnovski/mini.align',
+    version = false,
+    event = { 'BufReadPre', 'BufNewFile' },
+    config = function()
+      require('mini.align').setup()
+    end,
+  }
 }
+

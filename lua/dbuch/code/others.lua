@@ -1,5 +1,4 @@
 return {
-  { 'Vonr/align.nvim' },
   {
     'andymass/vim-matchup',
     event = 'BufReadPost',
