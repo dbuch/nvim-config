@@ -125,31 +125,11 @@ return {
       },
     },
   },
-  -- {
-  --   'stevearc/oil.nvim',
-  --   event = "BufEnter",
-  --   config = true,
-  -- },
-  -- {
-  --   'nvim-tree/nvim-tree.lua',
-  --   commit = '8b8d457',
-  --   cmd = 'NvimTreeFindFileToggle',
-  --   dependencies = {
-  --     'nvim-tree/nvim-web-devicons',
-  --   },
-  --   opts = {
-  --     sync_root_with_cwd = true,
-  --     respect_buf_cwd = true,
-  --     update_focused_file = {
-  --       enable = true,
-  --       update_root = false,
-  --     },
-  --     view = {
-  --       number = false,
-  --       signcolumn = 'no',
-  --     },
-  --   },
-  -- },
+  {
+    'stevearc/oil.nvim',
+    cmd = "Oil",
+    config = true,
+  },
   {
     'simrat39/symbols-outline.nvim',
     cmd = 'SymbolsOutline',
@@ -175,9 +155,10 @@ return {
   },
   {
     'luukvbaal/statuscol.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    lazy = false,
     opts = {
       setopt = true,
+      order = "SNsFs"
     },
   },
   {
@@ -216,6 +197,14 @@ return {
     end,
   },
   {
+    'echasnovski/mini.colors',
+    event = 'VeryLazy',
+    version = false,
+    config = function()
+      require('mini.colors').setup()
+    end,
+  },
+  {
     'echasnovski/mini.surround',
     version = false,
     event = { 'BufReadPre', 'BufNewFile' },
@@ -234,31 +223,19 @@ return {
   {
     -- TODO(Perhaps?): https://github.com/isaksamsten/nvim-config/blob/1500077595ac4848624c25f940f65706b1136813/lua/plugins/tasks.lua
     'stevearc/overseer.nvim',
-    cmd = {
-      'OverseerOpen',
-      'OverseerClose',
-      'OverseerToggle',
-      'OverseerSaveBundle',
-      'OverseerLoadBundle',
-      'OverseerDeleteBundle',
-      'OverseerRunCmd',
-      'OverseerRun',
-      'OverseerInfo',
-      'OverseerBuild',
-      'OverseerQuickAction',
-      'OverseerTaskAction',
-      'OverseerClearCache',
-    },
+    lazy = false,
     dependencies = {
       'akinsho/toggleterm.nvim',
       'rcarriga/nvim-notify',
       'stevearc/dressing.nvim',
       'nvim-lua/telescope.nvim',
+      'mfussenegger/nvim-dap',
     },
     opts = {
       task_list = {
         direction = 'right'
       },
+      dap = true,
       strategy = {
         "toggleterm",
         -- load your default shell before starting the task
@@ -282,5 +259,10 @@ return {
       }
     },
     config = true
-  }
+  },
+  -- {
+  --   'simrat39/rust-tools.nvim',
+  --   ft = 'rust',
+  --   config = true,
+  -- }
 }

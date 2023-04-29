@@ -96,18 +96,6 @@ return {
       end,
     },
     config = function(_, opts)
-      require('nvim-treesitter').define_modules {
-        fold = {
-          attach = function()
-            vim.opt_local.spell = true
-            vim.opt_local.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-            vim.opt_local.foldmethod = 'expr'
-            vim.opt_local.foldenable = false
-          end,
-          detach = function() end,
-        },
-      }
-
       require('nvim-treesitter.configs').setup(opts)
     end,
   },

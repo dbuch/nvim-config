@@ -109,7 +109,9 @@ vim.g.colors_name = 'github_dark'
 -- stylua: ignore
 hi {
   StorageClass = { fg = red[6] },
-  LineNr       = { fg = gray[5] },
+  LineNrAbove  = { fg = gray[5] },
+  LineNr       = { fg = gray[9] },
+  LineNrBelow  = { fg = gray[5] },
   SignColumn   = { fg = gray[5] },
   FoldColumn   = { fg = gray[3] },
   CursorLineNr = { bg = gray[1] },

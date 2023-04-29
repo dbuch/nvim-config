@@ -44,4 +44,14 @@ return {
     },
     config = true,
   },
+  {
+    'brenoprata10/nvim-highlight-colors',
+    cmd = {'HighlightColorsOn', 'HighlightColorsOff', 'HighlightColorsToggle'},
+    config = true
+  },
+  {
+    'rafcamlet/nvim-luapad',
+    cmd = 'LuaRun',
+    config = true,
+  }
 }
