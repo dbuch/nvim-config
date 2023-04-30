@@ -1,21 +1,3 @@
----@class CargoArgs
----@field workspaceRoot string|nil
----@field cargoArgs string[]
----@field cargoExtraArgs string[]
----@field expectTest boolean|nil
----@field overrideCargo string|nil
-
----@class Runnable
----@field label string
----@field kind string
----@field args CargoArgs
----@field location any
-
----@class RunnableJobArgs
----@field command string
----@field cwd string
----@field args string[]
-
 M = {}
 
 ---@param job RunnableJobArgs
@@ -36,7 +18,7 @@ local function into_runnable_job(runnable)
   local message_json = "--message-format=json"
   local args = runnable.args.cargoArgs
 
-  if vim.tbl_contains(args, 'test') then
+  if args[0] == 'test' then
     table.insert(args, '--no-run')
   end
 
@@ -62,51 +44,72 @@ end
 
 ---comment
 ---@param callback function<Runnable[]>
-function M.query_runnables(callback)
-  local bufnum = vim.api.nvim_get_current_buf()
+---@param buffer integer|nil
+function M.query_runnables(callback, buffer)
+  local bufnum = buffer or vim.api.nvim_get_current_buf()
   vim.lsp.buf_request(
     bufnum,
     "experimental/runnables",
     { textDocument = vim.lsp.util.make_text_document_params(bufnum) },
-    function(err, result)
+    ---@param err ResponseError
+    ---@param runnables Runnable[]
+    function(err, runnables)
       if err then
         vim.notify("Failed to retrive runnables: " .. vim.print(err.message))
         return
       end
-      callback(result)
+      callback(runnables)
     end
   )
 end
 
+---@param artifact table|nil
+---@return string|nil
+local function get_executable(artifact)
+  if artifact ~= nil and
+      artifact.reason == 'compiler-artifact' and
+      artifact.executable and
+      artifact.target and
+      vim.tbl_contains(artifact.target.crate_types, "bin") then
+    return artifact.executable
+  end
+end
+
+---@class CompileMessage
+---@class ArtifactMessage
+---@class BuildScriptMessage
+---@class BuildFinishedMessage
+
 function M.test_query()
   M.query_runnables(
-    ---@param runnables Runnable[]
+  ---@param runnables Runnable[]
     function(runnables)
       for _, runnable in ipairs(runnables) do
         local job = into_runnable_job(runnable)
-        spawn_cargo(job, function (output, exit_code)
-          if exit_code and exit_code > 0 then
-            vim.notify('Failed to execute job: ' .. vim.print(job))
-            return
-          end
-
-          vim.schedule(function ()
-            local output_entries = output:result()
-            for _, entry in pairs(output_entries) do
-              if entry and entry ~= '' then
-                local artifact = vim.fn.json_decode(entry)
-                if artifact and artifact.reason == 'compiler-artifact' and artifact.executable ~= vim.NIL then
-                  vim.print(vim.inspect(artifact.executable))
+        vim.print(vim.inspect(job))
+        if job.args[0] == 'build' then
+          spawn_cargo(job, function(output, exit_code)
+            if exit_code and exit_code > 0 then
+              vim.notify('Failed to execute job: ' .. vim.print(job))
+              return
+            end
+            ---@type string[]
+            local lines = output:result()
+            for _, line in pairs(lines) do
+              if line then
+                local success, artifact = pcall(vim.json.decode, line)
+                if success then
+                  local executable = get_executable(artifact)
+                  if executable then
+                    vim.print(vim.inspect(executable))
+                  end
+                else
+                  vim.print('ERROR: ' .. line)
                 end
-              -- local reason = vim.tbl_get(entry, 'reason')
-              -- if reason then
-              --   vim.notify("hurray: "..vim.print(reason))
-              -- end
               end
             end
           end)
-        end)
-        break
+        end
       end
     end)
 end
