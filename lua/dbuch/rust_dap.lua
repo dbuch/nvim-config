@@ -80,13 +80,46 @@ end
 ---@class BuildScriptMessage
 ---@class BuildFinishedMessage
 
+function M.test_metadata()
+  ---comment
+  ---@param metadata_callback function<CargoMetadata>
+  local function spawn_metadata(metadata_callback)
+    local process = require('plenary.job')
+    process:new({
+      command = 'cargo',
+      args = { 'metadata', '--no-deps', '--format-version=1' },
+      cwd = vim.fn.getcwd(),
+      on_exit = function(stream, exit_code)
+        if exit_code and exit_code ~= 0 then
+          vim.notify('exit_code: ' .. exit_code)
+        else
+          local output = table.concat(stream:result(), '\n')
+          local status, metadata = pcall(vim.json.decode, output, { luanil = { object = true, array = true } })
+          if not status then
+            vim.notify('Failed to parse metadata: ' .. output)
+          else
+            metadata_callback(metadata)
+          end
+        end
+      end,
+    }):start()
+  end
+
+  spawn_metadata(
+  ---@param metadata CargoMetadata
+    function(metadata)
+      for _, package in pairs(metadata.packages) do
+        vim.print(vim.inspect(package))
+      end
+    end)
+end
+
 function M.test_query()
   M.query_runnables(
   ---@param runnables Runnable[]
     function(runnables)
       for _, runnable in ipairs(runnables) do
         local job = into_runnable_job(runnable)
-        vim.print(vim.inspect(job))
         if job.args[0] == 'build' then
           spawn_cargo(job, function(output, exit_code)
             if exit_code and exit_code > 0 then

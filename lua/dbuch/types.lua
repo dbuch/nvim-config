@@ -22,7 +22,7 @@
 ---@field data string | number | boolean | Array | object | nil;
 
 ---@class CargoMetadata
----@field pacakages CargoPackages
+---@field packages CargoPackages[]
 ---@field workspace_members string[]
 ---@field resolve CargoResolve[]|nil
 ---@field target_directory string
