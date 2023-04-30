@@ -80,6 +80,25 @@ end
 ---@class BuildScriptMessage
 ---@class BuildFinishedMessage
 
+
+---@param msg string
+---@param level integer|nil
+local function schedule_notify(msg, level)
+  vim.schedule(function()
+    vim.notify(msg, level or vim.log.INFO)
+  end)
+end
+
+---@param input string|string[]
+---@return boolean, table|nil
+local function parse_json(input)
+  if type(input) == "table" then
+    input = table.concat(input, '\n')
+  end
+  local status, json = pcall(vim.json.decode, input, { luanil = { object = true, array = true } })
+  return status, json
+end
+
 function M.test_metadata()
   ---comment
   ---@param metadata_callback function<CargoMetadata>
@@ -91,12 +110,11 @@ function M.test_metadata()
       cwd = vim.fn.getcwd(),
       on_exit = function(stream, exit_code)
         if exit_code and exit_code ~= 0 then
-          vim.notify('exit_code: ' .. exit_code)
+          schedule_notify(('Failed to execute: `cargo metadata` (%s)'):format(exit_code))
         else
-          local output = table.concat(stream:result(), '\n')
-          local status, metadata = pcall(vim.json.decode, output, { luanil = { object = true, array = true } })
+          local status, metadata = parse_json(stream:result())
           if not status then
-            vim.notify('Failed to parse metadata: ' .. output)
+            schedule_notify('Failed to parse metadata', vim.log.levels.ERROR)
           else
             metadata_callback(metadata)
           end
@@ -109,7 +127,7 @@ function M.test_metadata()
   ---@param metadata CargoMetadata
     function(metadata)
       for _, package in pairs(metadata.packages) do
-        vim.print(vim.inspect(package))
+        schedule_notify(vim.inspect(package))
       end
     end)
 end
@@ -123,7 +141,7 @@ function M.test_query()
         if job.args[0] == 'build' then
           spawn_cargo(job, function(output, exit_code)
             if exit_code and exit_code > 0 then
-              vim.notify('Failed to execute job: ' .. vim.print(job))
+              schedule_notify('Failed to execute job: ' .. vim.print(job), vim.log.levels.ERROR)
               return
             end
             ---@type string[]
@@ -131,13 +149,13 @@ function M.test_query()
             for _, line in pairs(lines) do
               if line then
                 local success, artifact = pcall(vim.json.decode, line)
-                if success then
+                if not success then
+                  schedule_notify('Failed to parse: ' .. line)
+                else
                   local executable = get_executable(artifact)
                   if executable then
-                    vim.print(vim.inspect(executable))
+                    schedule_notify(vim.inspect(executable))
                   end
-                else
-                  vim.print('ERROR: ' .. line)
                 end
               end
             end
