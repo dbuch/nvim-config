@@ -55,14 +55,14 @@ return {
               ellipsis_char = '…',
               before = function(_entry, vim_item)
                 vim_item.menu = ({
-                  nvim_lsp = 'ﲳ',
+                  nvim_lsp = '󰞵',
                   nvim_lua = '',
                   treesitter = '',
-                  path = 'ﱮ',
-                  buffer = '﬘',
+                  path = '󰝰',
+                  buffer = '󱈛',
                   zsh = '',
                   vsnip = '',
-                  spell = '暈',
+                  spell = '󰓆',
                 })[entry.source.name]
                 return vim_item
               end,

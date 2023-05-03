@@ -1,5 +1,13 @@
 M = {}
 
+---@param msg string
+---@param level integer|nil
+local function schedule_notify(msg, level)
+  vim.schedule(function()
+    vim.notify(msg, level or vim.log.INFO)
+  end)
+end
+
 ---@param job RunnableJobArgs
 ---@param on_exit function<string, integer>
 local function spawn_cargo(job, on_exit)
@@ -18,8 +26,12 @@ local function into_runnable_job(runnable)
   local message_json = "--message-format=json"
   local args = runnable.args.cargoArgs
 
-  if args[0] == 'test' then
+  if args[1]:match('test') then
     table.insert(args, '--no-run')
+  end
+
+  if not vim.tbl_contains(args, '--quiet') then
+    table.insert(args, '--quiet')
   end
 
   if not vim.tbl_contains(args, message_json) then
@@ -81,14 +93,6 @@ end
 ---@class BuildFinishedMessage
 
 
----@param msg string
----@param level integer|nil
-local function schedule_notify(msg, level)
-  vim.schedule(function()
-    vim.notify(msg, level or vim.log.INFO)
-  end)
-end
-
 ---@param input string|string[]
 ---@return boolean, table|nil
 local function parse_json(input)
@@ -132,35 +136,34 @@ function M.test_metadata()
     end)
 end
 
+
 function M.test_query()
   M.query_runnables(
   ---@param runnables Runnable[]
     function(runnables)
       for _, runnable in ipairs(runnables) do
         local job = into_runnable_job(runnable)
-        if job.args[0] == 'build' then
-          spawn_cargo(job, function(output, exit_code)
-            if exit_code and exit_code > 0 then
-              schedule_notify('Failed to execute job: ' .. vim.print(job), vim.log.levels.ERROR)
-              return
-            end
-            ---@type string[]
-            local lines = output:result()
-            for _, line in pairs(lines) do
-              if line then
-                local success, artifact = pcall(vim.json.decode, line)
-                if not success then
-                  schedule_notify('Failed to parse: ' .. line)
-                else
-                  local executable = get_executable(artifact)
-                  if executable then
-                    schedule_notify(vim.inspect(executable))
-                  end
+        spawn_cargo(job, function(output, exit_code)
+          if exit_code and exit_code > 0 then
+            schedule_notify('Failed to execute job: ' .. vim.print(job), vim.log.levels.ERROR)
+            return
+          end
+          ---@type string[]
+          local lines = output:result()
+          for _, line in pairs(lines) do
+            if line then
+              local success, artifact = parse_json(line)
+              if not success then
+                schedule_notify('Failed to parse: ' .. line)
+              else
+                local executable = get_executable(artifact)
+                if executable then
+                  schedule_notify(vim.inspect(executable))
                 end
               end
             end
-          end)
-        end
+          end
+        end)
       end
     end)
 end

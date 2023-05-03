@@ -8,7 +8,7 @@ return {
   folder = {
     closed = '',
     open = '',
-    empty = 'ﰊ',
+    empty = '󰜌',
     collapsed = '',
     expanded = '',
   },
@@ -16,7 +16,7 @@ return {
     DapBreakpoint = '',
     DapBreakpointCondition = '',
     DapBreakpointRejected = '',
-    DapLogPoint = '',
+    DapLogPoint = '󰌑',
     DapStopped = '',
   },
   diagnostics = {
@@ -48,14 +48,14 @@ return {
     '⒛',
   },
   completion_source = {
-    nvim_lsp = 'ﲳ',
+    nvim_lsp = '󰞵',
     nvim_lua = '',
     treesitter = '',
-    path = 'ﱮ',
-    buffer = '﬘',
+    path = '󰝰',
+    buffer = '󱈛',
     zsh = '',
     vsnip = '',
-    spell = '暈',
+    spell = '󰓆',
   },
   ---@param t table<string, string>
   define_signs = function(t)

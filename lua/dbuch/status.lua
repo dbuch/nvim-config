@@ -15,9 +15,9 @@ local function highlight(num, active)
 end
 
 local icons = {
-  Error = '',
-  Warn = '',
-  Hint = '',
+  Error = '󰅚',
+  Warn = '󰀪',
+  Hint = '󰌶',
   Info = 'I',
 }
 
