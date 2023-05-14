@@ -7,7 +7,7 @@ return {
     end,
   },
   {
-    'numToStr/Comment.nvim',
+    'echasnovski/mini.comment',
     event = { 'BufReadPost', 'BufNewFile' },
     config = true,
   },
