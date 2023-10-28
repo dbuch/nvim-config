@@ -61,28 +61,7 @@ return {
       preview_config = {
         border = 'rounded',
       },
-      count_chars = {
-        '⒈',
-        '⒉',
-        '⒊',
-        '⒋',
-        '⒌',
-        '⒍',
-        '⒎',
-        '⒏',
-        '⒐',
-        '⒑',
-        '⒒',
-        '⒓',
-        '⒔',
-        '⒕',
-        '⒖',
-        '⒗',
-        '⒘',
-        '⒙',
-        '⒚',
-        '⒛',
-      },
+      count_chars = require('dbuch.icons').subscript_count,
       update_debounce = 50,
       _extmark_signs = true,
       _threaded_diff = true,
@@ -148,17 +127,17 @@ return {
       shell = 'nu',
     },
   },
-  {
-    'lewis6991/satellite.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = true,
-  },
+  -- { TODO: Renable once nvim v0.10 is released
+  --   'lewis6991/satellite.nvim',
+  --   event = { 'BufReadPre', 'BufNewFile' },
+  --   config = true,
+  -- },
   {
     'luukvbaal/statuscol.nvim',
     lazy = false,
     opts = {
       setopt = true,
-      order = "SNsFs"
+      -- order = "SNsFs"
     },
   },
   {
@@ -222,6 +201,7 @@ return {
   },
   {
     'gnikdroy/projections.nvim',
+    branch = 'pre_release',
     event = 'VeryLazy',
     dependencies = {
       'nvim-lua/telescope.nvim',
@@ -286,6 +266,10 @@ return {
     },
     config = true
   },
+  {
+    'lewis6991/whatthejump.nvim',
+    event = 'VeryLazy',
+  }
   -- {
   --   'simrat39/rust-tools.nvim',
   --   ft = 'rust',

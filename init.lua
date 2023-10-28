@@ -1,8 +1,6 @@
 -- Bootstrap And Config
 
-if vim.fn.has 'nvim-0.9.1' == 1 then
-  vim.loader.enable()
-end
+vim.loader.enable()
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '

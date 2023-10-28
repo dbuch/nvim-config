@@ -2,7 +2,7 @@ require 'dbuch.options'
 require 'dbuch.theme'
 require 'dbuch.status'
 require 'dbuch.autocmds'
-require 'dbuch.jumps'
+--require 'dbuch.jumps'
 require 'dbuch.quit'
 
 require('lazy').setup {

@@ -12,21 +12,26 @@ return {
     config = true,
   },
   {
-    'windwp/nvim-autopairs',
+    'echasnovski/mini.pairs',
     event = { 'BufReadPost', 'BufNewFile' },
-    opts = {
-      check_ts = true,
-    },
-    config = function(_, opts)
-      require('nvim-autopairs').setup(opts)
-      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-      local cmp = require 'cmp'
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-    end,
-    dependencies = {
-      'hrsh7th/nvim-cmp',
-    },
+    config = true,
   },
+  -- {
+  --   'windwp/nvim-autopairs',
+  --   event = { 'BufReadPost', 'BufNewFile' },
+  --   opts = {
+  --     check_ts = true,
+  --   },
+  --   config = function(_, opts)
+  --     require('nvim-autopairs').setup(opts)
+  --     local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+  --     local cmp = require 'cmp'
+  --     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+  --   end,
+  --   dependencies = {
+  --     'hrsh7th/nvim-cmp',
+  --   },
+  -- },
   {
     'LhKipp/nvim-nu',
     build = ':TSInstall nu',

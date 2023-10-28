@@ -25,7 +25,7 @@ return {
     DiagnosticSignInfo = '●',
     DiagnosticSignHint = '○',
   },
-  count_chars = {
+  subscript_count = {
     '⒈',
     '⒉',
     '⒊',
