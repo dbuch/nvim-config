@@ -98,17 +98,11 @@ return {
       shell = 'nu',
     },
   },
-  -- { TODO: Renable once nvim v0.10 is released
-  --   'lewis6991/satellite.nvim',
-  --   event = { 'BufReadPre', 'BufNewFile' },
-  --   config = true,
-  -- },
   {
     'luukvbaal/statuscol.nvim',
     lazy = false,
     opts = {
       setopt = true,
-      -- order = "SNsFs"
     },
   },
   {
@@ -145,11 +139,6 @@ return {
         end,
       }
     end,
-  },
-  {
-    'stevearc/oil.nvim',
-    cmd = "Oil",
-    config = true,
   },
   {
     'echasnovski/mini.nvim',
