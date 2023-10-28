@@ -70,22 +70,6 @@ api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
-vim.api.nvim_create_autocmd('VimEnter', {
-  group = augroup 'nvim-tree-startup',
-  callback = function(args)
-    local file_stat = vim.loop.fs_stat(args.file)
-    if file_stat == nil then
-      return
-    end
-
-    if file_stat.type == 'directory' then
-      -- change to the directory
-      vim.fn.chdir(args.file)
-      vim.cmd [[Neotree reveal float]]
-    end
-  end,
-})
-
 local function emit(ev, data)
   ---@type string|nil
   vim.api.nvim_exec_autocmds('User', { pattern = ev, data = data })

@@ -81,35 +81,6 @@ return {
     },
   },
   {
-    'nvim-neo-tree/neo-tree.nvim',
-    cmd = 'Neotree',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-tree/nvim-web-devicons',
-      'MunifTanjim/nui.nvim',
-    },
-    opts = {
-      filesystem = {
-        bind_to_cwd = true,
-        follow_current_file = true,
-        hijack_netrw_behavior = 'disabled',
-      },
-      default_component_configs = {
-        indent = {
-          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-          expander_collapsed = '',
-          expander_expanded = '',
-          expander_highlight = 'NeoTreeExpander',
-        },
-      },
-    },
-  },
-  {
-    'stevearc/oil.nvim',
-    cmd = "Oil",
-    config = true,
-  },
-  {
     'simrat39/symbols-outline.nvim',
     cmd = 'SymbolsOutline',
     config = true,
@@ -176,103 +147,28 @@ return {
     end,
   },
   {
-    'echasnovski/mini.colors',
+    'stevearc/oil.nvim',
+    cmd = "Oil",
+    config = true,
+  },
+  {
+    'echasnovski/mini.nvim',
     event = 'VeryLazy',
     version = false,
     config = function()
+      require('mini.files').setup()
       require('mini.colors').setup()
-    end,
-  },
-  {
-    'echasnovski/mini.surround',
-    version = false,
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function()
       require('mini.surround').setup()
-    end,
-  },
-  {
-    'echasnovski/mini.align',
-    version = false,
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function()
       require('mini.align').setup()
+      require('mini.comment').setup()
+      require('mini.pairs').setup()
+      require('mini.splitjoin').setup()
+      require('mini.cursorword').setup()
+      require('mini.misc').setup()
     end,
-  },
-  {
-    'gnikdroy/projections.nvim',
-    branch = 'pre_release',
-    event = 'VeryLazy',
-    dependencies = {
-      'nvim-lua/telescope.nvim',
-    },
-    config = function()
-      require("projections").setup({
-        workspaces = {     -- Default workspaces to search for
-          -- { "~/Documents/dev", { ".git" } },        Documents/dev is a workspace. patterns = { ".git" }
-          -- { "~/repos", {} },                        An empty pattern list indicates that all subdirectories are considered projects
-          { "~/dev", { ".git", ".svn", ".hg" } },        -- dev is a workspace. default patterns is used (specified below)
-          { "~/dev/rust/", { ".git", ".svn", ".hg" } },        -- dev is a workspace. default patterns is used (specified below)
-          { "~/dev/nvim/plugins/", { ".git", ".svn", ".hg" } },        -- dev is a workspace. default patterns is used (specified below)
-        },
-        -- patterns = { ".git", ".svn", ".hg" },      -- Default patterns to use if none were specified. These are NOT regexps.
-        -- store_hooks = { pre = nil, post = nil },   -- pre and post hooks for store_session, callable | nil
-        -- restore_hooks = { pre = nil, post = nil }, -- pre and post hooks for restore_session, callable | nil
-        -- workspaces_file = "path/to/file",          -- Path to workspaces json file
-        -- sessions_directory = "path/to/dir",        -- Directory where sessions are stored
-      })
-      require('telescope').load_extension('projections')
-      vim.keymap.set("n", "<leader>p", function() vim.cmd("Telescope projections") end)
-    end
-
-  },
-  {
-    -- TODO(Perhaps?): https://github.com/isaksamsten/nvim-config/blob/1500077595ac4848624c25f940f65706b1136813/lua/plugins/tasks.lua
-    'stevearc/overseer.nvim',
-    lazy = false,
-    dependencies = {
-      'akinsho/toggleterm.nvim',
-      'rcarriga/nvim-notify',
-      'stevearc/dressing.nvim',
-      'nvim-lua/telescope.nvim',
-      'mfussenegger/nvim-dap',
-    },
-    opts = {
-      task_list = {
-        direction = 'right'
-      },
-      dap = true,
-      strategy = {
-        "toggleterm",
-        -- load your default shell before starting the task
-        use_shell = false,
-        -- overwrite the default toggleterm "direction" parameter
-        direction = nil,
-        -- overwrite the default toggleterm "highlights" parameter
-        highlights = nil,
-        -- overwrite the default toggleterm "auto_scroll" parameter
-        auto_scroll = nil,
-        -- have the toggleterm window close automatically after the task exits
-        close_on_exit = false,
-        -- open the toggleterm window when a task starts
-        open_on_start = true,
-        -- mirrors the toggleterm "hidden" parameter, and keeps the task from
-        -- being rendered in the toggleable window
-        hidden = false,
-        -- command to run when the terminal is created. Combine with `use_shell`
-        -- to run a terminal command before starting the task
-        on_create = nil,
-      }
-    },
-    config = true
   },
   {
     'lewis6991/whatthejump.nvim',
     event = 'VeryLazy',
   }
-  -- {
-  --   'simrat39/rust-tools.nvim',
-  --   ft = 'rust',
-  --   config = true,
-  -- }
 }

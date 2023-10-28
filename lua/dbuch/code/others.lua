@@ -6,16 +6,6 @@ return {
       vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
     end,
   },
-  {
-    'echasnovski/mini.comment',
-    event = { 'BufReadPost', 'BufNewFile' },
-    config = true,
-  },
-  {
-    'echasnovski/mini.pairs',
-    event = { 'BufReadPost', 'BufNewFile' },
-    config = true,
-  },
   -- {
   --   'windwp/nvim-autopairs',
   --   event = { 'BufReadPost', 'BufNewFile' },
