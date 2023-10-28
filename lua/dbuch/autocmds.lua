@@ -43,15 +43,6 @@ api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- Disable autoformat for lua files
-api.nvim_create_autocmd('FileType', {
-  group = augroup 'diable_lua_format',
-  pattern = { 'lua' },
-  callback = function()
-    vim.b.autoformat = false
-  end,
-})
-
 api.nvim_create_autocmd('TermOpen', {
   group = augroup 'terminal',
   callback = function(args)
@@ -113,7 +104,7 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'comment',
   callback = function()
     vim.bo.commentstring = ''
-  end
+  end,
 })
 
 ---@return string?
@@ -127,7 +118,7 @@ local function get_injection_filetype()
   local row, col = cpos[1] - 1, cpos[2]
   local range = { row, col, row, col + 1 }
 
-  local ft  --- @type string?
+  local ft --- @type string?
 
   parser:for_each_child(function(tree, lang)
     if tree:contains(range) then
@@ -145,20 +136,20 @@ local function get_injection_filetype()
 end
 
 local function enable_commenstrings()
-  api.nvim_create_autocmd({'CursorMoved', 'CursorMovedI'}, {
+  api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
     buffer = 0,
     callback = function()
       local ft = get_injection_filetype() or vim.bo.filetype
       vim.bo.commentstring = vim.filetype.get_option(ft, 'commentstring') --[[@as string]]
-    end
+    end,
   })
 end
 
 local function enable_foldexpr()
   vim.opt_local.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
   vim.opt_local.foldmethod = 'expr'
-  vim.cmd.normal('zx')
-  vim.cmd.normal('zR')
+  vim.cmd.normal 'zx'
+  vim.cmd.normal 'zR'
 end
 
 api.nvim_create_autocmd('FileType', {
@@ -169,14 +160,13 @@ api.nvim_create_autocmd('FileType', {
 
     enable_foldexpr()
     enable_commenstrings()
-  end
+  end,
 })
 
-api.nvim_create_user_command('OilFloat',
-  function ()
-    if api.nvim_buf_is_valid(0) then
-      if api.nvim_buf_get_name(0) ~= '' then
-        vim.cmd('Oil --float %:h')
-      end
+api.nvim_create_user_command('OilFloat', function()
+  if api.nvim_buf_is_valid(0) then
+    if api.nvim_buf_get_name(0) ~= '' then
+      vim.cmd 'Oil --float %:h'
     end
-  end, {})
+  end
+end, {})
