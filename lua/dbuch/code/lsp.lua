@@ -112,7 +112,6 @@ return {
             },
           },
           pyright = {},
-          ruff_lsp = {},
           taplo = {},
           rust_analyzer = {
             cmd = { 'rust-analyzer' },
@@ -216,7 +215,7 @@ return {
         vim.lsp.semantic_tokens.force_refresh(buffer)
       end)
 
-      require 'dbuch.icons'.define_signs(require 'dbuch.icons'.diagnostics)
+      require('dbuch.icons').define_signs(require('dbuch.icons').diagnostics)
 
       vim.diagnostic.config(opts.diagnostics)
 

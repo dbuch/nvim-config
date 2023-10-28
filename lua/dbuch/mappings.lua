@@ -1,7 +1,6 @@
 ---@type function
 local map = vim.keymap.set
 
-
 map('n', '<C-d>', '<C-d>zz', { remap = false })
 map('n', '<C-u>', '<C-u>zz', { remap = false })
 
@@ -39,10 +38,6 @@ map('n', '<leader>cd', vim.lsp.buf.definition, { silent = true })
 map('n', '<leader>cn', vim.lsp.buf.rename, { silent = true })
 map('n', '<leader>ct', ':TroubleToggle<CR>', { silent = true })
 map('n', '<leader>cr', ':TroubleToggle lsp_references<CR>', { silent = true })
-
-map('n', '<leader>=', function()
-  vim.lsp.buf.format { async = true }
-end)
 
 map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
 

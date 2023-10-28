@@ -19,10 +19,9 @@ return {
   {
     'lewis6991/github_dark.nvim',
     lazy = false,
-    config = function ()
+    config = function()
       vim.cmd.color 'github_dark'
-    end
-
+    end,
   },
   {
     'rcarriga/nvim-notify',

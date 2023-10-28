@@ -46,7 +46,7 @@ return {
     -- event = { 'BufReadPost', 'BufNewFile' },
     event = 'BufReadPre',
     dependencies = {
-      -- 'JoosepAlviste/nvim-ts-context-commentstring',
+      'JoosepAlviste/nvim-ts-context-commentstring',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
     },
@@ -72,10 +72,10 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = 'gnn',
-          node_incremental = 'grn',
-          scope_incremental = 'grc',
-          node_decremental = 'grm',
+          init_selection = '<C-space>',
+          node_incremental = '<C-space>',
+          scope_incremental = false,
+          node_decremental = '<bs>',
         },
       },
       matchup = {
