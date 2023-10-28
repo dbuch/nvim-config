@@ -19,18 +19,22 @@ return {
     end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
-      'jose-elias-alvarez/null-ls.nvim',
     },
     config = true,
   },
   {
     'brenoprata10/nvim-highlight-colors',
-    cmd = {'HighlightColorsOn', 'HighlightColorsOff', 'HighlightColorsToggle'},
-    config = true
+    cmd = { 'HighlightColorsOn', 'HighlightColorsOff', 'HighlightColorsToggle' },
+    config = true,
   },
   {
     'rafcamlet/nvim-luapad',
     cmd = 'LuaRun',
     config = true,
-  }
+  },
+  {
+    'NoahTheDuke/vim-just',
+    event = { 'BufReadPre', 'BufNewFile' },
+    ft = { '\\cjustfile', '*.just', '.justfile' },
+  },
 }

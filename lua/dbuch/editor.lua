@@ -118,6 +118,7 @@ return {
         python = { 'ruff_format' },
         toml = { 'taplo' },
         c = { 'uncrustify' },
+        just = { 'just' },
       },
       format_on_save = { timeout_ms = 500, lsp_fallback = true },
     },
