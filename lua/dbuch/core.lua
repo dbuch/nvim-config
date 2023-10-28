@@ -10,6 +10,21 @@ return {
     config = true,
   },
   {
+    'luukvbaal/statuscol.nvim',
+    lazy = false,
+    opts = {
+      setopt = true,
+    },
+  },
+  {
+    'lewis6991/github_dark.nvim',
+    lazy = false,
+    config = function ()
+      vim.cmd.color 'github_dark'
+    end
+
+  },
+  {
     'rcarriga/nvim-notify',
     event = 'VeryLazy',
     opts = {

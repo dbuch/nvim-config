@@ -98,13 +98,11 @@ return {
       shell = 'nu',
     },
   },
-  {
-    'luukvbaal/statuscol.nvim',
-    lazy = false,
-    opts = {
-      setopt = true,
-    },
-  },
+  -- TODO: Perhaps
+  -- {
+  --   'stevearc/conform.nvim',
+  --   opts = {},
+  -- },
   {
     'AndrewRadev/bufferize.vim',
     cmd = 'Bufferize',

@@ -1,17 +1,5 @@
 return {
   {
-    'jose-elias-alvarez/null-ls.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = function(_, opts)
-      local null_ls = require 'null-ls'
-      opts.sources = {
-        null_ls.builtins.formatting.isort,
-        null_ls.builtins.formatting.black,
-        null_ls.builtins.formatting.just,
-      }
-    end,
-  },
-  {
     'neovim/nvim-lspconfig',
     event = 'BufReadPost',
     dependencies = {
