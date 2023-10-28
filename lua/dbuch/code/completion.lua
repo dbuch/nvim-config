@@ -37,7 +37,7 @@ return {
       local cmp = require 'cmp'
       local lspkind = require 'lspkind'
       local snippy = require 'snippy'
-      local has_words_before = require'dbuch.traits.nvim'.has_words_before
+      local has_words_before = require('dbuch.traits.nvim').has_words_before
       return {
         snippet = {
           expand = function(args)
@@ -82,7 +82,7 @@ return {
                 })[entry.source.name]
                 return vim_item
               end,
-            } (entry, item)
+            }(entry, item)
 
             local tokens = {}
             for token in vim.gsplit(kind.kind, '%s') do
@@ -157,11 +157,11 @@ return {
         },
         sources = cmp.config.sources({
           { name = 'nvim_lsp', priority = 9 },
-          { name = 'snippy',   priority = 8 },
+          { name = 'snippy', priority = 8 },
           -- { name = 'treesitter', priority = 7 },
-          { name = 'path',     priority = 6 },
-          { name = 'calc',     priority = 5 },
-          { name = 'crates',   priority = 4 },
+          { name = 'path', priority = 6 },
+          { name = 'calc', priority = 5 },
+          { name = 'crates', priority = 4 },
           {
             name = 'spell',
             priority = 3,
