@@ -28,6 +28,7 @@ map('n', '<leader>b', ':Telescope buffers<CR>', { nowait = true, silent = true }
 map('n', '<leader>g', ':Telescope live_grep<CR>', { nowait = true, silent = true })
 map('n', '<leader>n', ':Navbuddy<CR>', { nowait = true, silent = true })
 map('n', '<leader>e', ':lua MiniFiles.open()<CR>', { silent = true })
+map('n', '<c-q>', ':q<CR>', { silent = true })
 
 map('n', 'åD', vim.diagnostic.goto_prev)
 map('n', 'åd', vim.diagnostic.goto_next)
