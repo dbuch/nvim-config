@@ -98,11 +98,31 @@ return {
       shell = 'nu',
     },
   },
-  -- TODO: Perhaps
-  -- {
-  --   'stevearc/conform.nvim',
-  --   opts = {},
-  -- },
+  {
+    'stevearc/conform.nvim',
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
+    keys = {
+      {
+        '<leader>=',
+        function()
+          require('conform').format { async = true, lsp_fallback = true }
+        end,
+        mode = '',
+        desc = 'Format Buffer',
+      },
+    },
+    opts = {
+      formatters_by_ft = {
+        lua = { 'stylua' },
+        python = { 'ruff' },
+      },
+      format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    },
+    init = function()
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    end,
+  },
   {
     'AndrewRadev/bufferize.vim',
     cmd = 'Bufferize',
@@ -121,7 +141,7 @@ return {
   {
     'lewis6991/hover.nvim',
     keys = {
-      { 'K',  '<Cmd>Hover<cr>' },
+      { 'K', '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },
     },
     config = function()
@@ -157,5 +177,5 @@ return {
   {
     'lewis6991/whatthejump.nvim',
     event = 'VeryLazy',
-  }
+  },
 }
