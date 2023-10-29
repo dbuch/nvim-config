@@ -1,25 +1,28 @@
 return {
+  -- Snippets
+  {
+    'dcampos/nvim-snippy',
+    event = 'InsertEnter',
+    config = function()
+      require('snippy').setup {
+        mappings = {
+          is = {
+            ['<Tab>'] = 'expand_or_advance',
+            ['<S-Tab>'] = 'previous',
+          },
+          nx = {
+            ['<leader>x'] = 'cut_text',
+          },
+        },
+      }
+    end,
+  },
+  -- Autocomplete
   {
     'saecki/crates.nvim',
     event = 'BufRead Cargo.toml',
     config = true,
   },
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   event = { 'InsertEnter', 'CmdlineEnter' },
-  --   config = function()
-  --     require("copilot_cmp").setup()
-  --   end,
-  --   dependencies = {
-  --     'hrsh7th/nvim-cmp',
-  --     {
-  --       "zbirenbaum/copilot.lua",
-  --       config = function()
-  --         require("copilot").setup()
-  --       end,
-  --     }
-  --   }
-  -- },
   {
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'CmdlineEnter' },
@@ -208,6 +211,13 @@ return {
         })
       end
       cmp.setup(opts)
+    end,
+  },
+  {
+    'andymass/vim-matchup',
+    event = 'BufReadPost',
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
     end,
   },
 }
