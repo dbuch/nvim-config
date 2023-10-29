@@ -162,11 +162,3 @@ api.nvim_create_autocmd('FileType', {
     enable_commenstrings()
   end,
 })
-
-api.nvim_create_user_command('OilFloat', function()
-  if api.nvim_buf_is_valid(0) then
-    if api.nvim_buf_get_name(0) ~= '' then
-      vim.cmd 'Oil --float %:h'
-    end
-  end
-end, {})

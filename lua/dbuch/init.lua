@@ -1,10 +1,7 @@
 require 'dbuch.options'
--- require 'dbuch.theme'
 require 'dbuch.status'
 require 'dbuch.autocmds'
---require 'dbuch.jumps'
--- require 'dbuch.quit'
-
+require 'dbuch.mappings'
 require('lazy').setup {
   spec = {
     { import = 'dbuch.core' },
@@ -45,5 +42,3 @@ require('lazy').setup {
   },
   debug = vim.env.LAZY_DEBUG or false,
 }
-
-require 'dbuch.mappings'
