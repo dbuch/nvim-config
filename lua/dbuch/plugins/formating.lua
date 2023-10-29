@@ -27,4 +27,9 @@ return {
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
   },
+  {
+    'NoahTheDuke/vim-just',
+    event = { 'BufReadPre', 'BufNewFile' },
+    ft = { '\\cjustfile', '*.just', '.justfile' },
+  },
 }
