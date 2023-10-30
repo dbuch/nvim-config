@@ -6,8 +6,6 @@ require('lazy').setup {
   spec = {
     { import = 'dbuch.core' },
     { import = 'dbuch.plugins' },
-    { import = 'dbuch.editor' },
-    { import = 'dbuch.code' },
   },
   defaults = {
     lazy = true,

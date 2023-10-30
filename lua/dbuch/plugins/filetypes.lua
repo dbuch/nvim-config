@@ -16,8 +16,8 @@ return {
     config = true,
   },
   {
-    'brenoprata10/nvim-highlight-colors',
-    cmd = { 'HighlightColorsOn', 'HighlightColorsOff', 'HighlightColorsToggle' },
-    config = true,
+    'NoahTheDuke/vim-just',
+    event = { 'BufReadPre', 'BufNewFile' },
+    ft = { '\\cjustfile', '*.just', '.justfile' },
   },
 }
