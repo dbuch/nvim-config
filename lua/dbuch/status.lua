@@ -2,87 +2,109 @@ local M = {}
 
 local api = vim.api
 
+--- @param name string
+--- @return table<string,any>
+local function get_hl(name)
+  return api.nvim_get_hl(0, { name = name })
+end
+
 local function highlight(num, active)
   if active == 1 then
     if num == 1 then
       return '%#PmenuSel#'
-    else
-      return '%#StatusLine#'
     end
-  else
-    return '%#StatusLineNC#'
+    return '%#StatusLine#'
   end
+  return '%#StatusLineNC#'
 end
 
-local icons = {
-  Error = '󰅚',
-  Warn = '󰀪',
-  Hint = '󰌶',
-  Info = 'I',
+local DIAG_ATTRS = {
+  { 'Error', '', 'DiagnosticErrorStatus' },
+  { 'Warn', '', 'DiagnosticWarnStatus' },
+  { 'Hint', '', 'DiagnosticHintStatus' },
+  { 'Info', 'I', 'DiagnosticInfoStatus' },
 }
 
-function M.lsp_status(active)
-  local status = {}
-
-  for _, ty in ipairs { 'Error', 'Warn', 'Info', 'Hint' } do
-    local n = vim.diagnostic.get(0, { severity = ty }) --[=[@as table[]]=]
-    if #n > 0 then
-      local icon = icons[ty]
-      if active == 1 then
-        table.insert(status, ('%%#Diagnostic%sStatus#%s %s'):format(ty, icon, #n))
-      else
-        table.insert(status, ('%s %s'):format(icon, #n))
-      end
-    end
+local function hldefs()
+  local bg = get_hl('StatusLine').bg
+  for _, attrs in ipairs(DIAG_ATTRS) do
+    local fg = get_hl('Diagnostic' .. attrs[1]).fg
+    api.nvim_set_hl(0, attrs[3], { fg = fg, bg = bg })
   end
 
-  local r = table.concat(status, ' ')
+  local dhl = get_hl 'Debug'
+  api.nvim_set_hl(0, 'LspName', { fg = dhl.fg, bg = bg })
 
-  return r == '' and 'LSP' or r
+  local fg = get_hl('MoreMsg').fg
+  api.nvim_set_hl(0, 'StatusTS', { fg = fg, bg = bg })
 end
 
----@return string
-function M.hunks()
-  ---@type string|nil
-  ---@diagnostic disable-next-line: undefined-field
-  local status = vim.b.gitsigns_status
-  if status then
-    ---@type string
-    ---@diagnostic disable-next-line: undefined-field
-    local head = vim.b.gitsigns_head
-    if status ~= '' then
-      return head .. ' ' .. status
-    end
-    return head
-  elseif vim.g.gitsigns_head then
-    return vim.g.gitsigns_head
-  end
-  return ''
-end
-
-function M.blame()
-  if vim.b.gitsigns_blame_line_dict then
-    local info = vim.b.gitsigns_blame_line_dict
-    local date_time = require('gitsigns.util').get_relative_time(tonumber(info.author_time))
-    return string.format('%s - %s', info.author, date_time)
-  end
-  return ''
-end
-
-local function filetype_symbol()
-  do
+local function hl(name, active)
+  if active == 0 then
     return ''
   end
-  local res = vim.F.npcall(api.nvim_call_function, 'WebDevIconsGetFileTypeSymbol', {})
-  if res then
-    return res
+  return '%#' .. name .. '#'
+end
+
+function M.lsp_status(active)
+  local status = {} ---@type string[]
+
+  for _, attrs in ipairs(DIAG_ATTRS) do
+    local n = vim.diagnostic.get(0, { severity = attrs[1] })
+    if #n > 0 then
+      table.insert(status, ('%s %s %d'):format(hl(attrs[3], active), attrs[2], #n))
+    end
   end
-  local devicons = vim.F.npcall(require, 'nvim-web-devicons')
-  if devicons then
-    local name = api.nvim_buf_get_name(0)
-    return devicons.get_icon(name, vim.bo.filetype, { default = true })
+
+  if vim.g.metals_status then
+    status[#status + 1] = vim.g.metals_status:gsub('%%', '%%%%')
   end
+
+  local names = {} ---@type string[]
+  local attached = vim.lsp.get_active_clients { bufnr = 0 }
+  for _, c in ipairs(attached) do
+    names[#names + 1] = c.name
+  end
+
+  local name = ''
+  if #names > 0 then
+    name = hl('LspName', active) .. table.concat(names, ',')
+  end
+
+  return name .. ' ' .. table.concat(status, ' ')
+end
+
+function M.hunks()
+  if vim.b.gitsigns_status then
+    local status = vim.b.gitsigns_head
+    if vim.b.gitsigns_status ~= '' then
+      status = status .. ' ' .. vim.b.gitsigns_status
+    end
+    return status
+  end
+
+  if vim.g.gitsigns_head then
+    return vim.g.gitsigns_head
+  end
+
   return ''
+end
+
+--- @param active 0|1
+--- @return string
+local function filetype_symbol(active)
+  local ok, devicons = pcall(require, 'nvim-web-devicons')
+  if not ok then
+    return ''
+  end
+
+  local name = api.nvim_buf_get_name(0)
+  local icon, iconhl = devicons.get_icon_color(name, vim.bo.filetype, { default = true })
+
+  local hlname = iconhl:gsub('#', 'Status')
+  api.nvim_set_hl(0, hlname, { fg = iconhl, bg = get_hl('StatusLine').bg })
+
+  return hl(hlname, active) .. icon
 end
 
 local function is_treesitter()
@@ -90,20 +112,23 @@ local function is_treesitter()
   return vim.treesitter.highlighter.active[bufnr] ~= nil
 end
 
-function M.filetype()
-  return table.concat({
+function M.filetype(active)
+  local r = {
     vim.bo.filetype,
-    filetype_symbol(),
-    -- Causes artifacts in ruler section
-    -- is_treesitter() and '🌴' or nil
-    is_treesitter() and '' or nil,
-  }, ' ')
+    filetype_symbol(active),
+  }
+
+  if is_treesitter() then
+    r[#r + 1] = hl('StatusTS', active) .. ''
+  end
+
+  return table.concat(r, ' ')
 end
 
 function M.encodingAndFormat()
   local e = vim.bo.fileencoding and vim.bo.fileencoding or vim.o.encoding
 
-  local r = {}
+  local r = {} ---@type string[]
   if e ~= 'utf-8' then
     r[#r + 1] = e
   end
@@ -120,17 +145,25 @@ function M.encodingAndFormat()
   return table.concat(r, ' ')
 end
 
+local function recording()
+  local reg = vim.fn.reg_recording()
+  if reg ~= '' then
+    return '%#ModeMsg#  RECORDING[' .. reg .. ']  '
+  else
+    return ''
+  end
+end
+
 function M.bufname()
   local name = vim.api.nvim_eval_statusline('%f', {}).str
   local buf_name = vim.api.nvim_buf_get_name(0)
+  if vim.startswith(buf_name, 'fugitive://') then
+    local _, _, commit, relpath = buf_name:find [[^fugitive://.*/%.git.*/(%x-)/(.*)]]
+    name = relpath .. '@' .. commit:sub(1, 7)
+  end
   if vim.startswith(buf_name, 'gitsigns://') then
     local _, _, revision, relpath = buf_name:find [[^gitsigns://.*/%.git.*/(.*):(.*)]]
     name = relpath .. '@' .. revision:sub(1, 7)
-  end
-
-  if vim.startswith(buf_name, 'term://') then
-    --TODO: Find terminal number in buf name
-    name = 'Terminal'
   end
 
   return name
@@ -140,15 +173,22 @@ local function pad(x)
   return '%( ' .. x .. ' %)'
 end
 
-local function func(name, active, mods)
-  active = active or 1
-  return '%' .. (mods or '') .. '{%v:lua.statusline.' .. name .. '(' .. tostring(active) .. ')%}'
-end
+local F = setmetatable({}, {
+  __index = function(_, name)
+    return function(active, mods)
+      active = active or 1
+      mods = mods or ''
+      return '%' .. mods .. '{%v:lua.statusline.' .. name .. '(' .. tostring(active) .. ')%}'
+    end
+  end,
+})
 
+---@param sections string[][]
+---@return string
 local function parse_sections(sections)
-  local result = {}
+  local result = {} ---@type string[]
   for _, s in ipairs(sections) do
-    local sub_result = {}
+    local sub_result = {} ---@type string[]
     for _, part in ipairs(s) do
       sub_result[#sub_result + 1] = part
     end
@@ -158,23 +198,24 @@ local function parse_sections(sections)
   return '%=' .. table.concat(result, '%=')
 end
 
-function M.set(active, global)
+local function set(active, global)
   local scope = global and 'o' or 'wo'
   vim[scope].statusline = parse_sections {
     {
       highlight(1, active),
-      pad(func 'hunks'),
+      recording(),
+      pad(F.hunks()),
       highlight(2, active),
-      pad(func('lsp_status', active)),
+      pad(F.lsp_status(active)),
       highlight(2, active),
     },
     {
       '%<',
-      pad(func('bufname', nil, '0.60') .. '%m%r%h%q'),
+      pad(F.bufname(nil, '0.60') .. '%m%r%h%q'),
     },
     {
-      pad(func 'filetype'),
-      pad(func 'encodingAndFormat'),
+      pad(F.filetype(active)),
+      pad(F.encodingAndFormat()),
       highlight(1, active),
       ' %3p%% %2l(%02c)/%-3L ', -- 80% 65[12]/120
     },
@@ -182,26 +223,39 @@ function M.set(active, global)
 end
 
 -- Only set up WinEnter autocmd when the WinLeave autocmd runs
-api.nvim_create_augroup('statusline', {})
+local group = api.nvim_create_augroup('statusline', {})
 api.nvim_create_autocmd({ 'WinLeave', 'FocusLost' }, {
-  group = 'statusline',
+  group = group,
+  once = true,
   callback = function()
     api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter', 'FocusGained' }, {
-      group = 'statusline',
+      group = group,
       callback = function()
-        M.set(1)
+        set(1)
       end,
     })
-    M.set(0)
+  end,
+})
+
+api.nvim_create_autocmd({ 'WinLeave', 'FocusLost' }, {
+  group = group,
+  callback = function()
+    set(0)
   end,
 })
 
 api.nvim_create_autocmd('VimEnter', {
-  group = 'statusline',
+  group = group,
   callback = function()
-    M.set(1, true)
+    set(1, true)
   end,
 })
+
+api.nvim_create_autocmd('ColorScheme', {
+  group = group,
+  callback = hldefs,
+})
+hldefs()
 
 _G.statusline = M
 

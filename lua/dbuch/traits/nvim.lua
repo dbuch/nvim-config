@@ -8,6 +8,7 @@ function M.on_attach(on_attach)
     callback = function(args)
       ---@type integer
       local buffer = args.buf
+      ---@type integer
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       on_attach(client, buffer)
     end,
