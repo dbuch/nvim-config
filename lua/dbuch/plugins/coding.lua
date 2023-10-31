@@ -215,9 +215,4 @@ return {
       vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
     end,
   },
-  { 'JoosepAlviste/nvim-ts-context-commentstring', opts = {
-    enable_autocmd = false,
-  } },
 }
-
--- Hellofafdsafsa

@@ -6,12 +6,14 @@ return {
   },
   {
     'stevearc/dressing.nvim',
-    lazy = false,
+    event = 'VeryLazy',
+    -- lazy = false,
     config = true,
   },
   {
     'luukvbaal/statuscol.nvim',
-    lazy = false,
+    event = 'VeryLazy',
+    -- lazy = false,
     opts = {
       setopt = true,
     },

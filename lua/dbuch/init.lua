@@ -9,7 +9,7 @@ require('lazy').setup {
     { import = 'dbuch.plugins' },
   },
   defaults = {
-    lazy = false,
+    lazy = true,
   },
   checker = {
     enabled = false,
