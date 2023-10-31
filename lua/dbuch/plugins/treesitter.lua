@@ -31,7 +31,7 @@ end
 return {
   {
     'nvim-treesitter/nvim-treesitter-context',
-    event = 'BufReadPre',
+    event = 'LazyFile',
     opts = {
       enable = true,
       max_lines = 5,
@@ -43,10 +43,12 @@ return {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
-    -- event = { 'BufReadPost', 'BufNewFile' },
-    event = 'BufReadPre',
+    event = { 'LazyFile', 'VeryLazy' },
+    init = function(plugin)
+      require('lazy.core.loader').add_to_rtp(plugin)
+      require 'nvim-treesitter.query_predicates'
+    end,
     dependencies = {
-      'JoosepAlviste/nvim-ts-context-commentstring',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
     },

@@ -17,7 +17,7 @@ return {
   },
   {
     'NoahTheDuke/vim-just',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = 'LazyFile',
     ft = { '\\cjustfile', '*.just', '.justfile' },
   },
 }

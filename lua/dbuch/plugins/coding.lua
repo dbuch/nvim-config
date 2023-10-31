@@ -1,5 +1,4 @@
 return {
-  -- Snippets
   {
     'dcampos/nvim-snippy',
     event = 'InsertEnter',
@@ -34,7 +33,6 @@ return {
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lua',
       'f3fora/cmp-spell',
-      'ray-x/cmp-treesitter',
     },
     opts = function()
       local cmp = require 'cmp'
@@ -161,7 +159,6 @@ return {
         sources = cmp.config.sources({
           { name = 'nvim_lsp', priority = 9 },
           { name = 'snippy', priority = 8 },
-          -- { name = 'treesitter', priority = 7 },
           { name = 'path', priority = 6 },
           { name = 'calc', priority = 5 },
           { name = 'crates', priority = 4 },
@@ -202,22 +199,25 @@ return {
           { name = 'cmdline' },
         }),
       })
-      for _, v in pairs { '/', '?' } do
-        cmp.setup.cmdline(v, {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = {
-            { name = 'buffer' },
-          },
-        })
-      end
+      cmp.setup.cmdline({ '/', '?' }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' },
+        },
+      })
       cmp.setup(opts)
     end,
   },
   {
     'andymass/vim-matchup',
-    event = 'BufReadPost',
+    event = 'LazyFile',
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
     end,
   },
+  { 'JoosepAlviste/nvim-ts-context-commentstring', opts = {
+    enable_autocmd = false,
+  } },
 }
+
+-- Hellofafdsafsa

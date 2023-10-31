@@ -1,7 +1,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    event = 'BufReadPost',
+    event = 'LazyFile',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
@@ -20,7 +20,6 @@ return {
         dependencies = {
           'nvim-lua/plenary.nvim',
           'SmiteshP/nvim-navic',
-          'MunifTanjim/nui.nvim',
         },
       },
       {
