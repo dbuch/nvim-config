@@ -1,5 +1,5 @@
 return {
-  { 'nvim-tree/nvim-web-devicons' },
-  { 'MunifTanjim/nui.nvim' },
-  { 'nvim-lua/plenary.nvim' },
+  { 'nvim-tree/nvim-web-devicons', lazy = true },
+  { 'MunifTanjim/nui.nvim', lazy = true },
+  { 'nvim-lua/plenary.nvim', lazy = true },
 }
