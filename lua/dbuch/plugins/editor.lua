@@ -4,8 +4,6 @@ return {
     cmd = 'Telescope',
     version = false,
     dependencies = {
-      'nvim-lua/plenary.nvim',
-      'rcarriga/nvim-notify',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',

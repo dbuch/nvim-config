@@ -33,7 +33,7 @@ return {
       vim.notify = require 'notify'
     end,
     init = function()
-      require('dbuch.traits.nvim').defer_notify()
+      require('dbuch.traits.lazy').defer_notify()
     end,
   },
 }
