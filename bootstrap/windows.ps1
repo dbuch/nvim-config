@@ -1,27 +1,30 @@
+# Get a list of installed packages using winget
+$installedPackages = winget list
+
+# List of package names to upgrade
 $appArray = @(
   "Microsoft.WindowsTerminal",
   "Neovim.Neovim",
   "Git.Git",
   "LLVM.LLVM",
+  "kitware.cmake",
   "Nushell.Nushell",
   "sharkdp.fd",
   "BurntSushi.ripgrep.MSVC",
   "7zip.7zip"
 )
 
-foreach ($app in $appArray) {
-    if (winget list -e | Select-String $app) {
-        $updateInfo = winget show $app
-        if ($updateInfo.versions[0].version -gt (Get-AppxPackage $app).Version) {
-            Write-Host "A newer version of $app is available. Do you want to update? (Y/N)"
-            $input = Read-Host
-            if ($input -eq "Y" -or $input -eq "y") {
-                winget upgrade $app
-            }
-        } else {
-            Write-Host "$app is already up to date."
-        }
+foreach ($appName in $appArray) {
+    # Check if the package is installed
+    $packageInfo = $installedPackages | Where-Object { $_ -match "^$appName\s" }
+    
+    if ($packageInfo) {
+        # Package is installed, upgrade it
+        Write-Host "Updating $appName"
+        winget upgrade $appName
     } else {
-        winget install $app
+        # Package is not installed
+        Write-Host "$appName is not installed."
+        winget install $appName
     }
 }
