@@ -29,9 +29,6 @@ api.nvim_create_autocmd('FileType', {
     'notify',
     'lspinfo',
     'tsplayground',
-    'PlenaryTestPopup',
-    'OverseerList',
-    'oil',
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false

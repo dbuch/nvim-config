@@ -19,9 +19,9 @@ local function highlight(num, active)
 end
 
 local DIAG_ATTRS = {
-  { 'Error', '', 'DiagnosticErrorStatus' },
-  { 'Warn', '', 'DiagnosticWarnStatus' },
-  { 'Hint', '', 'DiagnosticHintStatus' },
+  { 'Error', '󰅚', 'DiagnosticErrorStatus' },
+  { 'Warn', '󰀪', 'DiagnosticWarnStatus' },
+  { 'Hint', '󰌶', 'DiagnosticHintStatus' },
   { 'Info', 'I', 'DiagnosticInfoStatus' },
 }
 
