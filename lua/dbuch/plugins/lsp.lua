@@ -40,11 +40,6 @@ return {
               end
             end,
           },
-          sources = {
-            ['null-ls'] = {
-              ignore = true,
-            },
-          },
         },
       },
     },

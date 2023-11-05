@@ -13,7 +13,9 @@ return {
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
     },
-    config = true,
+    opts = {
+      use_lsp_features = false,
+    },
   },
   {
     'NoahTheDuke/vim-just',
