@@ -1,8 +1,4 @@
-# Get a list of installed packages using winget
-$installedPackages = winget list
-
-# List of package names to upgrade
-$appArray = @(
+$dependencyApps = @(
   "Microsoft.WindowsTerminal",
   "Neovim.Neovim",
   "Git.Git",
@@ -11,20 +7,21 @@ $appArray = @(
   "Nushell.Nushell",
   "sharkdp.fd",
   "BurntSushi.ripgrep.MSVC",
-  "7zip.7zip"
+  "7zip.7zip",
+  "chmln.sd",
+  "Casey.Just",
 )
 
-foreach ($appName in $appArray) {
-    # Check if the package is installed
+# Get a list of installed packages using winget
+$installedPackages = winget list
+foreach ($appName in $dependencyApps) {
     $packageInfo = $installedPackages | Where-Object { $_ -match "^$appName\s" }
     
     if ($packageInfo) {
-        # Package is installed, upgrade it
-        Write-Host "Updating $appName"
-        winget upgrade $appName
+        Write-Host "Updating dependency: $appName"
+        winget upgrade $appName > $null
     } else {
-        # Package is not installed
-        Write-Host "$appName is not installed."
-        winget install $appName
+        Write-Host "Installing missing:  $appName"
+        winget install $appName > $null
     }
 }
