@@ -10,10 +10,12 @@ o.fillchars = { eob = ' ', diff = ' ' }
 o.hidden = true
 o.ignorecase = true
 o.inccommand = 'split'
+o.conceallevel = 3
 
 o.number = true
 o.relativenumber = true
 o.numberwidth = 3
+o.shiftround = true
 o.shiftwidth = 2
 o.tabstop = 2
 o.scrolloff = 6
@@ -80,3 +82,15 @@ o.foldmethod = 'syntax'
 o.foldcolumn = '0'
 o.foldnestmax = 3
 o.foldopen:append 'jump'
+
+-- grep
+o.grepformat = '%f:%l:%c:%m'
+o.grepprg = 'rg --vimgrep'
+
+-- session
+o.sessionoptions = { 'buffers', 'curdir', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }
+
+--TODO
+if vim.fn.has 'nvim-0.10' == 1 then
+  o.smoothscroll = true
+end

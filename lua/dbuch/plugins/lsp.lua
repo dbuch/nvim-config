@@ -49,7 +49,7 @@ return {
         diagnostics = {
           virtual_text = { source = true },
           severity_sort = true,
-          update_in_insert = true,
+          update_in_insert = false,
         },
         servers = {
           -- VSCode Servers

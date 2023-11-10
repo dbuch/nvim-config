@@ -12,6 +12,9 @@ $dependencyApps = @(
   "Casey.Just",
 )
 
+$installedPackages = winget list
+winget install $dependencyApps
+
 # Get a list of installed packages using winget
 $installedPackages = winget list
 foreach ($appName in $dependencyApps) {
