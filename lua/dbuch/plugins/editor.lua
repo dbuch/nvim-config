@@ -114,6 +114,7 @@ return {
   },
   {
     'lewis6991/hover.nvim',
+    dev = true,
     keys = {
       { 'K', '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },

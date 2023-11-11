@@ -20,9 +20,10 @@ require('lazy').setup {
     notify = false,
   },
   dev = {
-    path = '~/dev/nvim/plugins',
-    patterns = { 'dbuch' },
-    fallback = false,
+    path = '~/dev/nvim/plugins/',
+    ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
+    patterns = {}, -- For example {"folke"}
+    fallback = false, -- Fallback to git when local plugin doesn't exist
   },
   lockfile = vim.fn.stdpath 'data' .. '/lazy-lock.json',--[[@type string]]
   performance = {

@@ -39,6 +39,8 @@ map('n', '<leader>cr', ':TroubleToggle lsp_references<CR>', { silent = true })
 
 map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
 
+map('n', 'K', vim.lsp.buf.hover, { desc = 'hover.nvim' })
+
 -- Clear search
 map('n', '<esc>', ':noh<return><esc>', { silent = true })
 map('n', '<esc>^[', '<esc>^[', { silent = true })
