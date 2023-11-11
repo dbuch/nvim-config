@@ -1,5 +1,26 @@
 return {
   {
+    'j-hui/fidget.nvim',
+    event = 'LspAttach',
+    tag = 'legacy',
+    opts = {
+      text = {
+        spinner = 'dots',
+      },
+      fmt = {
+        stack_upwards = false,
+        task = function(task_name, message, percentage)
+          local pct = percentage and string.format(' (%s%%)', percentage) or ''
+          if task_name then
+            return string.format('%s%s [%s]', message, pct, task_name)
+          else
+            return string.format('%s%s', message, pct)
+          end
+        end,
+      },
+    },
+  },
+  {
     'neovim/nvim-lspconfig',
     event = 'LazyFile',
     dependencies = {
@@ -18,28 +39,8 @@ return {
         'SmiteshP/nvim-navbuddy',
         cmd = 'Navbuddy',
         dependencies = {
-          'nvim-lua/plenary.nvim',
           'SmiteshP/nvim-navic',
-        },
-      },
-      {
-        'j-hui/fidget.nvim',
-        tag = 'legacy',
-        opts = {
-          text = {
-            spinner = 'dots',
-          },
-          fmt = {
-            stack_upwards = false,
-            task = function(task_name, message, percentage)
-              local pct = percentage and string.format(' (%s%%)', percentage) or ''
-              if task_name then
-                return string.format('%s%s [%s]', message, pct, task_name)
-              else
-                return string.format('%s%s', message, pct)
-              end
-            end,
-          },
+          'nvim-lua/plenary.nvim',
         },
       },
     },
@@ -95,14 +96,6 @@ return {
               clangdFileStatus = true,
               usePlaceholders = true,
               completeUnimported = true,
-            },
-          },
-          texlab = {
-            cmd = { 'texlab' },
-            latex = {
-              build = {
-                onSave = true,
-              },
             },
           },
           pyright = {},
