@@ -1,27 +1,20 @@
 return {
   {
+    'folke/neodev.nvim',
+    dependencies = { 'neovim/nvim-lspconfig' },
+    ft = 'lua',
+    opts = {
+      pathStrict = true,
+      setup_jsonls = false,
+    },
+  },
+  {
     'neovim/nvim-lspconfig',
     event = 'LazyFile',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'onsails/lspkind-nvim',
-      {
-        'folke/neodev.nvim',
-        ft = 'lua',
-        opts = {
-          pathStrict = true,
-          setup_jsonls = false,
-        },
-      },
-      {
-        'SmiteshP/nvim-navbuddy',
-        cmd = 'Navbuddy',
-        dependencies = {
-          'SmiteshP/nvim-navic',
-          'nvim-lua/plenary.nvim',
-        },
-      },
     },
     opts = function(_, _)
       local lspconfig = require 'lspconfig'

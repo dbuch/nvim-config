@@ -26,7 +26,6 @@ map('n', '<leader>s', ':SymbolsOutline<CR>', { nowait = true, silent = true })
 map('n', '<leader>f', ':Telescope find_files<CR>', { nowait = true, silent = true })
 map('n', '<leader>b', ':Telescope buffers<CR>', { nowait = true, silent = true })
 map('n', '<leader>g', ':Telescope live_grep<CR>', { nowait = true, silent = true })
-map('n', '<leader>n', ':Navbuddy<CR>', { nowait = true, silent = true })
 map('n', '<leader>e', ':lua MiniFiles.open()<CR>', { silent = true })
 map('n', '<c-q>', ':bd<CR>', { silent = true })
 
