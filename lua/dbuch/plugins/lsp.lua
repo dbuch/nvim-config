@@ -159,10 +159,6 @@ return {
       require('dbuch.traits.nvim').on_attach(function(client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-        if client.server_capabilities.documentSymbolProvider then
-          require('nvim-navbuddy').attach(client, buffer)
-        end
-
         -- if client.server_capabilities.codeLensProvider then
         --   vim.api.nvim_set_hl(0, 'LspCodeLens', { link = 'WarningMsg' })
         --   vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
