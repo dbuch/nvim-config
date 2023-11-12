@@ -39,7 +39,6 @@ return {
     end,
     config = function(_, opts)
       require('telescope').load_extension 'fzf'
-      require('telescope').load_extension 'notify'
       require('telescope').setup(opts)
     end,
   },
@@ -69,19 +68,14 @@ return {
   },
   {
     'lewis6991/cleanfold.nvim',
-    event = 'VeryLazy',
+    event = 'LazyFile',
   },
   {
     'lewis6991/foldsigns.nvim',
-    event = 'VeryLazy',
+    event = 'LazyFile',
     opts = {
       exclude = { 'GitSigns.*' },
     },
-  },
-  {
-    'simrat39/symbols-outline.nvim',
-    cmd = 'SymbolsOutline',
-    config = true,
   },
   {
     'folke/trouble.nvim',

@@ -2,8 +2,7 @@ return {
   {
     'stevearc/dressing.nvim',
     event = 'VeryLazy',
-    -- lazy = false,
-    config = true,
+    opts = {},
   },
   {
     'luukvbaal/statuscol.nvim',
@@ -14,24 +13,16 @@ return {
     },
   },
   {
-    'rcarriga/nvim-notify',
+    'j-hui/fidget.nvim',
     event = 'VeryLazy',
     opts = {
-      render = 'compact',
-      timeout = 3000,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
+      notification = {
+        override_vim_notify = true,
+        window = {
+          align_bottom = false,
+        },
+      },
     },
-    config = function(_spec, _opts)
-      vim.notify = require 'notify'
-    end,
-    init = function()
-      require('dbuch.traits.lazy').defer_notify()
-    end,
   },
   { 'nvim-tree/nvim-web-devicons', lazy = true },
   { 'MunifTanjim/nui.nvim', lazy = true },
