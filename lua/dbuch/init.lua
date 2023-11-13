@@ -5,7 +5,6 @@ require 'dbuch.mappings'
 require('dbuch.traits.lazy').initialize_lazyfile()
 require('lazy').setup {
   spec = {
-    { import = 'dbuch.core' },
     { import = 'dbuch.plugins' },
   },
   defaults = {
