@@ -22,7 +22,7 @@ function M.on_load(name, fn)
   end
 end
 
-function M.setup()
+function M.initialize_lazyfile()
   M.use_lazy_file = M.use_lazy_file and vim.fn.argc(-1) > 0
 
   local Event = require 'lazy.core.handler.event'

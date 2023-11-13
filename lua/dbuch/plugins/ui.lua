@@ -20,7 +20,6 @@ return {
         override_vim_notify = true,
         window = {
           normal_hl = 'Normal',
-          align_bottom = false,
         },
       },
     },
