@@ -25,3 +25,4 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Initialize
 require 'dbuch'
+vim.notify 'Test'

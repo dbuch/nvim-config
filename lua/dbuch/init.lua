@@ -2,6 +2,7 @@ require 'dbuch.options'
 require 'dbuch.status'
 require 'dbuch.autocmds'
 require 'dbuch.mappings'
+require('dbuch.traits.lazy').lazy_notify()
 require('dbuch.traits.lazy').initialize_lazyfile()
 require('lazy').setup {
   spec = {

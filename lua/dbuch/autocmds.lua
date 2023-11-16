@@ -66,7 +66,10 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup 'rooter',
   callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id) ---@type table
+    local client = vim.lsp.get_client_by_id(args.data.client_id) ---@type table|nil
+    if client == nil then
+      return
+    end
     local root = client.config.root_dir ---@type string
     if root ~= vim.loop.cwd() then
       if vim.fn.chdir(root) ~= '' then
@@ -117,9 +120,9 @@ local function get_injection_filetype()
 
   local ft --- @type string?
 
-  parser:for_each_child(function(tree, lang)
-    if tree:contains(range) then
-      local fts = vim.treesitter.language.get_filetypes(lang)
+  parser:for_each_tree(function(_tree, ltree)
+    if ltree:contains(range) then
+      local fts = vim.treesitter.language.get_filetypes(ltree:lang())
       for _, ft0 in ipairs(fts) do
         if vim.filetype.get_option(ft0, 'commentstring') ~= '' then
           ft = fts[1]
@@ -132,30 +135,25 @@ local function get_injection_filetype()
   return ft
 end
 
-local function enable_commenstrings()
+local ts_commentstring_group = api.nvim_create_augroup('ts_commentstring_group', {})
+local function enable_commenstrings(buf)
+  api.nvim_clear_autocmds { buffer = buf, group = ts_commentstring_group }
   api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-    buffer = 0,
+    buffer = buf,
+    group = ts_commentstring_group,
     callback = function()
       local ft = get_injection_filetype() or vim.bo.filetype
-      vim.bo.commentstring = vim.filetype.get_option(ft, 'commentstring') --[[@as string]]
+      vim.bo[buf].commentstring = vim.filetype.get_option(ft, 'commentstring') --[[@as string]]
     end,
   })
 end
 
-local function enable_foldexpr()
-  vim.opt_local.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-  vim.opt_local.foldmethod = 'expr'
-  vim.cmd.normal 'zx'
-  vim.cmd.normal 'zR'
-end
-
 api.nvim_create_autocmd('FileType', {
-  callback = function()
-    if not pcall(vim.treesitter.start) then
+  callback = function(args)
+    if not pcall(vim.treesitter.start, args.buf) then
       return
     end
 
-    enable_foldexpr()
-    enable_commenstrings()
+    enable_commenstrings(args.buf)
   end,
 })
