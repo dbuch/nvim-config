@@ -20,6 +20,7 @@ local function ensure()
     'toml',
     'yaml',
     'json',
+    'xml',
     'vim',
   }
   if not vim.loop.os_uname().sysname:match 'Windows' then

@@ -1,9 +1,16 @@
+local LazyTrait = require 'dbuch.traits.lazy'
+local NvimTrait = require 'dbuch.traits.nvim'
+
+NvimTrait.init_printf()
+
 require 'dbuch.options'
 require 'dbuch.status'
 require 'dbuch.autocmds'
 require 'dbuch.mappings'
-require('dbuch.traits.lazy').lazy_notify()
-require('dbuch.traits.lazy').initialize_lazyfile()
+
+LazyTrait.lazy_notify()
+LazyTrait.initialize_lazyfile()
+
 require('lazy').setup {
   spec = {
     { import = 'dbuch.plugins' },
@@ -12,7 +19,7 @@ require('lazy').setup {
     lazy = true,
   },
   checker = {
-    enabled = false,
+    enabled = true,
     notify = true,
     frequency = 14400, -- Every fourth hour
   },

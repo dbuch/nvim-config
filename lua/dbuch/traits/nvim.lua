@@ -6,13 +6,17 @@ M.root_patterns = { '.git', 'Cargo.toml', 'stylua.toml' }
 function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
-      ---@type integer
+      ---@type number
       local buffer = args.buf
-      ---@type integer
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       on_attach(client, buffer)
     end,
   })
+end
+
+---@return boolean
+function M.is_file_opened()
+  return vim.fn.argc(-1) == 0
 end
 
 ---comment
@@ -114,6 +118,28 @@ end
 function M.DefineSigns(t)
   for name, text in pairs(t) do
     vim.fn.sign_define(name, { text = text, texthl = name })
+  end
+end
+
+function M.init_printf()
+  _G.printf = function(...)
+    print(string.format(...))
+  end
+
+  local orig_print = print
+
+  function _G.print(...)
+    if vim.in_fast_event() then
+      return orig_print(...)
+    end
+    for _, x in ipairs { ... } do
+      if type(x) == 'string' then
+        vim.api.nvim_out_write(x)
+      else
+        vim.api.nvim_out_write(vim.inspect(x, { newline = ' ', indent = '' }))
+      end
+    end
+    vim.api.nvim_out_write '\n'
   end
 end
 

@@ -1,3 +1,4 @@
+local NvimTrait = require 'dbuch.traits.nvim'
 return {
   {
     'folke/neodev.nvim',
@@ -42,6 +43,7 @@ return {
             filetypes = { 'json' },
             root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
           },
+          nushell = {},
           tsserver = {},
           bashls = {},
           omnisharp = {
@@ -156,17 +158,8 @@ return {
     end,
     config = function(_plugin, opts)
       -- Register LspAttach
-      require('dbuch.traits.nvim').on_attach(function(client, buffer)
+      NvimTrait.on_attach(function(_client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-        -- if client.server_capabilities.codeLensProvider then
-        --   vim.api.nvim_set_hl(0, 'LspCodeLens', { link = 'WarningMsg' })
-        --   vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-        --     buffer = buffer,
-        --     callback = vim.lsp.codelens.refresh,
-        --   })
-        --   vim.lsp.codelens.refresh()
-        -- end
         vim.lsp.semantic_tokens.force_refresh(buffer)
       end)
 

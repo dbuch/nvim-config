@@ -59,6 +59,15 @@ function M.lazy_notify()
   timer:start(500, 0, replay)
 end
 
+function M.on_very_lazy(fn)
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'VeryLazy',
+    callback = function()
+      fn()
+    end,
+  })
+end
+
 function M.initialize_lazyfile()
   M.use_lazy_file = M.use_lazy_file and vim.fn.argc(-1) > 0
 
@@ -89,6 +98,7 @@ function M.initialize_lazyfile()
     end
 
     vim.api.nvim_exec_autocmds('User', { pattern = 'LazyFile', modeline = false })
+    ---@diagnostic disable-next-line: no-unknown
     for _, event in ipairs(events) do
       if vim.api.nvim_buf_is_valid(event.buf) then
         Event.trigger {

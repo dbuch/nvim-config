@@ -1,6 +1,4 @@
-M = {}
-
-M.nvim = require 'dbuch.traits.nvim'
-M.lazy = require 'dbuch.traits.lazy'
-
-return M
+return {
+  nvim = require 'dbuch.traits.nvim',
+  lazy = require 'dbuch.traits.lazy',
+}
