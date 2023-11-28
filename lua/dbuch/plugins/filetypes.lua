@@ -1,20 +1,13 @@
 return {
   {
-    'LhKipp/nvim-nu',
-    build = ':TSInstall nu',
-    ft = 'nu',
-    init = function()
-      vim.filetype.add {
-        extension = {
-          nu = 'nu',
-        },
-      }
-    end,
+    dev = true,
+    'nu-ts.nvim',
+    ft = { 'nu', '*.nu' },
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
     },
     opts = {
-      use_lsp_features = false,
+      add_filtype = false,
     },
   },
   {

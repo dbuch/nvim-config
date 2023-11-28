@@ -1,21 +1,19 @@
 local NvimTrait = require 'dbuch.traits.nvim'
 return {
   {
-    'folke/neodev.nvim',
-    dependencies = { 'neovim/nvim-lspconfig' },
-    ft = 'lua',
-    opts = {
-      pathStrict = true,
-      setup_jsonls = false,
-    },
-  },
-  {
     'neovim/nvim-lspconfig',
     event = 'LazyFile',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'onsails/lspkind-nvim',
+      {
+        'folke/neodev.nvim',
+        opts = {
+          pathStrict = true,
+          setup_jsonls = false,
+        },
+      },
     },
     opts = function(_, _)
       local lspconfig = require 'lspconfig'
@@ -146,13 +144,6 @@ return {
               },
             },
           },
-        },
-      }
-    end,
-    init = function()
-      vim.filetype.add {
-        extension = {
-          wgsl = 'wgsl',
         },
       }
     end,
