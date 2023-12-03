@@ -135,7 +135,7 @@ return {
   },
   {
     'echasnovski/mini.cursorword',
-    event = 'VeryLazy',
+    event = 'LazyFile',
     version = false,
     opts = {},
   },
@@ -147,7 +147,7 @@ return {
   -- },
   {
     'lewis6991/whatthejump.nvim',
-    event = 'VeryLazy',
+    event = 'LazyFile',
     config = function()
       -- Jump backwards
       vim.keymap.set('n', '<M-k>', function()

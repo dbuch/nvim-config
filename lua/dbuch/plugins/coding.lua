@@ -48,17 +48,16 @@ return {
     -- },
     -- {
     {
-
       'echasnovski/mini.pairs',
       version = false,
-      event = 'VeryLazy',
+      event = 'LazyFile',
       opts = {},
     },
     {
 
       'echasnovski/mini.comment',
       version = false,
-      event = 'VeryLazy',
+      event = 'LazyFile',
       opts = {},
     },
     {
