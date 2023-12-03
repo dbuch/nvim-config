@@ -143,6 +143,7 @@ return {
     event = 'BufRead Cargo.toml',
     config = true,
   },
+  --TODO: https://github.com/nvimdev/epo.nvim
   {
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'CmdlineEnter' },
