@@ -54,7 +54,6 @@ return {
       opts = {},
     },
     {
-
       'echasnovski/mini.comment',
       version = false,
       event = 'LazyFile',
