@@ -127,32 +127,24 @@ return {
     end,
   },
   {
-    'echasnovski/mini.nvim',
+    'echasnovski/mini.files',
     -- event = 'VeryLazy',
     lazy = false,
     version = false,
-    config = function()
-      require('mini.files').setup()
-      require('mini.colors').setup()
-      require('mini.surround').setup {
-        mappings = {
-          add = 'gsa', -- Add surrounding in Normal and Visual modes
-          delete = 'gsd', -- Delete surrounding
-          find = 'gsf', -- Find surrounding (to the right)
-          find_left = 'gsF', -- Find surrounding (to the left)
-          highlight = 'gsh', -- Highlight surrounding
-          replace = 'gsr', -- Replace surrounding
-          update_n_lines = 'gsn', -- Update `n_lines`
-        },
-      }
-      require('mini.align').setup()
-      require('mini.comment').setup()
-      require('mini.pairs').setup()
-      require('mini.splitjoin').setup()
-      require('mini.cursorword').setup()
-      require('mini.misc').setup()
-    end,
+    opts = {},
   },
+  {
+    'echasnovski/mini.cursorword',
+    event = 'VeryLazy',
+    version = false,
+    opts = {},
+  },
+  -- {
+  --   'echasnovski/mini.colors',
+  --   lazy = false,
+  --   version = false,
+  --   opts = {},
+  -- },
   {
     'lewis6991/whatthejump.nvim',
     event = 'VeryLazy',

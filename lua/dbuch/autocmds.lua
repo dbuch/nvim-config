@@ -7,16 +7,17 @@ end
 api.nvim_create_autocmd('VimEnter', {
   group = augroup 'paru_review',
   callback = function(data)
-    local is_dir = vim.fn.isdirectory(data.file)
     ---@type string
     local path = data.file
+    local is_dir = vim.fn.isdirectory(path)
     local is_tmp = path:sub(1, 5) == '/tmp/'
-    if is_tmp then
-      ---@param path string
+    if is_dir and is_tmp then
+      ---@param p string
       ---@return boolean
-      local function has_pkgbuild(path)
-        return path:match 'PKGBUILD'
+      local function has_pkgbuild(p)
+        return p:match 'PKGBUILD'
       end
+      ---@param pkgbuild_file string
       for pkgbuild_file in vim.iter(vim.fs.dir(path)):filter(has_pkgbuild) do
         vim.cmd('e ' .. pkgbuild_file)
         vim.cmd 'setf sh'
