@@ -66,16 +66,19 @@ return {
       'echasnovski/mini.align',
       version = false,
       keys = function(_, keys)
-        local plugin = require('lazy.core.config').spec.plugins['mini.surround']
+        local plugin = require('lazy.core.config').spec.plugins['mini.align']
         local opts = require('lazy.core.plugin').values(plugin, 'opts', false)
         local mappings = {
           { opts.mappings.start, desc = 'Start align', mode = { 'n', 'v' } },
           { opts.mappings.start_with_preview, desc = 'Start align with Preview', mode = { 'n', 'v' } },
         }
         return vim.list_extend(
-          vim.iter(mappings):filter(function(m)
-            return m[1] and #m[1] > 0
-          end),
+          vim
+            .iter(mappings)
+            :filter(function(m)
+              return m[1] and #m[1] > 0
+            end)
+            :totable(),
           keys
         )
       end,
@@ -102,12 +105,16 @@ return {
           { opts.mappings.replace, desc = 'Replace surrounding' },
           { opts.mappings.update_n_lines, desc = 'Update `MiniSurround.config.n_lines`' },
         }
-        return vim.list_extend(
-          vim.iter(mappings):filter(function(m)
-            return m[1] and #m[1] > 0
-          end),
+        local result = vim.list_extend(
+          vim
+            .iter(mappings)
+            :filter(function(m)
+              return m[1] and #m[1] > 0
+            end)
+            :totable(),
           keys
         )
+        return result
       end,
       opts = {
         mappings = {
