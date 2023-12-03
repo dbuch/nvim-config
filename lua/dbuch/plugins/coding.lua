@@ -1,5 +1,52 @@
 return {
   {
+    -- TODO: Maybe
+    --   'garymjr/nvim-snippets',
+    --   keys = {
+    --     {
+    --       '<Tab>',
+    --       function()
+    --         if vim.snippet.jumpable(1) then
+    --           vim.schedule(function()
+    --             vim.snippet.jump(1)
+    --           end)
+    --           return
+    --         end
+    --         return '<Tab>'
+    --       end,
+    --       expr = true,
+    --       silent = true,
+    --       mode = 'i',
+    --     },
+    --     {
+    --       '<Tab>',
+    --       function()
+    --         vim.schedule(function()
+    --           vim.snippet.jump(1)
+    --         end)
+    --       end,
+    --       expr = true,
+    --       silent = true,
+    --       mode = 's',
+    --     },
+    --     {
+    --       '<S-Tab>',
+    --       function()
+    --         if vim.snippet.jumpable(-1) then
+    --           vim.schedule(function()
+    --             vim.snippet.jump(-1)
+    --           end)
+    --           return
+    --         end
+    --         return '<S-Tab>'
+    --       end,
+    --       expr = true,
+    --       silent = true,
+    --       mode = { 'i', 's' },
+    --     },
+    --   },
+    -- },
+    -- {
     'dcampos/nvim-snippy',
     event = 'InsertEnter',
     config = function()

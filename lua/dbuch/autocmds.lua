@@ -4,6 +4,27 @@ local function augroup(name)
   return api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
+api.nvim_create_autocmd('VimEnter', {
+  group = augroup 'paru_review',
+  callback = function(data)
+    local is_dir = vim.fn.isdirectory(data.file)
+    ---@type string
+    local path = data.file
+    local is_tmp = path:sub(1, 5) == '/tmp/'
+    if is_tmp then
+      ---@param path string
+      ---@return boolean
+      local function has_pkgbuild(path)
+        return path:match 'PKGBUILD'
+      end
+      for pkgbuild_file in vim.iter(vim.fs.dir(path)):filter(has_pkgbuild) do
+        vim.cmd('e ' .. pkgbuild_file)
+        vim.cmd 'setf sh'
+      end
+    end
+  end,
+})
+
 api.nvim_create_autocmd('VimResized', {
   group = augroup 'wind_resize',
   command = 'wincmd =',

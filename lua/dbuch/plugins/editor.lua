@@ -128,7 +128,8 @@ return {
   },
   {
     'echasnovski/mini.nvim',
-    event = 'VeryLazy',
+    -- event = 'VeryLazy',
+    lazy = false,
     version = false,
     config = function()
       require('mini.files').setup()
