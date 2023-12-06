@@ -1,15 +1,14 @@
 local LazyTrait = require 'dbuch.traits.lazy'
 local NvimTrait = require 'dbuch.traits.nvim'
 
+LazyTrait.lazy_notify()
+LazyTrait.initialize_lazyfile()
 NvimTrait.init_printf()
 
 require 'dbuch.options'
 require 'dbuch.status'
 require 'dbuch.autocmds'
 require 'dbuch.mappings'
-
-LazyTrait.lazy_notify()
-LazyTrait.initialize_lazyfile()
 
 require('lazy').setup {
   spec = {
