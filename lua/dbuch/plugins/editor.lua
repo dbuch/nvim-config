@@ -92,19 +92,16 @@ return {
     },
   },
   {
-    'AndrewRadev/bufferize.vim',
-    cmd = 'Bufferize',
-    config = function()
-      vim.g.bufferize_command = 'enew'
-      local grp = vim.api.nvim_create_augroup('vimrc', {})
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'bufferize',
-        group = grp,
-        callback = function()
-          vim.opt_local.wrap = true
-        end,
-      })
-    end,
+    'sindrets/diffview.nvim',
+    cmd = {
+      'DiffviewOpen',
+      'DiffviewClose',
+      'DiffviewToggleFiles',
+      'DiffviewFocusFiles',
+      'DiffviewRefresh',
+      'DiffviewFileHistory',
+    },
+    opts = {},
   },
   {
     'lewis6991/hover.nvim',
