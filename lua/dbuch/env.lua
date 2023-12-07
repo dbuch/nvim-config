@@ -30,6 +30,6 @@ M.data_dir = Normalized_stdpath 'data'
 ---@type string|string[]|nil
 M.log_dir = Normalized_stdpath 'log'
 ---@type string|string[]|nil
-M.undo_dir = Normalized_stdpath(M.cache_dir .. '/undodir/')
+M.undo_dir = M.cache_dir .. '/undodir/'
 
 return M
