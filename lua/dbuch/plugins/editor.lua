@@ -128,7 +128,24 @@ return {
     -- event = 'VeryLazy',
     lazy = false,
     version = false,
-    opts = {},
+    opts = {
+      content = {
+        filter = function(fs_entry)
+          ---@type string
+          local basename = fs_entry.name
+          if basename:sub(0, 1) == '.' then
+            if basename:match '%.config' or basename:match '%.git' then
+              return true
+            end
+            return false
+          end
+          return true
+        end,
+      },
+      windows = {
+        max_number = 3,
+      },
+    },
   },
   {
     'echasnovski/mini.cursorword',
