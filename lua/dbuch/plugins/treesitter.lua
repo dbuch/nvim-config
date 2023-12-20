@@ -51,7 +51,6 @@ return {
     end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      -- 'nvim-treesitter/nvim-treesitter-refactor',
     },
     opts = {
       ensure_installed = ensure(),
@@ -59,9 +58,6 @@ return {
         enable = true,
         additional_vim_regex_highlighting = false,
       },
-      -- refactor = {
-      --   highlight_current_scope = { enable = true },
-      -- },
       textobjects = {
         enable = true,
         lookahead = true,
