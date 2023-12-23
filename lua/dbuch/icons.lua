@@ -57,10 +57,4 @@ return {
     vsnip = '',
     spell = '󰓆',
   },
-  ---@param t table<string, string>
-  define_signs = function(t)
-    for name, text in pairs(t) do
-      vim.fn.sign_define(name, { text = text, texthl = name })
-    end
-  end,
 }

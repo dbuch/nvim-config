@@ -22,6 +22,14 @@ return {
           virtual_text = { source = true },
           severity_sort = true,
           update_in_insert = false,
+          signs = {
+            text = {
+              [vim.diagnostic.severity.ERROR] = '●',
+              [vim.diagnostic.severity.WARN] = '●',
+              [vim.diagnostic.severity.INFO] = '●',
+              [vim.diagnostic.severity.HINT] = '○',
+            },
+          },
         },
         servers = {
           -- VSCode Servers
@@ -154,8 +162,6 @@ return {
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
         vim.lsp.semantic_tokens.force_refresh(buffer)
       end)
-
-      require('dbuch.icons').define_signs(require('dbuch.icons').diagnostics)
 
       vim.diagnostic.config(opts.diagnostics)
 
