@@ -11,6 +11,7 @@ local function ensure()
     'javascript',
     'typescript',
     'wgsl',
+    'zig',
     'sql',
     'markdown',
     'markdown_inline',
