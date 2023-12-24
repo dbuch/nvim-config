@@ -49,6 +49,7 @@ return {
             filetypes = { 'json' },
             root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
           },
+          zls = {},
           nushell = {},
           tsserver = {},
           bashls = {},
