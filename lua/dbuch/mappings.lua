@@ -35,6 +35,9 @@ map('n', '<leader>cd', vim.lsp.buf.definition, { silent = true })
 map('n', '<leader>cn', vim.lsp.buf.rename, { silent = true })
 map('n', '<leader>ct', ':TroubleToggle<CR>', { silent = true })
 map('n', '<leader>cr', ':TroubleToggle lsp_references<CR>', { silent = true })
+map('n', '<leader>i', function()
+  require('dbuch.traits.nvim').inlay_hint_toggle()
+end, { silent = true })
 
 map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
 

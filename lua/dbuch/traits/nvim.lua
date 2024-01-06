@@ -137,4 +137,9 @@ function M.init_printf()
   end
 end
 
+function M.inlay_hint_toggle()
+  local toggle_value = not vim.lsp.inlay_hint.is_enabled()
+  vim.lsp.inlay_hint.enable(nil, toggle_value)
+end
+
 return M

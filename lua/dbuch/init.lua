@@ -35,12 +35,20 @@ require('lazy').setup {
   performance = {
     rtp = {
       disabled_plugins = {
+        'compiler',
+        'bugreport',
+        '2html_plugin',
+        'ftplugin',
+        'optwin',
+        'syntax',
         'netrw',
         'netrwPlugin',
         'matchit',
         'matchparen',
         'tutor',
         'tohtml',
+        'vimball',
+        'vimballPlugin',
         'tarPlugin',
         'zipPlugin',
         'gzip',
