@@ -1,146 +1,81 @@
 return {
   {
-    -- TODO: Maybe
-    --   'garymjr/nvim-snippets',
-    --   keys = {
-    --     {
-    --       '<Tab>',
-    --       function()
-    --         if vim.snippet.jumpable(1) then
-    --           vim.schedule(function()
-    --             vim.snippet.jump(1)
-    --           end)
-    --           return
-    --         end
-    --         return '<Tab>'
-    --       end,
-    --       expr = true,
-    --       silent = true,
-    --       mode = 'i',
-    --     },
-    --     {
-    --       '<Tab>',
-    --       function()
-    --         vim.schedule(function()
-    --           vim.snippet.jump(1)
-    --         end)
-    --       end,
-    --       expr = true,
-    --       silent = true,
-    --       mode = 's',
-    --     },
-    --     {
-    --       '<S-Tab>',
-    --       function()
-    --         if vim.snippet.jumpable(-1) then
-    --           vim.schedule(function()
-    --             vim.snippet.jump(-1)
-    --           end)
-    --           return
-    --         end
-    --         return '<S-Tab>'
-    --       end,
-    --       expr = true,
-    --       silent = true,
-    --       mode = { 'i', 's' },
-    --     },
-    --   },
-    -- },
-    -- {
-    {
-      'echasnovski/mini.pairs',
-      version = false,
-      event = 'LazyFile',
-      opts = {},
-    },
-    {
-      'echasnovski/mini.comment',
-      version = false,
-      event = 'LazyFile',
-      opts = {},
-    },
-    {
-
-      'echasnovski/mini.align',
-      version = false,
-      keys = function(_, keys)
-        local plugin = require('lazy.core.config').spec.plugins['mini.align']
-        local opts = require('lazy.core.plugin').values(plugin, 'opts', false)
-        local mappings = {
-          { opts.mappings.start, desc = 'Start align', mode = { 'n', 'v' } },
-          { opts.mappings.start_with_preview, desc = 'Start align with Preview', mode = { 'n', 'v' } },
-        }
-        return vim.list_extend(
-          vim
-            .iter(mappings)
-            :filter(function(m)
-              return m[1] and #m[1] > 0
-            end)
-            :totable(),
-          keys
-        )
-      end,
-      opts = {
-        mappings = {
-          start = 'ga',
-          start_with_preview = 'gA',
-        },
-      },
-    },
-    {
-
-      'echasnovski/mini.surround',
-      version = false,
-      keys = function(_, keys)
-        local plugin = require('lazy.core.config').spec.plugins['mini.surround']
-        local opts = require('lazy.core.plugin').values(plugin, 'opts', false)
-        local mappings = {
-          { opts.mappings.add, desc = 'Add surrounding', mode = { 'n', 'v' } },
-          { opts.mappings.delete, desc = 'Delete surrounding' },
-          { opts.mappings.find, desc = 'Find right surrounding' },
-          { opts.mappings.find_left, desc = 'Find left surrounding' },
-          { opts.mappings.highlight, desc = 'Highlight surrounding' },
-          { opts.mappings.replace, desc = 'Replace surrounding' },
-          { opts.mappings.update_n_lines, desc = 'Update `MiniSurround.config.n_lines`' },
-        }
-        local result = vim.list_extend(
-          vim
-            .iter(mappings)
-            :filter(function(m)
-              return m[1] and #m[1] > 0
-            end)
-            :totable(),
-          keys
-        )
-        return result
-      end,
-      opts = {
-        mappings = {
-          add = 'sa', -- Add surrounding in Normal and Visual modes
-          delete = 'sd', -- Delete surrounding
-          find = 'sf', -- Find surrounding (to the right)
-          find_left = 'sF', -- Find surrounding (to the left)
-          highlight = 'sh', -- Highlight surrounding
-          replace = 'sr', -- Replace surrounding
-          update_n_lines = 'sn', -- Update `n_lines`
-        },
-      },
-    },
-    'dcampos/nvim-snippy',
-    event = 'InsertEnter',
-    config = function()
-      require('snippy').setup {
-        mappings = {
-          is = {
-            ['<Tab>'] = 'expand_or_advance',
-            ['<S-Tab>'] = 'previous',
-          },
-          nx = {
-            ['<leader>x'] = 'cut_text',
-          },
-        },
+    'echasnovski/mini.pairs',
+    version = false,
+    event = 'LazyFile',
+    opts = {},
+  },
+  {
+    'echasnovski/mini.comment',
+    version = false,
+    event = 'LazyFile',
+    opts = {},
+  },
+  {
+    'echasnovski/mini.align',
+    version = false,
+    keys = function(_, keys)
+      local plugin = require('lazy.core.config').spec.plugins['mini.align']
+      local opts = require('lazy.core.plugin').values(plugin, 'opts', false)
+      local mappings = {
+        { opts.mappings.start, desc = 'Start align', mode = { 'n', 'v' } },
+        { opts.mappings.start_with_preview, desc = 'Start align with Preview', mode = { 'n', 'v' } },
       }
+      return vim.list_extend(
+        vim
+          .iter(mappings)
+          :filter(function(m)
+            return m[1] and #m[1] > 0
+          end)
+          :totable(),
+        keys
+      )
     end,
+    opts = {
+      mappings = {
+        start = 'ga',
+        start_with_preview = 'gA',
+      },
+    },
+  },
+  {
+
+    'echasnovski/mini.surround',
+    version = false,
+    keys = function(_, keys)
+      local plugin = require('lazy.core.config').spec.plugins['mini.surround']
+      local opts = require('lazy.core.plugin').values(plugin, 'opts', false)
+      local mappings = {
+        { opts.mappings.add, desc = 'Add surrounding', mode = { 'n', 'v' } },
+        { opts.mappings.delete, desc = 'Delete surrounding' },
+        { opts.mappings.find, desc = 'Find right surrounding' },
+        { opts.mappings.find_left, desc = 'Find left surrounding' },
+        { opts.mappings.highlight, desc = 'Highlight surrounding' },
+        { opts.mappings.replace, desc = 'Replace surrounding' },
+        { opts.mappings.update_n_lines, desc = 'Update `MiniSurround.config.n_lines`' },
+      }
+      local result = vim.list_extend(
+        vim
+          .iter(mappings)
+          :filter(function(m)
+            return m[1] and #m[1] > 0
+          end)
+          :totable(),
+        keys
+      )
+      return result
+    end,
+    opts = {
+      mappings = {
+        add = 'sa', -- Add surrounding in Normal and Visual modes
+        delete = 'sd', -- Delete surrounding
+        find = 'sf', -- Find surrounding (to the right)
+        find_left = 'sF', -- Find surrounding (to the left)
+        highlight = 'sh', -- Highlight surrounding
+        replace = 'sr', -- Replace surrounding
+        update_n_lines = 'sn', -- Update `n_lines`
+      },
+    },
   },
   -- Autocomplete
   {
@@ -153,23 +88,22 @@ return {
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
-      'dcampos/cmp-snippy',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-calc',
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lua',
       'f3fora/cmp-spell',
+      'garymjr/nvim-snippets',
     },
     opts = function()
       local cmp = require 'cmp'
       local lspkind = require 'lspkind'
-      local snippy = require 'snippy'
       local has_words_before = require('dbuch.traits.nvim').has_words_before
       return {
         snippet = {
           expand = function(args)
-            require('snippy').expand_snippet(args.body) -- For `snippy` users.
+            vim.snippet.expand(args.body)
           end,
         },
         window = {
@@ -241,8 +175,8 @@ return {
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif snippy.can_expand_or_advance() then
-              snippy.expand_or_advance()
+            elseif vim.snippet.jumpable(1) then
+              vim.snippet.jump(1)
             elseif has_words_before() then
               cmp.complete()
             else
@@ -253,8 +187,8 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif snippy.can_jump(-1) then
-              snippy.previous()
+            elseif vim.snippet.jumpable(-1) then
+              vim.snippet.jump(-1)
             else
               fallback()
             end
@@ -285,7 +219,7 @@ return {
         },
         sources = cmp.config.sources({
           { name = 'nvim_lsp', priority = 9 },
-          { name = 'snippy', priority = 8 },
+          { name = 'snippets', priority = 8 },
           { name = 'path', priority = 6 },
           { name = 'calc', priority = 5 },
           { name = 'crates', priority = 4 },
