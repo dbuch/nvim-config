@@ -6,6 +6,7 @@ return {
   },
   {
     'luukvbaal/statuscol.nvim',
+    branch = '0.10',
     event = 'VeryLazy',
     -- lazy = false,
     opts = {

@@ -51,6 +51,7 @@ api.nvim_create_autocmd('FileType', {
     'notify',
     'lspinfo',
     'tsplayground',
+    'query',
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
