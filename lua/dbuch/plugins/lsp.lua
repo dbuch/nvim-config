@@ -67,7 +67,6 @@ return {
           clangd = {
             cmd = {
               'clangd',
-              '--offset-encoding=utf-32',
               '--clang-tidy',
               '--completion-style=bundled',
               '--header-insertion=iwyu',

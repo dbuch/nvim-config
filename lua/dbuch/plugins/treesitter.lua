@@ -52,6 +52,7 @@ return {
     end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      'nushell/tree-sitter-nu',
     },
     opts = {
       ensure_installed = ensure(),
