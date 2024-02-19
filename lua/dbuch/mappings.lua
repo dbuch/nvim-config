@@ -21,7 +21,7 @@ map('n', '|', [[!v:count ? "<C-W>v<C-W><Right>" : '|']], { expr = true, silent =
 map('n', '_', [[!v:count ? "<C-W>s<C-W><Down>"  : '_']], { expr = true, silent = true })
 
 map('n', '<leader>T', ':Telescope<CR>', { nowait = true, silent = true })
-map('n', '<leader>t', ':ToggleTerm<CR>', { nowait = true, silent = true })
+map('n', '<leader>t', ':ToggleTerm direction=vertical size=100<CR>', { nowait = true, silent = true })
 map('n', '<leader>f', ':Telescope find_files<CR>', { nowait = true, silent = true })
 map('n', '<leader>b', ':Telescope buffers<CR>', { nowait = true, silent = true })
 map('n', '<leader>g', ':Telescope live_grep<CR>', { nowait = true, silent = true })
