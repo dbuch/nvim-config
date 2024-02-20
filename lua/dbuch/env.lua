@@ -3,7 +3,7 @@ M = {}
 ---comment
 ---@param what string
 ---@return string|string[]|nil
-function Normalized_stdpath(what)
+function M.stdpath_normalized(what)
   local path = vim.fn.stdpath(what)
   if path == nil then
     return nil
@@ -24,11 +24,11 @@ end
 ---@type boolean
 M.is_unix = vim.loop.os_uname().sysname:match 'Windows' == nil
 ---@type string|string[]|nil
-M.cache_dir = Normalized_stdpath 'cache'
+M.cache_dir = M.stdpath_normalized 'cache'
 ---@type string|string[]|nil
-M.data_dir = Normalized_stdpath 'data'
+M.data_dir = M.stdpath_normalized 'data'
 ---@type string|string[]|nil
-M.log_dir = Normalized_stdpath 'log'
+M.log_dir = M.stdpath_normalized 'log'
 ---@type string|string[]|nil
 M.undo_dir = M.cache_dir .. '/undodir/'
 

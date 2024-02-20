@@ -6,14 +6,16 @@ function M.augroup(name)
   return vim.api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
----@param on_attach fun(client, buffer)
-function M.on_attach(on_attach)
+---@param cb fun(client:lsp.Client, buffer:integer)
+function M.on_attach(cb)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
-      ---@type number
+      ---@type integer
       local buffer = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      on_attach(client, buffer)
+      if client ~= nil then
+        cb(client, buffer)
+      end
     end,
   })
 end
@@ -144,6 +146,7 @@ end
 function M.inlay_hint_toggle()
   local toggle_value = not vim.lsp.inlay_hint.is_enabled()
   vim.lsp.inlay_hint.enable(nil, toggle_value)
+  return toggle_value
 end
 
 return M
