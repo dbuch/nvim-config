@@ -1,5 +1,7 @@
+local NvimTrait = require 'dbuch.traits.nvim'
 ---@type function
 local map = vim.keymap.set
+local api = vim.api
 
 map('n', '<C-d>', '<C-d>zz', { remap = false })
 map('n', '<C-u>', '<C-u>zz', { remap = false })
@@ -28,16 +30,20 @@ map('n', '<leader>g', ':Telescope live_grep<CR>', { nowait = true, silent = true
 map('n', '<leader>e', ':lua MiniFiles.open()<CR>', { silent = true })
 map('n', '<c-q>', ':bd<CR>', { silent = true })
 
-map('n', 'ca', vim.lsp.buf.code_action, { silent = true })
-map('n', 'cD', ':Telescope lsp_definitions<CR>', { silent = true })
-map('n', 'cd', vim.lsp.buf.definition, { silent = true })
-map('n', 'cn', vim.lsp.buf.rename, { silent = true })
-map('n', 'ct', ':TroubleToggle<CR>', { silent = true })
-map('n', 'cr', ':TroubleToggle lsp_references<CR>', { silent = true })
-map('n', '<leader>ci', function()
-  require('dbuch.traits.nvim').inlay_hint_toggle()
-end, { silent = true })
-map('n', 'K', vim.lsp.buf.hover, { desc = 'hover.nvim' })
+NvimTrait.on_attach(function(_client, buf)
+  vim.notify 'On Attach'
+  map('n', 'ca', vim.lsp.buf.code_action, { silent = true, buffer = buf })
+  map('n', 'cD', ':Telescope lsp_definitions<CR>', { silent = true, buffer = buf })
+  map('n', 'cd', vim.lsp.buf.definition, { silent = true })
+  map('n', 'cn', vim.lsp.buf.rename, { silent = true })
+  map('n', 'ct', ':TroubleToggle<CR>', { silent = true })
+  map('n', 'cr', ':TroubleToggle lsp_references<CR>', { silent = true })
+  map('n', '<leader>ci', function()
+    require('dbuch.traits.nvim').inlay_hint_toggle()
+  end, { silent = true })
+  map('n', 'K', vim.lsp.buf.hover, { desc = 'hover.nvim' })
+end)
+
 map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })
 
 -- Clear search

@@ -1,11 +1,8 @@
 local api = vim.api
-
-local function augroup(name)
-  return api.nvim_create_augroup('dbuch_' .. name, { clear = true })
-end
+local NvimTrait = require 'dbuch.traits.nvim'
 
 api.nvim_create_autocmd('VimEnter', {
-  group = augroup 'paru_review',
+  group = NvimTrait.augroup 'paru_review',
   callback = function(data)
     ---@type string
     local path = data.file
@@ -27,12 +24,12 @@ api.nvim_create_autocmd('VimEnter', {
 })
 
 api.nvim_create_autocmd('VimResized', {
-  group = augroup 'wind_resize',
+  group = NvimTrait.augroup 'wind_resize',
   command = 'wincmd =',
 })
 
 api.nvim_create_autocmd('BufReadPost', {
-  group = augroup 'last_loc',
+  group = NvimTrait.augroup 'last_loc',
   callback = function()
     local mark = api.nvim_buf_get_mark(0, '"')
     local lcount = api.nvim_buf_line_count(0)
@@ -43,7 +40,7 @@ api.nvim_create_autocmd('BufReadPost', {
 })
 
 api.nvim_create_autocmd('FileType', {
-  group = augroup 'close_with_q',
+  group = NvimTrait.augroup 'close_with_q',
   pattern = {
     'qf',
     'help',
@@ -64,7 +61,7 @@ api.nvim_create_autocmd('FileType', {
 })
 
 api.nvim_create_autocmd('TermOpen', {
-  group = augroup 'terminal',
+  group = NvimTrait.augroup 'terminal',
   callback = function(args)
     if ('#toggleterm'):match(args.match) then
       local opts = {
@@ -87,7 +84,7 @@ local function emit(ev, data)
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = augroup 'rooter',
+  group = NvimTrait.augroup 'rooter',
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id) ---@type table|nil
     if client == nil then

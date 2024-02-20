@@ -2,6 +2,10 @@ local M = {}
 
 M.root_patterns = { '.git', 'Cargo.toml', 'stylua.toml' }
 
+function M.augroup(name)
+  return vim.api.nvim_create_augroup('dbuch_' .. name, { clear = true })
+end
+
 ---@param on_attach fun(client, buffer)
 function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd('LspAttach', {
