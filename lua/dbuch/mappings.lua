@@ -31,7 +31,6 @@ map('n', '<leader>e', ':lua MiniFiles.open()<CR>', { silent = true })
 map('n', '<c-q>', ':bd<CR>', { silent = true })
 
 NvimTrait.on_attach(function(_client, buf)
-  vim.notify 'On Attach'
   map('n', 'ca', vim.lsp.buf.code_action, { silent = true, buffer = buf })
   map('n', 'cD', ':Telescope lsp_definitions<CR>', { silent = true, buffer = buf })
   map('n', 'cd', vim.lsp.buf.definition, { silent = true })
