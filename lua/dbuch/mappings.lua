@@ -39,7 +39,7 @@ NvimTrait.on_attach(function(client, buf)
   map('n', '<leader>ci', function()
     if client.server_capabilities.inlayHintProvider then
       local enabled = require('dbuch.traits.nvim').inlay_hint_toggle()
-      vim.notify(client.name .. enabled and ' enabled ' or ' disabled ' .. 'inlay hints')
+      vim.notify(string.format('%s %s inlay hints!', client.name, enabled and 'enabled' or ' disabled'))
     else
       vim.notify(client.name .. ' doesnt support inlay hints')
     end
