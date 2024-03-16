@@ -23,6 +23,7 @@ local function ensure()
     'json',
     'xml',
     'vim',
+    'vimdoc',
   }
   if not vim.loop.os_uname().sysname:match 'Windows' then
     table.insert(base, 'bash')
@@ -87,7 +88,7 @@ return {
         disable = { 'rst', 'make' },
       },
       context_commentstring = { enable = true, enable_autocmd = false },
-      disable = function(_, buf)
+      disable = function(lang, buf)
         local max_filesize = 1024 * 1024 -- MiB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
