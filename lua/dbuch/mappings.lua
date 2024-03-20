@@ -15,6 +15,9 @@ map('', 'H', '^')
 
 map('n', 'Y', 'y$')
 
+map({ 'n', 's', 'v' }, 'æ', ':')
+map({ 'n', 'i', 'v', 's' }, 'Æ', ';')
+
 map('n', 'q', '<nop>')
 map('n', 'j', 'v:count ? "j" : "gj"', { expr = true })
 map('n', 'k', 'v:count ? "k" : "gk"', { expr = true })
