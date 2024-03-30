@@ -31,6 +31,9 @@ map('n', '<leader>b', ':Telescope buffers<CR>', { nowait = true, silent = true }
 map('n', '<leader>g', ':Telescope live_grep<CR>', { nowait = true, silent = true })
 map('n', '<leader>e', ':lua MiniFiles.open()<CR>', { silent = true })
 map('n', '<c-q>', ':bd<CR>', { silent = true })
+map('n', 'sw', function()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('saiw', false, false, false), 'm', false)
+end, { expr = true })
 
 NvimTrait.on_attach(function(client, buf)
   map('n', 'ca', vim.lsp.buf.code_action, { silent = true, buffer = buf })

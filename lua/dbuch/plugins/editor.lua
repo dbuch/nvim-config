@@ -124,6 +124,14 @@ return {
     end,
   },
   {
+    'echasnovski/mini.colors',
+    lazy = false,
+    version = false,
+    config = function()
+      require('mini.colors').setup()
+    end,
+  },
+  {
     'echasnovski/mini.files',
     -- event = 'VeryLazy',
     lazy = false,

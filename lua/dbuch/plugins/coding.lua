@@ -39,9 +39,9 @@ return {
     },
   },
   {
-
     'echasnovski/mini.surround',
     version = false,
+    lazy = true,
     keys = function(_, keys)
       local plugin = require('lazy.core.config').spec.plugins['mini.surround']
       local opts = require('lazy.core.plugin').values(plugin, 'opts', false)
@@ -54,7 +54,7 @@ return {
         { opts.mappings.replace, desc = 'Replace surrounding' },
         { opts.mappings.update_n_lines, desc = 'Update `MiniSurround.config.n_lines`' },
       }
-      local result = vim.list_extend(
+      return vim.list_extend(
         vim
           .iter(mappings)
           :filter(function(m)
@@ -63,7 +63,6 @@ return {
           :totable(),
         keys
       )
-      return result
     end,
     opts = {
       mappings = {
@@ -76,6 +75,10 @@ return {
         update_n_lines = 'sn', -- Update `n_lines`
       },
     },
+    config = function()
+      vim.notify 'surround setup'
+      require('mini.surround').setup()
+    end,
   },
   -- Autocomplete
   {
