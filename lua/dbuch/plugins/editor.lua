@@ -60,7 +60,6 @@ return {
       },
       count_chars = require('dbuch.icons').subscript_count,
       update_debounce = 50,
-      _extmark_signs = true,
       _threaded_diff = true,
       word_diff = true,
       trouble = true,

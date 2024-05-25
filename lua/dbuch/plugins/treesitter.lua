@@ -1,5 +1,5 @@
 ---@return table
-local function ensure()
+local function ensure_installed()
   local base = {
     'c',
     'css',
@@ -56,7 +56,7 @@ return {
       'nushell/tree-sitter-nu',
     },
     opts = {
-      ensure_installed = ensure(),
+      ensure_installed = ensure_installed(),
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
@@ -88,7 +88,7 @@ return {
         disable = { 'rst', 'make' },
       },
       context_commentstring = { enable = true, enable_autocmd = false },
-      disable = function(lang, buf)
+      disable = function(_lang, buf)
         local max_filesize = 1024 * 1024 -- MiB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then

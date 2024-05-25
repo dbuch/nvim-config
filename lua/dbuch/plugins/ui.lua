@@ -53,7 +53,7 @@ return {
     event = 'VeryLazy',
     opts = {
       progress = {
-        poll_rate = 400,
+        poll_rate = 5,
         ignore_done_already = true,
         ignore_empty_message = true,
         lsp = {
