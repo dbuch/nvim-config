@@ -1,5 +1,16 @@
 local NvimTrait = require 'dbuch.traits.nvim'
+
 return {
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua', -- only load on lua files
+    opts = {
+      library = {
+        'luvit-meta/library',
+      },
+    },
+  },
+  { 'Bilal2453/luvit-meta', lazy = true }, -- optional `vim.uv` typings
   {
     'neovim/nvim-lspconfig',
     event = 'LazyFile',
@@ -7,13 +18,6 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'onsails/lspkind-nvim',
-      {
-        'folke/neodev.nvim',
-        opts = {
-          pathStrict = true,
-          setup_jsonls = false,
-        },
-      },
     },
     opts = function(_, _)
       local lspconfig = require 'lspconfig'

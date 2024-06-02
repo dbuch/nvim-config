@@ -11,6 +11,7 @@ end
 
 --- @param num integer
 --- @param active 0|1
+--- @return string
 local function highlight(num, active)
   if active == 1 then
     if num == 1 then
@@ -53,6 +54,7 @@ local function hl(name, active)
 end
 
 --- @param active 0|1
+--- @return string
 local function lsp_name(active)
   local names = {} ---@type string[]
   for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
@@ -67,6 +69,7 @@ local function lsp_name(active)
 end
 
 --- @param active 0|1
+--- @return string
 local function diagnostics(active)
   local status = {} ---@type string[]
   local diags = vim.diagnostic.count(0)
@@ -78,13 +81,14 @@ local function diagnostics(active)
   end
 
   if #status == 0 then
-    return
+    return ''
   end
 
   return table.concat(status, ' ')
 end
 
 --- @param active 0|1
+--- @return string
 function M.lsp_status(active)
   local status = {} ---@type string[]
 

@@ -216,6 +216,7 @@ return {
           },
         },
         sources = cmp.config.sources({
+          { name = 'lazydev', priority = 10 },
           { name = 'nvim_lsp', priority = 9 },
           { name = 'snippets', priority = 8 },
           { name = 'path', priority = 6 },
