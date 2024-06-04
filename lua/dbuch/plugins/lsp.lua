@@ -110,7 +110,12 @@ return {
             settings = {
               Lua = {
                 runtime = {
+                  version = 'LuaJIT',
+                  path = { '?.lua', '?/init.lua' },
                   pathStrict = 'true',
+                },
+                workspace = {
+                  checkThirdParty = false,
                 },
                 completion = {
                   callSnippet = 'Replace',
