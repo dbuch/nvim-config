@@ -124,7 +124,12 @@ return {
   },
   {
     'echasnovski/mini.colors',
-    lazy = false,
+    init = function()
+      vim.api.nvim_create_user_command('LoadMiniColors', function()
+        vim.cmd 'Lazy load mini.colors'
+      end, {})
+    end,
+    lazy = true,
     version = false,
     config = function()
       require('mini.colors').setup()
@@ -160,12 +165,6 @@ return {
     version = false,
     opts = {},
   },
-  -- {
-  --   'echasnovski/mini.colors',
-  --   lazy = false,
-  --   version = false,
-  --   opts = {},
-  -- },
   {
     'lewis6991/whatthejump.nvim',
     event = 'LazyFile',
