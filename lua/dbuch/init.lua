@@ -10,6 +10,11 @@ require 'dbuch.status'
 require 'dbuch.autocmds'
 require 'dbuch.mappings'
 
+---@class DevSpec
+---@field path string
+---@field patterns string[]
+---@field fallback boolean
+
 require('lazy').setup {
   spec = {
     { import = 'dbuch.plugins' },
@@ -25,11 +30,11 @@ require('lazy').setup {
   change_detection = {
     notify = false,
   },
+  ---@type DevSpec
   dev = {
     path = '~/dev/nvim/plugins/',
-    ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
-    patterns = {}, -- For example {"folke"}
-    fallback = false, -- Fallback to git when local plugin doesn't exist
+    patterns = {},
+    fallback = false,
   },
   lockfile = vim.fn.stdpath 'data' .. '/lazy-lock.json',--[[@type string]]
   performance = {

@@ -114,7 +114,7 @@ vim.api.nvim_create_autocmd('User', {
     if data.root ~= nil then
       -- local setby = event_to_string(data.event)
       vim.notify(data.root:gsub(vim.env.HOME, '~'), vim.log.levels.INFO, {
-        title = ('New Working Directory (%s)'):format(data.event),
+        annote = ('New Working Directory (%s)'):format(data.event),
       })
     end
   end,
