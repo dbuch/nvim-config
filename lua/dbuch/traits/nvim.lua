@@ -6,7 +6,7 @@ function M.augroup(name)
   return vim.api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
----@param cb fun(client:lsp.Client, buffer:integer)
+---@param cb fun(client:vim.lsp.Client, buffer:integer)
 function M.on_attach(cb)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
@@ -77,17 +77,18 @@ function M.get_root(path)
   ---@type string[]
   local roots = {}
   if path then
-    ---@type List[]
-    local active_clients = vim.lsp.get_active_clients { bufnr = 0 }
+    local active_clients = vim.lsp.get_clients { bufnr = 0 }
     for _, client in pairs(active_clients) do
-      ---@type table
       local wsf = client.config.workspace_folders
-      local paths = wsf and vim.tbl_map(function(ws)
+      ---@param ws lsp.WorkspaceFolder
+      ---@return string?
+      local filter_map = function(ws)
         return vim.uri_to_fname(ws.uri)
-      end, wsf) or client.config.root_dir and { client.config.root_dir } or {}
+      end
+      local paths = wsf and vim.tbl_map(filter_map, wsf) or client.config.root_dir and { client.config.root_dir } or {}
       for _, p in ipairs(paths) do
         ---@type string?
-        local r = vim.loop.fs_realpath(p)
+        local r = vim.uv.fs_realpath(p)
         if r ~= nil then
           if path:find(r, 1, true) then
             roots[#roots + 1] = r
@@ -144,8 +145,8 @@ function M.init_printf()
 end
 
 function M.inlay_hint_toggle()
-  local toggle_value = not vim.lsp.inlay_hint.is_enabled()
-  vim.lsp.inlay_hint.enable(nil, toggle_value)
+  local toggle_value = not vim.lsp.inlay_hint.is_enabled {}
+  vim.lsp.inlay_hint.enable(toggle_value)
   return toggle_value
 end
 

@@ -46,7 +46,7 @@ opt.completeopt:append {
 opt.showbreak = '↳ '
 opt.mouse = 'a'
 opt.mousemodel = 'extend'
-
+opt.mousemoveevent = true
 opt.diffopt:append {
   'vertical',
   'foldcolumn:0',

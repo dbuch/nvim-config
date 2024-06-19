@@ -114,11 +114,11 @@ return {
       require('hover').setup {
         init = function()
           require 'hover.providers.lsp'
-          --require('hover.providers.gh')
           require 'hover.providers.dictionary'
-          --require('hover.providers.diagnostic')
+          require 'hover.providers.fold_preview'
           require 'hover.providers.man'
         end,
+        preview_window = true,
       }
     end,
   },

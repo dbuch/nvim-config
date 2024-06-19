@@ -26,12 +26,7 @@ return {
         end
 
         local highlight = ((args.relnum % 10 > 0) and '%#CurrentLineNr#' or '%#Normal#')
-
-        if args.relnum == 0 then
-          return highlight .. '%l%='
-        else
-          return highlight .. '%=%r'
-        end
+        return highlight .. ((args.relnum == 0) and '%l%=' or '%=%l')
       end
 
       require('statuscol').setup {
