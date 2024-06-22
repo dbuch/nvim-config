@@ -177,3 +177,15 @@ api.nvim_create_autocmd('FileType', {
     enable_commenstrings(args.buf)
   end,
 })
+
+vim.api.nvim_create_autocmd('User', {
+  once = true,
+  pattern = 'LazyVimStarted',
+  callback = function()
+    local stats = require('lazy').stats()
+    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+    vim.notify(('It took %s ms to'):format(ms), vim.log.levels.INFO, {
+      annote = 'Startup',
+    })
+  end,
+})

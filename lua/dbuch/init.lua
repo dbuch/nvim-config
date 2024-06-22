@@ -1,9 +1,9 @@
 local LazyTrait = require 'dbuch.traits.lazy'
 local NvimTrait = require 'dbuch.traits.nvim'
 
-LazyTrait.lazy_notify()
-LazyTrait.initialize_lazyfile()
 NvimTrait.init_printf()
+LazyTrait.initialize_lazyfile()
+LazyTrait.lazy_notify()
 
 require 'dbuch.options'
 require 'dbuch.status'
@@ -38,6 +38,9 @@ require('lazy').setup {
   },
   lockfile = vim.fn.stdpath 'data' .. '/lazy-lock.json',--[[@type string]]
   performance = {
+    cache = {
+      enabled = true,
+    },
     rtp = {
       disabled_plugins = {
         'compiler',

@@ -35,6 +35,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter-context',
     event = 'LazyFile',
+    --lazy = false,
     opts = {
       enable = true,
       max_lines = 3,
@@ -44,7 +45,8 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    version = false,
+    dev = true,
+    --version = false,
     build = ':TSUpdate',
     event = { 'LazyFile', 'VeryLazy' },
     init = function(plugin)
