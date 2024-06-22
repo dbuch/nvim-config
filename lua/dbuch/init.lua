@@ -7,7 +7,6 @@ LazyTrait.lazy_notify()
 
 require 'dbuch.options'
 require 'dbuch.status'
-require 'dbuch.autocmds'
 require 'dbuch.mappings'
 
 ---@class DevSpec
@@ -65,3 +64,5 @@ require('lazy').setup {
   },
   debug = vim.env.LAZY_DEBUG or false,
 }
+
+require 'dbuch.autocmds'
