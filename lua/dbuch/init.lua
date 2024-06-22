@@ -38,7 +38,7 @@ require('lazy').setup {
   lockfile = vim.fn.stdpath 'data' .. '/lazy-lock.json',--[[@type string]]
   performance = {
     cache = {
-      enabled = true,
+      enabled = not vim.loader.enabled,
     },
     rtp = {
       disabled_plugins = {
