@@ -1,13 +1,12 @@
 local LazyTrait = require 'dbuch.traits.lazy'
 local NvimTrait = require 'dbuch.traits.nvim'
 
+require 'dbuch.options'
+require 'dbuch.mappings'
+
 NvimTrait.init_printf()
 LazyTrait.initialize_lazyfile()
 LazyTrait.lazy_notify()
-
-require 'dbuch.options'
-require 'dbuch.status'
-require 'dbuch.mappings'
 
 ---@class DevSpec
 ---@field path string
@@ -65,4 +64,5 @@ require('lazy').setup {
   debug = vim.env.LAZY_DEBUG or false,
 }
 
+require 'dbuch.status'
 require 'dbuch.autocmds'
