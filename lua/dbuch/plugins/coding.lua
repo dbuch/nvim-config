@@ -79,9 +79,20 @@ return {
   {
     'saecki/crates.nvim',
     event = 'BufRead Cargo.toml',
-    config = true,
+    opts = {
+      lsp = {
+        enabled = true,
+        actions = true,
+        completion = true,
+        over = true,
+      },
+      src = {
+        cmp = {
+          enabled = true,
+        },
+      },
+    },
   },
-  --TODO: https://github.com/nvimdev/epo.nvim
   {
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'CmdlineEnter' },
@@ -271,8 +282,10 @@ return {
   {
     'andymass/vim-matchup',
     event = 'LazyFile',
-    config = function()
+    init = function()
       vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
+      vim.g.matchup_matchparen_deferred = 1
+      vim.g.matchup_matchparen_deferred_show_delay = 100
     end,
   },
 }

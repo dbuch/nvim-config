@@ -54,7 +54,7 @@ return {
       require 'nvim-treesitter.query_predicates'
     end,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      -- 'nvim-treesitter/nvim-treesitter-textobjects',
       'nushell/tree-sitter-nu',
     },
     opts = {
@@ -63,13 +63,13 @@ return {
         enable = true,
         additional_vim_regex_highlighting = false,
       },
-      textobjects = {
-        enable = true,
-        lookahead = true,
-        lsp_interop = {
-          enable = true,
-        },
-      },
+      -- textobjects = {
+      --   enable = true,
+      --   lookahead = true,
+      --   lsp_interop = {
+      --     enable = true,
+      --   },
+      -- },
       indent = {
         'enabled',
       },

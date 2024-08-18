@@ -55,7 +55,7 @@ return {
           },
           zls = {},
           nushell = {},
-          tsserver = {},
+          ts_ls = {},
           bashls = {},
           omnisharp = {
             cmd = { 'omnisharp' },

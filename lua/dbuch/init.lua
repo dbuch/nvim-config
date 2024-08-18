@@ -64,5 +64,5 @@ require('lazy').setup {
   debug = vim.env.LAZY_DEBUG or false,
 }
 
-require 'dbuch.status'
 require 'dbuch.autocmds'
+require 'dbuch.status'

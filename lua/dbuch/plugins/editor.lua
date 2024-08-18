@@ -137,7 +137,6 @@ return {
   },
   {
     'echasnovski/mini.files',
-    -- event = 'VeryLazy',
     lazy = false,
     version = false,
     opts = {
@@ -156,6 +155,7 @@ return {
       },
       windows = {
         max_number = 3,
+        preview = false,
       },
     },
   },
@@ -163,6 +163,11 @@ return {
     'echasnovski/mini.cursorword',
     event = 'LazyFile',
     version = false,
+    opts = {},
+  },
+  {
+    'folke/todo-comments.nvim',
+    event = 'LazyFile',
     opts = {},
   },
   {

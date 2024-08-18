@@ -1,6 +1,19 @@
 local api = vim.api
 local NvimTrait = require 'dbuch.traits.nvim'
 
+api.nvim_create_autocmd('TextYankPost', {
+  group = NvimTrait.augroup 'TextYank',
+  desc = 'highlight on yank',
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank {
+      higroup = 'Search',
+      timeout = 150,
+      on_visual = true,
+    }
+  end,
+})
+
 api.nvim_create_autocmd('VimEnter', {
   group = NvimTrait.augroup 'paru_review',
   callback = function(data)
@@ -124,57 +137,6 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'comment',
   callback = function()
     vim.bo.commentstring = ''
-  end,
-})
-
----@return string?
-local function get_injection_filetype()
-  local ok, parser = pcall(vim.treesitter.get_parser)
-  if not ok then
-    return
-  end
-
-  local cpos = api.nvim_win_get_cursor(0)
-  local row, col = cpos[1] - 1, cpos[2]
-  local range = { row, col, row, col + 1 }
-
-  local ft --- @type string?
-
-  parser:for_each_tree(function(_tree, ltree)
-    if ltree:contains(range) then
-      local fts = vim.treesitter.language.get_filetypes(ltree:lang())
-      for _, ft0 in ipairs(fts) do
-        if vim.filetype.get_option(ft0, 'commentstring') ~= '' then
-          ft = fts[1]
-          break
-        end
-      end
-    end
-  end)
-
-  return ft
-end
-
-local ts_commentstring_group = api.nvim_create_augroup('ts_commentstring_group', {})
-local function enable_commenstrings(buf)
-  api.nvim_clear_autocmds { buffer = buf, group = ts_commentstring_group }
-  api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-    buffer = buf,
-    group = ts_commentstring_group,
-    callback = function()
-      local ft = get_injection_filetype() or vim.bo.filetype
-      vim.bo[buf].commentstring = vim.filetype.get_option(ft, 'commentstring') --[[@as string]]
-    end,
-  })
-end
-
-api.nvim_create_autocmd('FileType', {
-  callback = function(args)
-    if not pcall(vim.treesitter.start, args.buf) then
-      return
-    end
-
-    enable_commenstrings(args.buf)
   end,
 })
 
