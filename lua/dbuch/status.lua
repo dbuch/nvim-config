@@ -1,9 +1,6 @@
+local autocmd = vim.api.nvim_create_autocmd
 --- @class dbuch.statusline
 local M = {}
-
----@class RecordingEventArgs
----@field mode boolean
----@field register string
 
 local api = vim.api
 
@@ -267,11 +264,11 @@ end
 local group = api.nvim_create_augroup('statusline', {})
 
 -- Only set up WinEnter autocmd when the WinLeave autocmd runs
-api.nvim_create_autocmd({ 'WinLeave', 'FocusLost' }, {
+autocmd({ 'WinLeave', 'FocusLost' }, {
   group = group,
   once = true,
   callback = function()
-    api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter', 'FocusGained' }, {
+    autocmd({ 'BufWinEnter', 'WinEnter', 'FocusGained' }, {
       group = group,
       callback = function()
         set(1)
@@ -280,14 +277,14 @@ api.nvim_create_autocmd({ 'WinLeave', 'FocusLost' }, {
   end,
 })
 
-api.nvim_create_autocmd({ 'WinLeave', 'FocusLost' }, {
+autocmd({ 'WinLeave', 'FocusLost' }, {
   group = group,
   callback = function()
     set(0)
   end,
 })
 
-api.nvim_create_autocmd('VimEnter', {
+autocmd('VimEnter', {
   group = group,
   callback = function()
     set(1, true)
@@ -305,13 +302,13 @@ local redraw_status = vim.schedule_wrap(function()
   vim.cmd.redrawstatus()
 end)
 
-api.nvim_create_autocmd('User', {
+autocmd('User', {
   pattern = 'GitSignsUpdate',
   group = group,
   callback = redraw_status,
 })
 
-api.nvim_create_autocmd({ 'RecordingEnter', 'RecordingLeave' }, {
+autocmd({ 'RecordingEnter', 'RecordingLeave' }, {
   group = group,
   callback = function(p)
     ---@type RecordingEventArgs
@@ -324,7 +321,7 @@ api.nvim_create_autocmd({ 'RecordingEnter', 'RecordingLeave' }, {
   end,
 })
 
-api.nvim_create_autocmd('DiagnosticChanged', {
+autocmd('DiagnosticChanged', {
   group = group,
   callback = redraw_status,
 })

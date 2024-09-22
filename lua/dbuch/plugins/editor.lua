@@ -66,10 +66,6 @@ return {
     },
   },
   {
-    'lewis6991/cleanfold.nvim',
-    event = 'LazyFile',
-  },
-  {
     'lewis6991/foldsigns.nvim',
     event = 'LazyFile',
     opts = {

@@ -128,19 +128,22 @@ return {
         },
         formatting = {
           fields = { 'kind', 'abbr', 'menu' },
-          format = function(entry, item)
+          format = function(entry, vim_item)
             local strOrEmpty = function(str)
               if str == nil then
                 return ''
               end
               return str
             end
+
+            -- TODO: move to mini.icons
+
             ---@type table
             local kind = lspkind.cmp_format {
               mode = 'symbol_text',
               maxwidth = 50,
               ellipsis_char = '…',
-              before = function(_entry, vim_item)
+              before = function(_entry, item)
                 vim_item.menu = ({
                   nvim_lsp = '󰞵',
                   nvim_lua = '',
@@ -151,9 +154,9 @@ return {
                   vsnip = '',
                   spell = '󰓆',
                 })[entry.source.name]
-                return vim_item
+                return item
               end,
-            }(entry, item)
+            }(entry, vim_item)
 
             local tokens = {}
             for token in vim.gsplit(kind.kind, '%s') do

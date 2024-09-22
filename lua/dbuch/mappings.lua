@@ -1,4 +1,5 @@
 local NvimTrait = require 'dbuch.traits.nvim'
+
 ---@type function
 local map = vim.keymap.set
 
@@ -29,7 +30,7 @@ map('n', '<leader>f', ':Telescope find_files<CR>', { nowait = true, silent = tru
 map('n', '<leader>b', ':Telescope buffers<CR>', { nowait = true, silent = true })
 map('n', '<leader>g', ':Telescope live_grep<CR>', { nowait = true, silent = true })
 map('n', '<leader>e', ':lua MiniFiles.open()<CR>', { silent = true })
-map('n', '<c-q>', NvimTrait.smart_q, { silent = true })
+map('n', '<c-q>', Utils.smart_quit, { silent = true })
 map('n', 'sw', function()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('saiw', false, false, false), 'm', false)
 end, { expr = true })
@@ -49,6 +50,14 @@ NvimTrait.on_attach(function(client, buf)
       vim.notify(client.name .. ' doesnt support inlay hints')
     end
   end, { silent = true, buffer = buf })
+
+  if client.server_capabilities.foldingRangeProvider then
+    vim.o.foldmethod = 'expr'
+    vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+    vim.o.foldtext = 'v:lua.vim.lsp.foldtext()'
+    vim.o.foldcolumn = '1'
+    vim.o.foldlevel = 99
+  end
 end)
 
 map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })

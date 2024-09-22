@@ -1,3 +1,14 @@
+_G.safe_require = function(module_name)
+  ---@diagnostic disable-next-line: no-unknown
+  local success, module = pcall(require, module_name)
+  if success then
+    return module
+  end
+  vim.api.nvim_err_writeln(('ERROR: Failed to load: %s'):format(module_name))
+end
+
+_G.Utils = require 'dbuch.utils'
+
 -- Early Configuration
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_tutor_mode_plugin = 1
@@ -17,6 +28,7 @@ vim.loader.enable()
 -- Bootstrap
 ---@type string
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+
 if not vim.uv.fs_stat(lazypath) then
   vim
     .system({
@@ -33,12 +45,4 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Initialize
-require 'dbuch'
-
-vim.api.nvim_create_user_command('RegistersList', function()
-  local entries = require('dbuch.traits.nvim').MacroRegisters()
-
-  for index, value in ipairs(entries) do
-    vim.notify(('%d: %s => %s'):format(index, value.register, value.content))
-  end
-end, {})
+safe_require 'dbuch'
