@@ -6,6 +6,33 @@ function M.augroup(name)
   return vim.api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
+---@class RegistryEntry
+---@field register string
+---@field content string
+
+---@class RegistryInfo
+---@field regcontents string[]	List of lines contained in register
+---@field regtype string the type of register {regname}, as in	|getregtype()|. isunnamed	Boolean flag, v:true if this register is currently pointed to by the unnamedregister.
+
+---@return RegistryEntry
+function M.MacroRegisters()
+  local registers = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  local register_entries = {}
+  for reg in registers:gmatch '.' do
+    ---@type RegistryInfo
+    local info = vim.fn.getreginfo(reg)
+    if info ~= '' and info.regcontents ~= nil and info.regtype == 'v' then
+      ---@type RegistryEntry
+      local entry = {
+        register = reg,
+        content = table.concat(info.regcontents),
+      }
+      table.insert(register_entries, entry)
+    end
+  end
+  return register_entries
+end
+
 ---@param cb fun(client:vim.lsp.Client, buffer:integer)
 function M.on_attach(cb)
   vim.api.nvim_create_autocmd('LspAttach', {

@@ -18,7 +18,7 @@ map('n', 'Y', 'y$')
 map({ 'n', 's', 'v' }, 'æ', ':')
 map({ 'n', 'i', 'v', 's' }, 'Æ', ';')
 
-map('n', 'q', '<nop>')
+--map('n', 'q', '<nop>')
 map('n', 'j', 'v:count ? "j" : "gj"', { expr = true })
 map('n', 'k', 'v:count ? "k" : "gk"', { expr = true })
 map('n', '|', [[!v:count ? "<C-W>v<C-W><Right>" : '|']], { expr = true, silent = true })

@@ -1,6 +1,10 @@
 --- @class dbuch.statusline
 local M = {}
 
+---@class RecordingEventArgs
+---@field mode boolean
+---@field register string
+
 local api = vim.api
 
 --- @param name string
@@ -170,10 +174,21 @@ function M.encodingAndFormat()
   return table.concat(r, ' ')
 end
 
-local function recording()
-  local reg = vim.fn.reg_recording()
-  if reg ~= '' then
-    return '%#ModeMsg#  RECORDING[' .. reg .. ']  '
+---comment
+---@param args? RecordingEventArgs
+---@return string
+local function recording(args)
+  if args == nil then
+    local reg = vim.fn.reg_recording()
+    if reg ~= '' then
+      return '%#ModeMsg#  RECORDING[' .. reg .. ']  '
+    end
+  else
+    if not args.mode then
+      return ''
+    else
+      return '%#ModeMsg#  RECORDING[' .. args.register .. ']  '
+    end
   end
   return ''
 end
@@ -190,6 +205,7 @@ function M.bufname()
 end
 
 --- @param x string
+--- @return string
 local function pad(x)
   return '%( ' .. x .. ' %)'
 end
@@ -223,12 +239,13 @@ end
 
 --- @param active 0|1
 --- @param global? boolean
-local function set(active, global)
+--- @param recording_mode? RecordingEventArgs
+local function set(active, global, recording_mode)
   local scope = global and 'o' or 'wo'
   vim[scope].statusline = parse_sections {
     {
       highlight(1, active),
-      recording(),
+      recording(recording_mode),
       pad(F.hunks()),
       highlight(2, active),
       pad(F.lsp_status(active)),
@@ -284,11 +301,32 @@ api.nvim_create_autocmd('ColorScheme', {
 
 hldefs()
 
+local redraw_status = vim.schedule_wrap(function()
+  vim.cmd.redrawstatus()
+end)
+
+api.nvim_create_autocmd('User', {
+  pattern = 'GitSignsUpdate',
+  group = group,
+  callback = redraw_status,
+})
+
+api.nvim_create_autocmd({ 'RecordingEnter', 'RecordingLeave' }, {
+  group = group,
+  callback = function(p)
+    ---@type RecordingEventArgs
+    local state = {
+      mode = p.event == 'RecordingEnter',
+      register = vim.fn.reg_recording(),
+    }
+    set(1, true, state)
+    redraw_status()
+  end,
+})
+
 api.nvim_create_autocmd('DiagnosticChanged', {
   group = group,
-  callback = function()
-    vim.cmd.redrawstatus()
-  end,
+  callback = redraw_status,
 })
 
 _G.statusline = M

@@ -34,3 +34,11 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Initialize
 require 'dbuch'
+
+vim.api.nvim_create_user_command('RegistersList', function()
+  local entries = require('dbuch.traits.nvim').MacroRegisters()
+
+  for index, value in ipairs(entries) do
+    vim.notify(('%d: %s => %s'):format(index, value.register, value.content))
+  end
+end, {})
