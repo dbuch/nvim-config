@@ -7,8 +7,22 @@ function M.augroup(name)
   return vim.api.nvim_create_augroup('dbuch_' .. name, { clear = true })
 end
 
----@param cb fun(client:vim.lsp.Client, buffer:integer)
-function M.on_attach(cb)
+---@param cb fun(parser:vim.treesitter.LanguageTree, buffer:integer)
+function M.on_ts_attach(cb)
+  vim.api.nvim_create_autocmd('BufEnter', {
+    callback = function(args)
+      ---@type integer
+      local buffer = args.buf
+      local ok, parser = pcall(vim.treesitter.get_parser, buffer)
+      if ok and parser then
+        cb(parser, buffer)
+      end
+    end,
+  })
+end
+
+---@param cb fun(_:vim.lsp.Client, _:integer)
+function M.on_lsp_attach(cb)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
       ---@type integer
@@ -67,7 +81,7 @@ M.root_cache = {}
 ---@return string
 function M.get_root(path)
   ---@type string?
-  path = path ~= '' and vim.loop.fs_realpath(path) or nil
+  path = path ~= '' and vim.uv.fs_realpath(path) or nil
 
   ---@type string
   local cached_root = M.root_cache[path]
@@ -104,10 +118,10 @@ function M.get_root(path)
   ---@type string?
   local root = roots[1]
   if not root then
-    path = path and vim.fs.dirname(path) or vim.loop.cwd()
+    path = path and vim.fs.dirname(path) or vim.uv.cwd()
     ---@type string?
     root = vim.fs.find(M.root_patterns, { path = path, upward = true })[1]
-    root = root and vim.fs.dirname(root) or vim.loop.cwd()
+    root = root and vim.fs.dirname(root) or vim.uv.cwd()
   end
 
   if M.root_cache ~= nil then

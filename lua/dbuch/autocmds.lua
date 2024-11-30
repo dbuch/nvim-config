@@ -1,24 +1,26 @@
 local api = vim.api
+local autocmd = api.nvim_create_autocmd
 local NvimTrait = require 'dbuch.traits.nvim'
 
-api.nvim_create_autocmd('TextYankPost', {
+autocmd('TextYankPost', {
   group = NvimTrait.augroup 'TextYank',
   desc = 'highlight on yank',
   pattern = '*',
-  callback = function()
-    vim.highlight.on_yank {
+  ---@param _args vim.api.keyset.create_autocmd.callback_args
+  callback = function(_args)
+    vim.hl.on_yank {
       higroup = 'Search',
-      timeout = 150,
+      timeout = 200,
       on_visual = true,
     }
   end,
 })
 
-api.nvim_create_autocmd('VimEnter', {
+autocmd('VimEnter', {
   group = NvimTrait.augroup 'paru_review',
-  callback = function(data)
-    ---@type string
-    local path = data.file
+  ---@param args vim.api.keyset.create_autocmd.callback_args
+  callback = function(args)
+    local path = args.file
     local is_dir = vim.fn.isdirectory(path)
     local is_tmp = path:sub(1, 5) == '/tmp/'
     if is_dir and is_tmp then
@@ -36,23 +38,24 @@ api.nvim_create_autocmd('VimEnter', {
   end,
 })
 
-api.nvim_create_autocmd('VimResized', {
+autocmd('VimResized', {
   group = NvimTrait.augroup 'wind_resize',
   command = 'wincmd =',
 })
 
-api.nvim_create_autocmd('BufReadPost', {
+autocmd('BufReadPost', {
   group = NvimTrait.augroup 'last_loc',
-  callback = function()
-    local mark = api.nvim_buf_get_mark(0, '"')
-    local lcount = api.nvim_buf_line_count(0)
+  ---@param args vim.api.keyset.create_autocmd.callback_args
+  callback = function(args)
+    local mark = api.nvim_buf_get_mark(args.buf, '"')
+    local lcount = api.nvim_buf_line_count(args.buf)
     if mark[1] > 0 and mark[1] <= lcount then
       pcall(api.nvim_win_set_cursor, 0, mark)
     end
   end,
 })
 
-api.nvim_create_autocmd('FileType', {
+autocmd('FileType', {
   group = NvimTrait.augroup 'close_with_q',
   pattern = {
     'qf',
@@ -73,7 +76,7 @@ api.nvim_create_autocmd('FileType', {
   end,
 })
 
-api.nvim_create_autocmd('TermOpen', {
+autocmd('TermOpen', {
   group = NvimTrait.augroup 'terminal',
   callback = function(args)
     if ('#toggleterm'):match(args.match) then
@@ -96,7 +99,11 @@ local function emit(ev, data)
   vim.api.nvim_exec_autocmds('User', { pattern = ev, data = data })
 end
 
-vim.api.nvim_create_autocmd('LspAttach', {
+---@class RooterCallbackArgs
+---@field event string
+---@field root string
+
+autocmd('LspAttach', {
   group = NvimTrait.augroup 'rooter',
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id) ---@type table|nil
@@ -104,13 +111,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return
     end
     local root = client.config.root_dir ---@type string
-    if root ~= vim.loop.cwd() then
+    if root ~= vim.uv.cwd() then
       if vim.fn.chdir(root) ~= '' then
-        ---@type table
+        ---@type RooterCallbackArgs
         local data = {
-          ---@type string
           event = 'LSP',
-          ---@type string
           root = root,
         }
         emit('Rooted', data)
@@ -119,10 +124,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-vim.api.nvim_create_autocmd('User', {
+autocmd('User', {
   pattern = 'Rooted',
+  ---@param args vim.api.keyset.create_autocmd.callback_args
   callback = function(args)
-    ---@type table
+    ---@type RooterCallbackArgs
     local data = args.data
     if data.root ~= nil then
       -- local setby = event_to_string(data.event)
@@ -133,17 +139,11 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'comment',
-  callback = function()
-    vim.bo.commentstring = ''
-  end,
-})
-
-vim.api.nvim_create_autocmd('User', {
+autocmd('User', {
   once = true,
   pattern = 'LazyVimStarted',
-  callback = function()
+  ---@param _args vim.api.keyset.create_autocmd.callback_args
+  callback = function(_args)
     local stats = require('lazy').stats()
     local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
     vim.notify(('It took %s ms to'):format(ms), vim.log.levels.INFO, {

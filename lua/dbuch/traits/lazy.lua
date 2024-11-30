@@ -31,11 +31,11 @@ function M.lazy_notify()
   local orig = vim.notify
   vim.notify = temp
 
-  local timer = vim.loop.new_timer()
+  local timer = vim.uv.new_timer()
   if timer == nil then
     return
   end
-  local check = assert(vim.loop.new_check())
+  local check = assert(vim.uv.new_check())
 
   local replay = function()
     timer:stop()

@@ -1,6 +1,5 @@
 local NvimTrait = require 'dbuch.traits.nvim'
 
----@type function
 local map = vim.keymap.set
 
 map('n', '<C-d>', '<C-d>zz', { remap = false })
@@ -35,7 +34,7 @@ map('n', 'sw', function()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('saiw', false, false, false), 'm', false)
 end, { expr = true })
 
-NvimTrait.on_attach(function(client, buf)
+NvimTrait.on_lsp_attach(function(client, buf)
   map('n', 'ca', vim.lsp.buf.code_action, { silent = true, buffer = buf })
   map('n', 'cD', ':Telescope lsp_definitions<CR>', { silent = true, buffer = buf })
   map('n', 'cd', vim.lsp.buf.definition, { silent = true, buffer = buf })
@@ -50,14 +49,6 @@ NvimTrait.on_attach(function(client, buf)
       vim.notify(client.name .. ' doesnt support inlay hints')
     end
   end, { silent = true, buffer = buf })
-
-  if client.server_capabilities.foldingRangeProvider then
-    vim.o.foldmethod = 'expr'
-    vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    vim.o.foldtext = 'v:lua.vim.lsp.foldtext()'
-    vim.o.foldcolumn = '1'
-    vim.o.foldlevel = 99
-  end
 end)
 
 map('n', '<leader>w', '<esc>:w<CR>', { noremap = false })

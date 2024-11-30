@@ -25,7 +25,7 @@ local function ensure_installed()
     'vim',
     'vimdoc',
   }
-  if not vim.loop.os_uname().sysname:match 'Windows' then
+  if not vim.uv.os_uname().sysname:match 'Windows' then
     table.insert(base, 'bash')
   end
   return base
@@ -55,7 +55,7 @@ return {
     end,
     dependencies = {
       -- 'nvim-treesitter/nvim-treesitter-textobjects',
-      { 'nushell/tree-sitter-nu', build = ':TSUpdate nu' },
+      { 'nushell/tree-sitter-nu' },
     },
     opts = {
       ensure_installed = ensure_installed(),
@@ -92,7 +92,7 @@ return {
       context_commentstring = { enable = true, enable_autocmd = false },
       disable = function(_lang, buf)
         local max_filesize = 1024 * 1024 -- MiB
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
           vim.notify('Treesitter is disabled due to huge filesize (1MiB)', vim.log.levels.WARN)
           return true

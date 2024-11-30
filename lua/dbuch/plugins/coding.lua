@@ -79,208 +79,142 @@ return {
   {
     'saecki/crates.nvim',
     event = 'BufRead Cargo.toml',
+    ---@module "crates.config"
+    ---@type crates.UserConfig
     opts = {
       lsp = {
         enabled = true,
         actions = true,
         completion = true,
-        over = true,
+        hover = true,
       },
-      src = {
+      completion = {
+        coq = {
+          enabled = false,
+        },
         cmp = {
-          enabled = true,
+          enabled = false,
         },
       },
     },
   },
   {
-    'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter', 'CmdlineEnter' },
+    'saghen/blink.cmp',
+    lazy = false,
+    -- version = 'v0.*',
+    build = 'cargo build --release --target-dir=target',
     dependencies = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-calc',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-nvim-lua',
-      'f3fora/cmp-spell',
-      'garymjr/nvim-snippets',
+      'echasnovski/mini.icons',
     },
-    opts = function()
-      local cmp = require 'cmp'
-      local lspkind = require 'lspkind'
-      local has_words_before = require('dbuch.traits.nvim').has_words_before
-      return {
-        snippet = {
-          expand = function(args)
-            vim.snippet.expand(args.body)
-          end,
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      completion = {
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 200,
+          treesitter_highlighting = true,
         },
-        window = {
-          completion = {
-            winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:Visual,Search:None',
-            col_offset = -3,
-            side_padding = 0,
-          },
+        list = {
+          max_items = 20,
+          selection = 'preselect',
         },
-        view = {
-          -- entries = { name = 'custom', selection_order = 'near_cursor' },
-          entries = { name = 'custom' },
-        },
-        formatting = {
-          fields = { 'kind', 'abbr', 'menu' },
-          format = function(entry, vim_item)
-            local strOrEmpty = function(str)
-              if str == nil then
-                return ''
-              end
-              return str
-            end
-
-            -- TODO: move to mini.icons
-
-            ---@type table
-            local kind = lspkind.cmp_format {
-              mode = 'symbol_text',
-              maxwidth = 50,
-              ellipsis_char = '…',
-              before = function(_entry, item)
-                vim_item.menu = ({
-                  nvim_lsp = '󰞵',
-                  nvim_lua = '',
-                  treesitter = '',
-                  path = '󰝰',
-                  buffer = '󱈛',
-                  zsh = '',
-                  vsnip = '',
-                  spell = '󰓆',
-                })[entry.source.name]
-                return item
-              end,
-            }(entry, vim_item)
-
-            local tokens = {}
-            for token in vim.gsplit(kind.kind, '%s') do
-              if token ~= '' then
-                table.insert(tokens, token)
-              end
-            end
-
-            local menu = kind.menu
-            if menu ~= nil then
-              menu = ('%s %s'):format(menu, strOrEmpty(tokens[2]))
-            else
-              if tokens[2] ~= nil then
-                menu = ('%s'):format(tokens[2])
-              end
-            end
-
-            kind.kind = (' %s '):format(tokens[1])
-            kind.menu = (' (%s)'):format(menu)
-
-            return kind
-          end,
-        },
-        completion = {
-          completeopt = 'menu,menuone,noinsert',
-        },
-        mapping = cmp.mapping.preset.insert {
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif not vim.snippet and vim.snippet.jumpable(1) then
-              vim.snippet.jump(1)
-            elseif has_words_before() then
-              cmp.complete()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif vim.snippet.jumpable(-1) then
-              vim.snippet.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-
-          ['<A-j>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif has_words_before() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-
-          ['<A-k>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<C-Space>'] = cmp.mapping.complete {},
-          ['<CR>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-          },
-        },
-        sources = cmp.config.sources({
-          { name = 'lazydev', priority = 10, group_index = 0 },
-          { name = 'nvim_lsp', priority = 9 },
-          { name = 'snippets', priority = 8 },
-          { name = 'path', priority = 6 },
-          { name = 'calc', priority = 5 },
-          { name = 'crates', priority = 4 },
-          {
-            name = 'spell',
-            priority = 3,
-            option = {
-              enable_in_context = function()
-                return require('cmp.config.context').in_treesitter_capture 'spell'
-              end,
+        menu = {
+          draw = {
+            treesitter = { 'lsp' },
+            columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 1 } },
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  --- @type string, string, boolean
+                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return kind_icon
+                end,
+                highlight = function(ctx)
+                  --- @type string, string, boolean
+                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return hl
+                end,
+              },
             },
           },
-        }, {
-          { name = 'buffer', priority = 2, keyword_length = 3, max_item_count = 2 },
-        }),
-        sorting = {
-          priority_weight = 1,
-          comparators = {
-            cmp.config.compare.locality,
-            cmp.config.compare.recently_used,
-            cmp.config.compare.score,
-            cmp.config.compare.offset,
-            cmp.config.compare.order,
+        },
+      },
+
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'mono',
+      },
+
+      sources = {
+        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
+
+        providers = {
+          lazydev = {
+            name = 'LazyDev',
+            module = 'lazydev.integrations.blink',
+            score_offset = 100,
           },
         },
-        experimental = {
-          ghost_text = true,
+      },
+
+      fuzzy = {
+        use_typo_resistance = true,
+        use_frecency = true,
+        use_proximity = true,
+        sorts = { 'score', 'sort_text' },
+        prebuilt_binaries = {
+          download = false,
+          force_version = nil,
+          force_system_triple = nil,
+          extra_curl_args = {},
         },
-      }
-    end,
-    config = function(_, opts)
-      local cmp = require 'cmp'
-      cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' },
-        }, {
-          { name = 'cmdline' },
-        }),
-      })
-      cmp.setup.cmdline({ '/', '?' }, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' },
+      },
+
+      keymap = {
+        preset = 'enter',
+
+        ['<A-j>'] = { 'select_next', 'fallback' },
+        ['<A-k>'] = { 'select_prev', 'fallback' },
+
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-e>'] = { 'hide', 'fallback' },
+
+        ['<Tab>'] = {
+          function(cmp)
+            if cmp.snippet_active() then
+              return cmp.accept()
+            else
+              return cmp.select_and_accept()
+            end
+          end,
+          'snippet_forward',
+          'fallback',
         },
-      })
-      cmp.setup(opts)
-    end,
+        ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+
+        cmdline = {
+          preset = 'default',
+        },
+      },
+
+      snippets = {
+        expand = function(snippet)
+          vim.snippet.expand(snippet)
+        end,
+        active = function(filter)
+          return vim.snippet.active(filter)
+        end,
+        jump = function(direction)
+          vim.snippet.jump(direction)
+        end,
+      },
+
+      signature = {
+        enabled = true,
+      },
+    },
   },
   {
     'andymass/vim-matchup',

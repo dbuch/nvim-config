@@ -3,21 +3,26 @@ local NvimTrait = require 'dbuch.traits.nvim'
 return {
   {
     'folke/lazydev.nvim',
-    ft = 'lua', -- only load on lua files
+    ft = 'lua',
+    cmd = 'LazyDev',
+    dependencies = {
+      { 'Bilal2453/luvit-meta', lazy = true },
+    },
     opts = {
       library = {
         { path = 'luvit-meta/library', words = { 'vim%.uv' } },
       },
+      integrations = {
+        lspconfig = true,
+        cmp = false,
+      },
     },
   },
-  { 'Bilal2453/luvit-meta', lazy = true }, -- optional `vim.uv` typings
   {
     'neovim/nvim-lspconfig',
     event = 'LazyFile',
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      -- 'hrsh7th/cmp-nvim-lsp-signature-help',
-      'onsails/lspkind-nvim',
+      'saghen/blink.cmp',
     },
     opts = function(_, _)
       local lspconfig = require 'lspconfig'
@@ -97,14 +102,23 @@ return {
             Lua = {
               runtime = {
                 version = 'LuaJIT',
-                path = { '?.lua', '?/init.lua' },
-                pathStrict = 'true',
               },
               workspace = {
                 checkThirdParty = false,
               },
               completion = {
                 callSnippet = 'Replace',
+              },
+              doc = {
+                privateName = { '^_' },
+              },
+              hint = {
+                enable = true,
+                setType = false,
+                paramType = true,
+                paramName = 'Disable',
+                semicolon = 'Disable',
+                arrayIndex = 'Disable',
               },
               diagnostics = {
                 groupSeverity = {
@@ -152,24 +166,25 @@ return {
     end,
     config = function(_plugin, opts)
       -- Register LspAttach
-      NvimTrait.on_attach(function(_client, buffer)
+      NvimTrait.on_lsp_attach(function(client, buffer)
         vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
-        vim.lsp.semantic_tokens.force_refresh(buffer)
+        if client:supports_method 'textDocument/foldingRange' then
+          vim.wo.foldmethod = 'expr'
+          vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+          vim.wo.foldtext = 'v:lua.vim.lsp.foldtext()'
+          vim.wo.foldcolumn = 'auto:1'
+          vim.wo.foldlevel = 99
+        end
+        -- vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
       end)
 
       require('dbuch.diagnostic').config()
 
       local servers = opts --- @type table<string,table>
 
-      local capabilities = vim.tbl_deep_extend(
-        'force',
-        vim.lsp.protocol.make_client_capabilities(),
-        require('cmp_nvim_lsp').default_capabilities()
-      )
       for server, server_opts in pairs(servers) do
-        require('lspconfig')[server].setup(vim.tbl_deep_extend('force', {
-          capabilities = vim.deepcopy(capabilities),
-        }, server_opts or {}))
+        local capabilities = require('blink.cmp').get_lsp_capabilities(server_opts.capabilities)
+        require('lspconfig')[server].setup(capabilities)
       end
     end,
   },

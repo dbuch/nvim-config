@@ -122,18 +122,14 @@ end
 --- @param active 0|1
 --- @return string
 local function filetype_symbol(active)
-  local ok, devicons = pcall(require, 'nvim-web-devicons')
-  if not ok then
-    return ''
+  ---@diagnostic disable-next-line: undefined-field
+  if _G.MiniIcons then
+    local name = api.nvim_buf_get_name(0)
+    local icon, hlname, _ = MiniIcons.get('file', name)
+
+    return hl(hlname, active) .. icon
   end
-
-  local name = api.nvim_buf_get_name(0)
-  local icon, iconhl = devicons.get_icon_color(name, vim.bo.filetype, { default = true })
-
-  local hlname = iconhl:gsub('#', 'Status')
-  api.nvim_set_hl(0, hlname, { fg = iconhl, bg = get_hl('StatusLine').bg })
-
-  return hl(hlname, active) .. icon
+  return ''
 end
 
 local function is_treesitter()

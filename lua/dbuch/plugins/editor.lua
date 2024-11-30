@@ -199,7 +199,7 @@ return {
         group = vim.api.nvim_create_augroup('kitty_scrollback_quit_with_q', { clear = true }),
         pattern = { 'kitty-scrollback' },
         callback = function()
-          vim.keymap.set({ 'n' }, 'q', '<Plug>(KsbCloseOrQuitAll)', {})
+          vim.keymap.set({ 'n' }, 'q', '<Plug>(KsbCloseOrQuitAll)')
           return true
         end,
       })
