@@ -1,3 +1,5 @@
+---@module 'lazy'
+---@type LazyPluginSpec[]
 return {
   {
     'echasnovski/mini.pairs',
@@ -101,8 +103,8 @@ return {
   {
     'saghen/blink.cmp',
     lazy = false,
-    -- version = 'v0.*',
-    build = 'cargo build --release --target-dir=target',
+    version = 'v0.*',
+    --build = 'cargo build --release --target-dir=target',
     dependencies = {
       'echasnovski/mini.icons',
     },
@@ -114,6 +116,9 @@ return {
           auto_show = true,
           auto_show_delay_ms = 200,
           treesitter_highlighting = true,
+        },
+        ghost_text = {
+          enabled = true,
         },
         list = {
           max_items = 20,
@@ -165,7 +170,7 @@ return {
         use_proximity = true,
         sorts = { 'score', 'sort_text' },
         prebuilt_binaries = {
-          download = false,
+          download = true,
           force_version = nil,
           force_system_triple = nil,
           extra_curl_args = {},

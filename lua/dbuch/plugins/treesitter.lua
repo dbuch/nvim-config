@@ -1,4 +1,4 @@
----@return table
+---@return string[]
 local function ensure_installed()
   local base = {
     'c',
@@ -31,6 +31,8 @@ local function ensure_installed()
   return base
 end
 
+---@module 'lazy'
+---@type LazyPluginSpec[]
 return {
   {
     'nvim-treesitter/nvim-treesitter-context',

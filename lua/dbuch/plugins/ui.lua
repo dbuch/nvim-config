@@ -1,3 +1,5 @@
+---@module 'lazy'
+---@type LazyPluginSpec[]
 return {
   {
     'stevearc/dressing.nvim',
@@ -65,7 +67,7 @@ return {
   },
   {
     'echasnovski/mini.icons',
-    lazy = true,
+    lazy = false,
     opts = {
       file = {
         ['.keep'] = { glyph = '󰊢', hl = 'MiniIconsGrey' },
@@ -75,12 +77,6 @@ return {
         dotenv = { glyph = '', hl = 'MiniIconsYellow' },
       },
     },
-    init = function()
-      package.preload['nvim-web-devicons'] = function()
-        require('mini.icons').mock_nvim_web_devicons()
-        return package.loaded['nvim-web-devicons']
-      end
-    end,
   },
   { 'MunifTanjim/nui.nvim', lazy = true },
   { 'nvim-lua/plenary.nvim', lazy = true },

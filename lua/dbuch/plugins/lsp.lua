@@ -1,5 +1,7 @@
 local NvimTrait = require 'dbuch.traits.nvim'
 
+---@module 'lazy'
+---@type LazyPluginSpec[]
 return {
   {
     'folke/lazydev.nvim',
