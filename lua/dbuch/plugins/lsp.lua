@@ -22,7 +22,7 @@ return {
   },
   {
     'neovim/nvim-lspconfig',
-    event = 'LazyFile',
+    event = 'VeryLazy',
     dependencies = {
       'saghen/blink.cmp',
     },
@@ -169,15 +169,12 @@ return {
     config = function(_plugin, opts)
       -- Register LspAttach
       NvimTrait.on_lsp_attach(function(client, buffer)
-        vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
         if client:supports_method 'textDocument/foldingRange' then
           vim.wo.foldmethod = 'expr'
           vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
           vim.wo.foldtext = 'v:lua.vim.lsp.foldtext()'
-          vim.wo.foldcolumn = 'auto:1'
-          vim.wo.foldlevel = 99
         end
-        -- vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
       end)
 
       require('dbuch.diagnostic').config()

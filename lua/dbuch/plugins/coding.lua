@@ -4,13 +4,19 @@ return {
   {
     'echasnovski/mini.pairs',
     version = false,
-    event = 'LazyFile',
-    opts = {},
+    event = 'VeryLazy',
+    opts = {
+      modes = { insert = true, command = true, terminal = false },
+      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+      skip_ts = { 'string' },
+      skip_unbalanced = true,
+      markdown = true,
+    },
   },
   {
     'echasnovski/mini.comment',
     version = false,
-    event = 'LazyFile',
+    event = 'VeryLazy',
     opts = {},
   },
   {
@@ -115,19 +121,25 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
+          update_delay_ms = 100,
           treesitter_highlighting = true,
+          window = {
+            max_width = math.min(80, vim.o.columns),
+            border = 'single',
+          },
         },
         ghost_text = {
           enabled = true,
         },
         list = {
           max_items = 20,
-          selection = 'preselect',
+          selection = 'manual',
         },
         menu = {
+          -- border = 'single'
           draw = {
             treesitter = { 'lsp' },
-            columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 1 } },
+            columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 1 }, { 'source' } },
             components = {
               kind_icon = {
                 ellipsis = false,
@@ -141,6 +153,19 @@ return {
                   local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
                   return hl
                 end,
+              },
+              source = {
+                ellipsis = false,
+                text = function(ctx)
+                  local map = {
+                    ['lsp'] = '[]',
+                    ['path'] = '[󰉋]',
+                    ['snippets'] = '[]',
+                  }
+
+                  return map[ctx.item.source_id]
+                end,
+                highlight = 'BlinkCmpSource',
               },
             },
           },
@@ -199,10 +224,6 @@ return {
           'fallback',
         },
         ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
-
-        cmdline = {
-          preset = 'default',
-        },
       },
 
       snippets = {
@@ -224,7 +245,7 @@ return {
   },
   {
     'andymass/vim-matchup',
-    event = 'LazyFile',
+    event = 'VeryLazy',
     init = function()
       vim.g.matchup_matchparen_offscreen = { method = 'status_manual' }
       vim.g.matchup_matchparen_deferred = 1

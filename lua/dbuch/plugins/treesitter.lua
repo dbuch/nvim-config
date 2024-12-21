@@ -36,7 +36,7 @@ end
 return {
   {
     'nvim-treesitter/nvim-treesitter-context',
-    event = 'LazyFile',
+    event = 'VeryLazy',
     --lazy = false,
     opts = {
       enable = true,
@@ -50,7 +50,7 @@ return {
     dev = true,
     --version = false,
     build = ':TSUpdate',
-    event = { 'LazyFile', 'VeryLazy' },
+    event = { 'VeryLazy' },
     init = function(plugin)
       require('lazy.core.loader').add_to_rtp(plugin)
       require 'nvim-treesitter.query_predicates'

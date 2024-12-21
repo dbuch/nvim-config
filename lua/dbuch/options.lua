@@ -80,7 +80,8 @@ opt.showcmd = false
 vim.g.sh_fold_enabled = 1
 
 opt.foldmethod = 'syntax'
-opt.foldcolumn = '0'
+opt.foldcolumn = 'auto:1'
+opt.foldlevel = 99
 opt.foldnestmax = 3
 opt.foldopen:append 'jump'
 

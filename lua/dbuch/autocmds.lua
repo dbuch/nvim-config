@@ -6,8 +6,8 @@ autocmd('TextYankPost', {
   group = NvimTrait.augroup 'TextYank',
   desc = 'highlight on yank',
   pattern = '*',
-  ---@param _args vim.api.keyset.create_autocmd.callback_args
-  callback = function(_args)
+  ---@param args vim.api.keyset.create_autocmd.callback_args
+  callback = function(args)
     vim.hl.on_yank {
       higroup = 'Search',
       timeout = 200,
@@ -69,7 +69,6 @@ autocmd('FileType', {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', {
-      ---@type number
       buffer = event.buf,
       silent = true,
     })
@@ -80,9 +79,9 @@ autocmd('TermOpen', {
   group = NvimTrait.augroup 'terminal',
   callback = function(args)
     if ('#toggleterm'):match(args.match) then
+      ---@type vim.keymap.set.Opts
       local opts = {
-        ---@type number
-        buffer = args.buf, --[[@as table]]
+        buffer = args.buf,
       }
       vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
       vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)

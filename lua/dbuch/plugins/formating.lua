@@ -3,7 +3,7 @@
 return {
   {
     'stevearc/conform.nvim',
-    event = { 'LazyFile' },
+    event = { 'VeryLazy' },
     cmd = { 'ConformInfo' },
     keys = {
       {

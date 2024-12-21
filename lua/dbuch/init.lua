@@ -5,7 +5,6 @@ safe_require 'dbuch.options'
 safe_require 'dbuch.mappings'
 
 NvimTrait.init_printf()
-LazyTrait.initialize_lazyfile()
 LazyTrait.lazy_notify()
 
 ---@class DevSpec

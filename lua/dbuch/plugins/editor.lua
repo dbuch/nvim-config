@@ -1,3 +1,5 @@
+-- TODO: https://github.com/yetone/avante.nvim
+
 ---@module 'lazy'
 ---@type LazyPluginSpec[]
 return {
@@ -46,7 +48,7 @@ return {
   },
   {
     'lewis6991/gitsigns.nvim',
-    event = { 'LazyFile' },
+    event = { 'VeryLazy' },
     opts = {
       debug_mode = false,
       max_file_length = 100000,
@@ -69,7 +71,7 @@ return {
   },
   {
     'lewis6991/foldsigns.nvim',
-    event = 'LazyFile',
+    event = 'VeryLazy',
     opts = {
       exclude = { 'GitSigns.*' },
     },
@@ -159,18 +161,18 @@ return {
   },
   {
     'echasnovski/mini.cursorword',
-    event = 'LazyFile',
+    event = 'VeryLazy',
     version = false,
     opts = {},
   },
   {
     'folke/todo-comments.nvim',
-    event = 'LazyFile',
+    event = 'VeryLazy',
     opts = {},
   },
   {
     'lewis6991/whatthejump.nvim',
-    event = 'LazyFile',
+    event = 'VeryLazy',
     config = function()
       -- Jump backwards
       vim.keymap.set('n', '<M-k>', function()
