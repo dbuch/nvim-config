@@ -153,7 +153,7 @@ return {
       },
 
       sources = {
-        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'markdown' },
 
         providers = {
           lazydev = {
@@ -161,6 +161,7 @@ return {
             module = 'lazydev.integrations.blink',
             score_offset = 100,
           },
+          markdown = { name = 'RenderMarkdown', module = 'render-markdown.integ.blink' },
         },
       },
 

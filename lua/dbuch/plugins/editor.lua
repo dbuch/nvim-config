@@ -191,7 +191,11 @@ return {
     ft = { 'markdown' },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
-    opts = {},
+    opts = {
+      indent = {
+        enabled = true,
+      },
+    },
   },
   {
     'brenoprata10/nvim-highlight-colors',
