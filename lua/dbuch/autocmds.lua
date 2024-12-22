@@ -6,8 +6,7 @@ autocmd('TextYankPost', {
   group = NvimTrait.augroup 'TextYank',
   desc = 'highlight on yank',
   pattern = '*',
-  ---@param args vim.api.keyset.create_autocmd.callback_args
-  callback = function(args)
+  callback = function(_args)
     vim.hl.on_yank {
       higroup = 'Search',
       timeout = 200,
@@ -18,7 +17,6 @@ autocmd('TextYankPost', {
 
 autocmd('VimEnter', {
   group = NvimTrait.augroup 'paru_review',
-  ---@param args vim.api.keyset.create_autocmd.callback_args
   callback = function(args)
     local path = args.file
     local is_dir = vim.fn.isdirectory(path)
@@ -45,7 +43,6 @@ autocmd('VimResized', {
 
 autocmd('BufReadPost', {
   group = NvimTrait.augroup 'last_loc',
-  ---@param args vim.api.keyset.create_autocmd.callback_args
   callback = function(args)
     local mark = api.nvim_buf_get_mark(args.buf, '"')
     local lcount = api.nvim_buf_line_count(args.buf)
@@ -125,7 +122,6 @@ autocmd('LspAttach', {
 
 autocmd('User', {
   pattern = 'Rooted',
-  ---@param args vim.api.keyset.create_autocmd.callback_args
   callback = function(args)
     ---@type RooterCallbackArgs
     local data = args.data
@@ -141,7 +137,6 @@ autocmd('User', {
 autocmd('User', {
   once = true,
   pattern = 'LazyVimStarted',
-  ---@param _args vim.api.keyset.create_autocmd.callback_args
   callback = function(_args)
     local stats = require('lazy').stats()
     local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)

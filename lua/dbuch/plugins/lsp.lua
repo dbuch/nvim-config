@@ -180,10 +180,11 @@ return {
       require('dbuch.diagnostic').config()
 
       local servers = opts --- @type table<string,table>
-
       for server, server_opts in pairs(servers) do
-        local capabilities = require('blink.cmp').get_lsp_capabilities(server_opts.capabilities)
-        require('lspconfig')[server].setup(capabilities)
+        require('lspconfig')[server].setup {
+          capabilities = require('blink.cmp').get_lsp_capabilities(server_opts.capabilities),
+          settings = server_opts.settings or {},
+        }
       end
     end,
   },
