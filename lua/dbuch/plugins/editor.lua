@@ -4,46 +4,24 @@
 ---@type LazyPluginSpec[]
 return {
   {
-    'nvim-lua/telescope.nvim',
-    cmd = 'Telescope',
+    'echasnovski/mini.pick',
+    lazy = false,
     version = false,
-    dependencies = {
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
+    opts = {
+      mappings = {
+        move_up = '<A-k>',
+        move_down = '<A-j>',
+      },
+
+      options = {
+        use_cache = true,
       },
     },
-    opts = function(_, opts)
-      local telescope_actions = require 'telescope.actions'
-      opts.defaults = {
-        mappings = {
-          i = {
-            ['<M-j>'] = telescope_actions.move_selection_next,
-            ['<M-k>'] = telescope_actions.move_selection_previous,
-          },
-        },
-        layout_strategy = 'flex',
-        file_ignore_patterns = { '!cargo-targets' },
-        -- file_sorter = sorters.get_fzy_sorter,
-      }
-
-      opts.extensions = {
-        fzf = {
-          fuzzy = true,
-          override_generic_sorter = true,
-          override_file_sorter = true,
-          case_mode = 'smart_case',
-        },
-        ['ui-select'] = {
-          require('telescope.themes').get_cursor {
-            -- even more opts
-          },
-        },
-      }
-    end,
-    config = function(_, opts)
-      require('telescope').load_extension 'fzf'
-      require('telescope').setup(opts)
+    config = function(_plugin, opts)
+      require('mini.pick').setup(opts)
+      vim.api.nvim_set_hl(0, 'MiniPickMatchCurrent', {
+        link = 'Visual',
+      })
     end,
   },
   {

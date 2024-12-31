@@ -128,12 +128,22 @@ return {
             border = 'single',
           },
         },
+
         ghost_text = {
           enabled = true,
         },
+
+        accept = {
+          auto_brackets = {
+            enabled = false,
+          },
+        },
+
         list = {
           max_items = 20,
-          selection = 'manual',
+          selection = function(ctx)
+            return ctx.mode == 'cmdline' and 'auto_insert' or 'preselect'
+          end,
         },
         menu = {
           -- border = 'single'
