@@ -66,3 +66,5 @@ require('lazy').setup {
 safe_require 'dbuch.autocmds'
 safe_require 'dbuch.status'
 safe_require 'dbuch.macros'
+
+safe_require 'lsp'

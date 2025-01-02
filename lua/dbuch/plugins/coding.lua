@@ -1,3 +1,5 @@
+--TODO: https://github.com/SuperBo/fugit2.nvim
+
 ---@module 'lazy'
 ---@type LazyPluginSpec[]
 return {
@@ -110,7 +112,7 @@ return {
     'saghen/blink.cmp',
     lazy = false,
     version = 'v0.*',
-    --build = 'cargo build --release --target-dir=target',
+    -- build = 'cargo build --release --target-dir=target',
     dependencies = {
       'echasnovski/mini.icons',
     },
@@ -141,9 +143,17 @@ return {
 
         list = {
           max_items = 20,
-          selection = function(ctx)
-            return ctx.mode == 'cmdline' and 'auto_insert' or 'preselect'
-          end,
+          selection = {
+            preselect = function(ctx)
+              return ctx.mode ~= 'cmdline' and not require('blink.cmp').snippet_active { direction = 1 }
+            end,
+            auto_insert = function(ctx)
+              return ctx.mode ~= 'cmdline'
+            end,
+          },
+          -- selection = function(ctx)
+          --   return ctx.mode == 'cmdline' and 'auto_insert' or 'preselect'
+          -- end,
         },
         menu = {
           -- border = 'single'
@@ -188,14 +198,15 @@ return {
       },
 
       sources = {
-        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'markdown' },
+        -- default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'markdown' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'markdown' },
 
         providers = {
-          lazydev = {
-            name = 'LazyDev',
-            module = 'lazydev.integrations.blink',
-            score_offset = 100,
-          },
+          -- lazydev = {
+          --   name = 'LazyDev',
+          --   module = 'lazydev.integrations.blink',
+          --   score_offset = 100,
+          -- },
           markdown = { name = 'RenderMarkdown', module = 'render-markdown.integ.blink' },
         },
       },

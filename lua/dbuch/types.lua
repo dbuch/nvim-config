@@ -19,7 +19,7 @@
 ---@class ResponseError
 ---@field code integer
 ---@field message string
----@field data string | number | boolean | Array | object | nil;
+---@field data string | number | boolean | Array | Object | nil;
 
 ---@class CargoMetadata
 ---@field packages CargoPackages[]

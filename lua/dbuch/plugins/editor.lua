@@ -18,7 +18,23 @@ return {
       },
     },
     config = function(_plugin, opts)
+      -- Centered on screen
+      local win_config = function()
+        local height = math.floor(0.618 * vim.o.lines)
+        local width = math.floor(0.618 * vim.o.columns)
+        return {
+          anchor = 'NW',
+          height = height,
+          width = width,
+          row = math.floor(0.5 * (vim.o.lines - height)),
+          col = math.floor(0.5 * (vim.o.columns - width)),
+        }
+      end
+
+      opts.window = vim.tbl_extend('force', opts.window or {}, { config = win_config })
+
       require('mini.pick').setup(opts)
+
       vim.api.nvim_set_hl(0, 'MiniPickMatchCurrent', {
         link = 'Visual',
       })
@@ -42,7 +58,6 @@ return {
       },
       count_chars = require('dbuch.icons').subscript_count,
       update_debounce = 50,
-      _threaded_diff = true,
       word_diff = true,
       trouble = true,
     },
@@ -86,18 +101,21 @@ return {
       { 'K', '<Cmd>Hover<cr>' },
       { 'gK', '<Cmd>HoverSelect<cr>' },
     },
-    config = function()
+    ---@module 'hover'
+    ---@type Hover.UserConfig
+    opts = {
+      init = function()
+        require 'hover.providers.lsp'
+        require 'hover.providers.dictionary'
+        require 'hover.providers.fold_preview'
+        require 'hover.providers.man'
+      end,
+      preview_window = true,
+    },
+    config = function(_plugin, hover_opts)
+      require('hover').setup(hover_opts)
       vim.keymap.set('n', 'K', require('hover').hover, { desc = 'hover.nvim' })
       vim.keymap.set('n', 'gK', require('hover').hover_select, { desc = 'hover.nvim (select)' })
-      require('hover').setup {
-        init = function()
-          require 'hover.providers.lsp'
-          require 'hover.providers.dictionary'
-          require 'hover.providers.fold_preview'
-          require 'hover.providers.man'
-        end,
-        preview_window = true,
-      }
     end,
   },
   {
@@ -172,6 +190,9 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
+      latex = {
+        enabled = false,
+      },
       indent = {
         enabled = true,
       },
@@ -179,8 +200,8 @@ return {
   },
   {
     'brenoprata10/nvim-highlight-colors',
-    cmd = { 'HighlightColorsOn', 'HighlightColorsOff', 'HighlightColorsToggle' },
-    config = true,
+    cmd = { 'HighlightColors' },
+    opts = {},
   },
   {
     'mikesmithgh/kitty-scrollback.nvim',

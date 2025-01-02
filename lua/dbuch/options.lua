@@ -6,7 +6,8 @@ opt.breakindent = true
 --TODO  o.clipboard      = 'unnamedplus' Fix this when wl-copy behaves
 --OR https://github.com/neovim/neovim/pull/21091
 opt.expandtab = true
-opt.fillchars = { eob = ' ', diff = ' ' }
+
+vim.opt.fillchars = { eob = ' ', diff = ' ', foldopen = '', foldclose = '', foldsep = ' ' }
 opt.hidden = true
 opt.ignorecase = true
 opt.inccommand = 'split'
@@ -58,7 +59,7 @@ opt.updatetime = 200
 
 opt.undolevels = 10000
 opt.undofile = true
-vim.opt.undodir = require('dbuch.env').undo_dir
+opt.undodir = require('dbuch.env').undo_dir
 opt.splitright = true
 opt.splitbelow = true
 opt.splitkeep = 'screen'
@@ -79,10 +80,9 @@ opt.showcmd = false
 -- Folding
 vim.g.sh_fold_enabled = 1
 
-opt.foldmethod = 'syntax'
 opt.foldcolumn = 'auto:1'
 opt.foldlevel = 99
-opt.foldnestmax = 3
+opt.foldlevelstart = 99
 opt.foldopen:append 'jump'
 
 -- grep
