@@ -224,6 +224,7 @@ return {
   {
     'rachartier/tiny-inline-diagnostic.nvim',
     event = 'VeryLazy', -- Or `LspAttach`
+    enabled = false,
     priority = 1000, -- needs to be loaded in first
     opts = {
       options = {
