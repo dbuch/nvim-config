@@ -98,7 +98,6 @@ end
 ---@class RooterCallbackArgs
 ---@field event string
 ---@field root string
-
 autocmd('LspAttach', {
   group = NvimTrait.augroup 'rooter',
   callback = function(args)

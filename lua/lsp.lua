@@ -1,16 +1,24 @@
----@param cb fun(_:vim.lsp.Client, _:integer): boolean?
-local function on_lsp_attach(cb)
+---@param cb fun(client:vim.lsp.Client, bufnr:integer): boolean?
+local function on_attach(cb)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
       ---@type integer
-      local buffer = args.buf
+      local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       if client ~= nil then
-        return cb(client, buffer)
+        return cb(client, bufnr)
       end
     end,
   })
 end
+
+on_attach(function(client, _buffer)
+  if client:supports_method 'textDocument/foldingRange' then
+    vim.wo.foldmethod = 'expr'
+    vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+    vim.wo.foldtext = 'v:lua.vim.lsp.foldtext()'
+  end
+end)
 
 -- local function debounce(ms, fn)
 --   local timer = assert(vim.uv.new_timer())
@@ -24,16 +32,7 @@ end
 --     end)
 --   end
 -- end
-
-on_lsp_attach(function(client, _buffer)
-  if client:supports_method 'textDocument/foldingRange' then
-    vim.wo.foldmethod = 'expr'
-    vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    vim.wo.foldtext = 'v:lua.vim.lsp.foldtext()'
-  end
-end)
-
--- on_lsp_attach(function(client, buffer)
+-- on_attach(function(client, buffer)
 --   if client:supports_method 'textDocument/codeLens' then
 --     vim.lsp.codelens.refresh { bufnr = buffer }
 --     vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
@@ -54,6 +53,7 @@ local enabled_lsps = {
   'jsonls',
   'cssls',
   'taplo',
+  'lemminx',
 
   -- Programming
   'clangd',

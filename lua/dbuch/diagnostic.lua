@@ -2,7 +2,8 @@ local M = {}
 
 function M.config()
   vim.diagnostic.config {
-    virtual_text = { source = true },
+    virtual_text = false,
+    -- virtual_text = { source = true },
     severity_sort = true,
     update_in_insert = true,
     signs = {
