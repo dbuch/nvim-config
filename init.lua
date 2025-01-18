@@ -4,7 +4,7 @@ _G.safe_require = function(module_name)
   if success then
     return module
   end
-  vim.api.nvim_echo({ ('ERROR: Failed to load: %s'):format(module_name) }, true, { err = true })
+  vim.api.nvim_echo({ { ('ERROR: Failed to load: %s'):format(module_name), "Module Load"}  }, true, { err = true })
 end
 
 _G.Utils = require 'dbuch.utils'

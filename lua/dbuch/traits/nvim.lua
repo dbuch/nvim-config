@@ -21,7 +21,7 @@ function M.on_ts_attach(cb)
   })
 end
 
----@param cb fun(_:vim.lsp.Client, _:integer)
+---@param cb fun(_:vim.lsp.Client, _:integer): boolean?
 function M.on_lsp_attach(cb)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
@@ -29,7 +29,7 @@ function M.on_lsp_attach(cb)
       local buffer = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       if client ~= nil then
-        cb(client, buffer)
+        return cb(client, buffer)
       end
     end,
   })

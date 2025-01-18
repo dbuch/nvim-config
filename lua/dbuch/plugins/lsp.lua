@@ -3,24 +3,25 @@ local NvimTrait = require 'dbuch.traits.nvim'
 ---@module 'lazy'
 ---@type LazyPluginSpec[]
 return {
-  -- {
-  --   'folke/lazydev.nvim',
-  --   ft = 'lua',
-  --   cmd = 'LazyDev',
-  --   enabled = false,
-  --   dependencies = {
-  --     { 'Bilal2453/luvit-meta', lazy = true },
-  --   },
-  --   opts = {
-  --     library = {
-  --       { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-  --     },
-  --     integrations = {
-  --       lspconfig = true,
-  --       cmp = false,
-  --     },
-  --   },
-  -- },
+  {
+    'folke/lazydev.nvim',
+    dev = true,
+    ft = 'lua',
+    cmd = 'LazyDev',
+    enabled = true,
+    dependencies = {
+      { 'Bilal2453/luvit-meta', lazy = true },
+    },
+    opts = {
+      library = {
+        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+      },
+      integrations = {
+        lspconfig = false,
+        cmp = false,
+      },
+    },
+  },
   -- {
   --   'neovim/nvim-lspconfig',
   --   event = 'VeryLazy',
@@ -68,16 +69,6 @@ return {
   --   end,
   --   config = function(_plugin, opts)
   --     -- Register LspAttach
-  --     NvimTrait.on_lsp_attach(function(client, _buffer)
-  --       -- vim.bo[buffer].omnifunc = 'v:lua.vim.lsp.omnifunc'
-  --       if client:supports_method 'textDocument/foldingRange' then
-  --         vim.wo.foldmethod = 'expr'
-  --         vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-  --         vim.wo.foldtext = 'v:lua.vim.lsp.foldtext()'
-  --       end
-  --     end)
-  --
-  --     require('dbuch.diagnostic').config()
   --
   --     local servers = opts --- @type table<string,table>
   --     for server, server_opts in pairs(servers) do
