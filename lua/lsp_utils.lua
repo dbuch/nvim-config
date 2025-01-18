@@ -14,11 +14,13 @@ api.nvim_create_user_command('LspRestart', function(kwargs)
   local name = kwargs.fargs[1] --- @type string
   for _, client in ipairs(get_clients { bufnr = bufnr, name = name }) do
     local bufs = vim.deepcopy(client.attached_buffers)
-    client.stop()
+    client:stop()
     vim.wait(30000, function()
       return lsp.get_client_by_id(client.id) == nil
     end)
-    local client_id = lsp.start_client(client.config)
+    local client_id = vim.lsp.start(client.config, {
+      bufnr = bufnr,
+    })
     if client_id then
       for buf in pairs(bufs) do
         lsp.buf_attach_client(buf, client_id)
@@ -34,7 +36,7 @@ api.nvim_create_user_command('LspStop', function(kwargs)
   local bufnr = vim.api.nvim_get_current_buf()
   local name = kwargs.fargs[1] --- @type string
   for _, client in ipairs(get_clients { bufnr = bufnr, name = name }) do
-    client.stop()
+    client:stop()
   end
 end, {
   nargs = '*',

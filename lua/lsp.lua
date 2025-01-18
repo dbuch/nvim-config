@@ -56,8 +56,8 @@ local enabled_lsps = {
   'lemminx',
 
   -- Programming
-  'clangd',
   'lua_ls',
+  'clangd',
   'pyright',
   'ruff',
   'zls',
