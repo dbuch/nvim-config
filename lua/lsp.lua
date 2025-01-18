@@ -49,7 +49,7 @@ require('dbuch.diagnostic').config()
 
 local enabled_lsps = {
   -- Data/Exchangeable formats ls
-  'html',
+  'htmlls',
   'jsonls',
   'cssls',
   'taplo',

@@ -1,3 +1,5 @@
+-- INFO: must be named lua_LS
+
 ---@type vim.lsp.Config
 return {
   cmd = { 'lua-language-server' },
