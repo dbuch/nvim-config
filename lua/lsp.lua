@@ -12,18 +12,18 @@ local function on_lsp_attach(cb)
   })
 end
 
-local function debounce(ms, fn)
-  local timer = assert(vim.uv.new_timer())
-  return function(...)
-    local argc, argv = select('#', ...), { ... }
-    timer:start(ms, 0, function()
-      timer:stop()
-      vim.schedule(function()
-        fn(unpack(argv, 1, argc))
-      end)
-    end)
-  end
-end
+-- local function debounce(ms, fn)
+--   local timer = assert(vim.uv.new_timer())
+--   return function(...)
+--     local argc, argv = select('#', ...), { ... }
+--     timer:start(ms, 0, function()
+--       timer:stop()
+--       vim.schedule(function()
+--         fn(unpack(argv, 1, argc))
+--       end)
+--     end)
+--   end
+-- end
 
 on_lsp_attach(function(client, _buffer)
   if client:supports_method 'textDocument/foldingRange' then
@@ -33,18 +33,18 @@ on_lsp_attach(function(client, _buffer)
   end
 end)
 
-on_lsp_attach(function(client, buffer)
-  if client:supports_method 'textDocument/codeLens' then
-    vim.lsp.codelens.refresh { bufnr = buffer }
-    vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
-      callback = debounce(200, function(args0)
-        vim.lsp.codelens.refresh { bufnr = args0.buf }
-      end),
-    })
-    -- Code lens setup, don't call again
-    return true
-  end
-end)
+-- on_lsp_attach(function(client, buffer)
+--   if client:supports_method 'textDocument/codeLens' then
+--     vim.lsp.codelens.refresh { bufnr = buffer }
+--     vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
+--       callback = debounce(200, function(args0)
+--         vim.lsp.codelens.refresh { bufnr = args0.buf }
+--       end),
+--     })
+--     -- Code lens setup, don't call again
+--     return true
+--   end
+-- end)
 
 require('dbuch.diagnostic').config()
 
@@ -58,13 +58,11 @@ local enabled_lsps = {
   -- Programming
   'clangd',
   'lua_ls',
-  -- 'omnisharp',
   'pyright',
   'ruff',
   'zls',
   -- 'omnisharp',
-  -- 'wgsl_analyzer',
-  -- 'ts_ls',
+  'wgsl',
 
   -- Shell
   'nushell',
