@@ -1,11 +1,9 @@
-local LazyTrait = require 'dbuch.traits.lazy'
 local NvimTrait = require 'dbuch.traits.nvim'
 
 safe_require 'dbuch.options'
 safe_require 'dbuch.mappings'
 
 NvimTrait.init_printf()
-LazyTrait.lazy_notify()
 
 ---@class DevSpec
 ---@field path string

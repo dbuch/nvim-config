@@ -42,7 +42,7 @@ return {
   },
   {
     'lewis6991/gitsigns.nvim',
-    event = { 'VeryLazy' },
+    event = 'VeryLazy',
     opts = {
       debug_mode = false,
       max_file_length = 100000,
@@ -226,6 +226,7 @@ return {
     event = 'VeryLazy', -- Or `LspAttach`
     priority = 1000, -- needs to be loaded in first
     opts = {
+      preset = 'simple',
       options = {
         show_source = true,
         use_icons_from_diagnostic = true,
@@ -235,6 +236,7 @@ return {
         },
         break_line = {
           enabled = true,
+          after = 60,
         },
       },
     },

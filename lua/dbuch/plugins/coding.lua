@@ -120,6 +120,11 @@ return {
     ---@type blink.cmp.Config
     opts = {
       completion = {
+
+        trigger = {
+          prefetch_on_insert = true,
+        },
+
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,

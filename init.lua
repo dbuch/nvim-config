@@ -1,10 +1,11 @@
-_G.safe_require = function(module_name)
-  ---@diagnostic disable-next-line: no-unknown
-  local success, module = pcall(require, module_name)
+---@param modname string
+---@return boolean|unknown
+_G.safe_require = function(modname)
+  local success, module = pcall(require, modname)
   if success then
     return module
   end
-  vim.api.nvim_echo({ { ('ERROR: Failed to load: %s'):format(module_name), "Module Load"}  }, true, { err = true })
+  return false
 end
 
 _G.Utils = require 'dbuch.utils'

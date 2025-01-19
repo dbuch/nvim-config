@@ -14,7 +14,9 @@ return {
   {
     'luukvbaal/statuscol.nvim',
     event = 'VeryLazy',
-    -- lazy = false,
+    dependencies = {
+      'lewis6991/gitsigns.nvim',
+    },
     config = function(_, _)
       local builtin = require 'statuscol.builtin'
       local lnum_func = function(args)
@@ -46,7 +48,7 @@ return {
   },
   {
     'j-hui/fidget.nvim',
-    event = 'VeryLazy',
+    lazy = false,
     opts = {
       progress = {
         poll_rate = 5,
@@ -77,6 +79,4 @@ return {
       },
     },
   },
-  { 'MunifTanjim/nui.nvim', lazy = true },
-  { 'nvim-lua/plenary.nvim', lazy = true },
 }
