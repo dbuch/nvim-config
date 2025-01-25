@@ -1,5 +1,5 @@
 ---@param modname string
----@return boolean|unknown
+---@return boolean|any
 _G.safe_require = function(modname)
   local success, module = pcall(require, modname)
   if success then

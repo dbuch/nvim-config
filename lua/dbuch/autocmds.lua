@@ -62,31 +62,27 @@ autocmd('FileType', {
     'lspinfo',
     'tsplayground',
     'query',
+    'DressingSelect',
   },
   callback = function(event)
-    vim.bo[event.buf].buflisted = false
-    vim.keymap.set('n', 'q', '<cmd>close<cr>', {
-      buffer = event.buf,
-      silent = true,
-    })
+    NvimTrait.set_close_with_q(event.buf)
   end,
 })
 
 autocmd('TermOpen', {
   group = NvimTrait.augroup 'terminal',
   callback = function(args)
-    if ('#toggleterm'):match(args.match) then
-      ---@type vim.keymap.set.Opts
-      local opts = {
-        buffer = args.buf,
-      }
-      vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-      vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
-      vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-      vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-      vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-      vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
-    end
+    ---@type vim.keymap.set.Opts
+    local opts = {
+      buffer = args.buf or 0,
+    }
+
+    vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+    vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+    vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+    vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+    vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+    vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
   end,
 })
 

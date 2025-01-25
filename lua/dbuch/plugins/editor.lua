@@ -63,13 +63,6 @@ return {
     },
   },
   {
-    'lewis6991/foldsigns.nvim',
-    event = 'VeryLazy',
-    opts = {
-      exclude = { 'GitSigns.*' },
-    },
-  },
-  {
     'folke/trouble.nvim',
     version = '*',
     opts = { use_diagnostic_signs = true },
@@ -232,7 +225,7 @@ return {
         use_icons_from_diagnostic = true,
         multiple_diag_under_cursor = true,
         multilines = {
-          enabled = true,
+          enabled = false,
         },
         break_line = {
           enabled = true,

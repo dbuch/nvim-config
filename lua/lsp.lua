@@ -38,42 +38,15 @@ on_attach(function(client, bufnr)
       vim.notify(client.name .. ' doesnt support inlay hints')
     end
   end, { silent = true, buffer = bufnr })
-
-  if client:supports_method 'textDocument/foldingRange' then
-    vim.wo.foldmethod = 'expr'
-    vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    vim.wo.foldtext = 'v:lua.vim.lsp.foldtext()'
-  end
 end, attach_augroup)
-
--- local function debounce(ms, fn)
---   local timer = assert(vim.uv.new_timer())
---   return function(...)
---     local argc, argv = select('#', ...), { ... }
---     timer:start(ms, 0, function()
---       timer:stop()
---       vim.schedule(function()
---         fn(unpack(argv, 1, argc))
---       end)
---     end)
---   end
--- end
--- on_attach(function(client, buffer)
---   if client:supports_method 'textDocument/codeLens' then
---     vim.lsp.codelens.refresh { bufnr = buffer }
---     vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
---       callback = debounce(200, function(args0)
---         vim.lsp.codelens.refresh { bufnr = args0.buf }
---       end),
---     })
---     -- Code lens setup, don't call again
---     return true
---   end
--- end)
 
 require('dbuch.diagnostic').config()
 
 local enabled_lsps = {
+  -- Shell
+  'nushell',
+  'bashls',
+
   -- Data/Exchangeable formats ls
   'html', -- Html
   'jsonls', -- Json
@@ -90,10 +63,6 @@ local enabled_lsps = {
 
   -- 'omnisharp',
   'wgsl',
-
-  -- Shell
-  'nushell',
-  'bashls',
 }
 
 vim.lsp.config('*', {

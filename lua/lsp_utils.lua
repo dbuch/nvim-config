@@ -1,5 +1,6 @@
 local api, lsp = vim.api, vim.lsp
 local get_clients = vim.lsp.get_clients
+local NvimTrait = require 'dbuch.traits.nvim'
 
 local function client_complete()
   --- @param c vim.lsp.Client
@@ -46,10 +47,47 @@ end, {
 do -- LspLog
   local path = vim.lsp.get_log_path()
   vim.fn.delete(path)
-  vim.lsp.log.set_level(vim.lsp.log.levels.DEBUG)
+  -- vim.lsp.log.set_level(vim.lsp.log.levels.DEBUG)
   vim.lsp.log.set_format_func(vim.inspect)
 
   api.nvim_create_user_command('LspLog', function()
-    vim.cmd.split(path)
+    if vim.uv.fs_stat(path) == nil then
+      vim.notify 'No lsp log available'
+      return
+    end
+
+    local buf = vim.api.nvim_create_buf(false, true)
+    if not buf then
+      return
+    end
+
+    vim.bo[buf].bufhidden = 'wipe'
+    vim.bo[buf].filetype = 'log'
+
+    local width = vim.o.columns
+    local height = vim.o.lines
+
+    local win_width = math.floor(width * 0.8)
+    local win_height = math.floor(height * 0.9)
+    local col = math.floor((width - win_width) / 2)
+    local row = math.floor((height - win_height) / 2)
+
+    local win_opts = {
+      style = 'minimal',
+      relative = 'editor',
+      width = win_width,
+      height = win_height,
+      row = row,
+      col = col,
+      border = 'single', -- Other options: "single", "double", etc.
+    }
+
+    local win = vim.api.nvim_open_win(buf, true, win_opts)
+    vim.api.nvim_set_current_win(win)
+
+    local content = vim.fn.readfile(path) -- Read log file content
+
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
+    NvimTrait.set_close_with_q(buf)
   end, {})
 end

@@ -213,4 +213,13 @@ function M.smart_q()
   -- vim.api.nvim_win_close(window, false)
 end
 
+---@param bufnr? integer
+function M.set_close_with_q(bufnr)
+  vim.bo[bufnr].buflisted = false
+  vim.keymap.set('n', 'q', '<cmd>close<cr>', {
+    buffer = bufnr,
+    silent = true,
+  })
+end
+
 return M

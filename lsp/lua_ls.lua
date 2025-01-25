@@ -38,6 +38,10 @@ return {
           'pending',
         },
       },
+      doc = {
+        packageName = { '_*' },
+        privateName = { '_*' },
+      },
     },
   },
 }

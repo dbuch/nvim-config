@@ -1,70 +1,66 @@
-local opt = vim.opt
-
-opt.backup = true
-opt.backupdir:remove '.'
-opt.breakindent = true
+vim.opt.backup = true
+vim.opt.backupdir:remove '.'
+vim.opt.breakindent = true
 --TODO  o.clipboard      = 'unnamedplus' Fix this when wl-copy behaves
 --OR https://github.com/neovim/neovim/pull/21091
-opt.expandtab = true
+vim.opt.expandtab = true
 
-vim.opt.fillchars = { eob = ' ', diff = ' ', foldopen = '', foldclose = '', foldsep = ' ' }
-opt.hidden = true
-opt.ignorecase = true
-opt.inccommand = 'split'
-opt.conceallevel = 3
+vim.opt.hidden = true
+vim.opt.ignorecase = true
+vim.opt.inccommand = 'split'
+vim.opt.conceallevel = 3
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.numberwidth = 3
+vim.opt.shiftround = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.scrolloff = 6
+vim.opt.sidescroll = 6
+vim.opt.sidescrolloff = 6
+vim.opt.signcolumn = 'yes'
+vim.opt.smartcase = true
+vim.opt.smoothscroll = true
+vim.opt.softtabstop = 4
+vim.opt.startofline = false
+vim.opt.swapfile = false
+vim.opt.termguicolors = true
+vim.opt.textwidth = 80
+vim.opt.virtualedit = 'block'
+vim.opt.winblend = 6
+vim.opt.pumblend = 6
+vim.opt.pumheight = 10
+vim.opt.wrap = false
 
-opt.number = true
-opt.relativenumber = true
-opt.numberwidth = 3
-opt.shiftround = true
-opt.shiftwidth = 2
-opt.tabstop = 2
-opt.scrolloff = 6
-opt.sidescroll = 6
-opt.sidescrolloff = 6
-opt.signcolumn = 'yes'
-opt.smartcase = true
-opt.smoothscroll = true
-opt.softtabstop = 4
-opt.startofline = false
-opt.swapfile = false
-opt.termguicolors = true
-opt.textwidth = 80
-opt.virtualedit = 'block'
-opt.winblend = 6
-opt.pumblend = 6
-opt.pumheight = 10
-opt.wrap = false
-
-opt.shortmess:append { W = true, I = true, c = true, C = true }
-opt.completeopt:append {
+vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
+vim.opt.completeopt:append {
   'noinsert',
   'menuone',
   'noselect',
   'preview',
 }
 
-opt.showbreak = '↳ '
-opt.mouse = 'a'
-opt.mousemodel = 'extend'
-opt.mousemoveevent = true
-opt.diffopt:append {
+vim.opt.showbreak = '↳ '
+vim.opt.mouse = 'a'
+vim.opt.mousemodel = 'extend'
+vim.opt.mousemoveevent = true
+vim.opt.diffopt:append {
   'vertical',
   'foldcolumn:0',
   'indent-heuristic',
 }
 
-opt.timeoutlen = 300
-opt.updatetime = 200
+vim.opt.timeoutlen = 300
+vim.opt.updatetime = 200
 
-opt.undolevels = 10000
-opt.undofile = true
-opt.undodir = require('dbuch.env').undo_dir
-opt.splitright = true
-opt.splitbelow = true
-opt.splitkeep = 'screen'
+vim.opt.undolevels = 10000
+vim.opt.undofile = true
+vim.opt.undodir = require('dbuch.env').undo_dir
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.splitkeep = 'screen'
 
-opt.formatoptions:append {
+vim.opt.formatoptions:append {
   r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
   o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
   l = true, -- Long lines are not broken in insert mode.
@@ -72,22 +68,27 @@ opt.formatoptions:append {
   n = true, -- Recognise lists
 }
 
-opt.cmdheight = 0
-opt.laststatus = 3
-opt.showmode = false
-opt.showcmd = false
+vim.opt.cmdheight = 0
+vim.opt.laststatus = 3
+vim.opt.showmode = false
+vim.opt.showcmd = false
 
 -- Folding
 vim.g.sh_fold_enabled = 1
 
-opt.foldcolumn = 'auto:1'
-opt.foldlevel = 99
-opt.foldlevelstart = 99
-opt.foldopen:append 'jump'
+vim.opt.fillchars = { eob = ' ', diff = ' ', foldopen = '', foldclose = '', foldsep = ' ', fold = ' ' }
+-- vim.opt.foldcolumn = 'auto:0'
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldopen:append 'jump'
+
+vim.wo.foldmethod = 'expr'
+vim.wo.foldcolumn = 'auto:1'
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 -- grep
-opt.grepformat = '%f:%l:%c:%m'
-opt.grepprg = 'rg --vimgrep'
+vim.opt.grepformat = '%f:%l:%c:%m'
+vim.opt.grepprg = 'rg --vimgrep'
 
 -- session
-opt.sessionoptions = { 'buffers', 'curdir', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }
+vim.opt.sessionoptions = { 'buffers', 'curdir', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }

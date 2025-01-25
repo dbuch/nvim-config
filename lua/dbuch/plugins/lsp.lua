@@ -1,17 +1,15 @@
-local NvimTrait = require 'dbuch.traits.nvim'
-
 ---@module 'lazy'
 ---@type LazyPluginSpec[]
 return {
   {
     'folke/lazydev.nvim',
-    dev = true,
     ft = 'lua',
     cmd = 'LazyDev',
-    enabled = true,
     dependencies = {
-      { 'Bilal2453/luvit-meta', lazy = true },
+      { 'Bilal2453/luvit-meta' },
     },
+    ---@module 'lazydev'
+    ---@type lazydev.Config
     opts = {
       library = {
         { path = 'luvit-meta/library', words = { 'vim%.uv' } },
@@ -19,6 +17,7 @@ return {
       integrations = {
         lspconfig = false,
         cmp = false,
+        coq = false,
       },
     },
   },
