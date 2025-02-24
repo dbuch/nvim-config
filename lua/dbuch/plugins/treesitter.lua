@@ -48,7 +48,6 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     version = false,
-    dev = true,
     build = ':TSUpdate',
     event = { 'VeryLazy' },
     init = function(plugin)
