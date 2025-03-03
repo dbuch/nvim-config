@@ -24,6 +24,11 @@ local function ensure_installed()
     'xml',
     'vim',
     'vimdoc',
+    'gitcommit',
+    'gitignore',
+    'gitattributes',
+    'git_config',
+    'git_rebase',
   }
   if not vim.uv.os_uname().sysname:match 'Windows' then
     table.insert(base, 'bash')
@@ -91,6 +96,9 @@ return {
         disable = { 'rst', 'make' },
       },
       context_commentstring = { enable = true, enable_autocmd = false },
+      injections = {
+        enable = true,
+      },
       disable = function(_lang, buf)
         local max_filesize = 1024 * 1024 -- MiB
         local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))

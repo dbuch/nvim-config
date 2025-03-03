@@ -36,7 +36,8 @@ return {
       require('mini.pick').setup(opts)
 
       vim.api.nvim_set_hl(0, 'MiniPickMatchCurrent', {
-        link = 'Visual',
+        --link = 'Visual',
+        link = 'PmenuExtra',
       })
     end,
   },
